@@ -1,11 +1,11 @@
 # careers section data
 # if you don't have language feature(language.yml is empty), ignore "i18n" items
-- name: Google
-  link: http://www.google.com/
-  date: Summer 2018 
-  job: Research Internship in Google Research language team
+# - name: Google
+#   link: http://www.google.com/
+#   date: Summer 2018 
+#   job: Internship in Google Research Language team
 
-- name: Sorough HighTech
-  link: 
-  date: October 2011 - October 2013
-  job: Software Developer
+# - name: Sorough HighTech
+#   link: 
+#   date: October 2011 - October 2013
+#   job: Software Developer
