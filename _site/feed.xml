@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Samira Abnar</title>
+    <description>Samira's Blog</description>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>2020-05-21</pubDate>
+    <lastBuildDate>Thu, 21 May 2020 11:44:26 +0200</lastBuildDate>
+    <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Quantifying Attention Flow in Transformers</title>
+        <description>&lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;span id=&quot;ruby&quot;&gt;Flanagan, D., &amp;amp; Matsumoto, Y. (2008). &lt;i&gt;The Ruby Programming Language&lt;/i&gt;. O’Reilly Media.&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
+</description>
+        <pubDate>2020-05-21</pubDate>
+        <link>/articles/2020-05/attention_flow</link>
+        <guid isPermaLink="true">/articles/2020-05/attention_flow</guid>
+        
+        
+        <category>tutorial</category>
+        
+      </item>
+    
+  </channel>
+</rss>
