@@ -3,10 +3,10 @@
   <channel>
     <title>Samira Abnar</title>
     <description>Samira's Blog</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-21</pubDate>
-    <lastBuildDate>Thu, 21 May 2020 11:11:17 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 21 May 2020 12:08:38 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -36,7 +36,7 @@ If we only look at the attention weights in the last layer, it seems all input t
 &lt;!-- _includes/image.html --&gt;&lt;/p&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; display: block; float:left&quot;&gt;
     
-        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_block.png&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;/img/flow_images/attention_block.png&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Multihead self-attention block&lt;/p&gt;
@@ -61,7 +61,7 @@ Note that, augment this graph with residual connections to better model the conn
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; &quot;&gt;
     
-        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Attention Rollout&lt;/p&gt;
@@ -75,7 +75,7 @@ Note that, augment this graph with residual connections to better model the conn
 &lt;!-- _includes/image.html --&gt;&lt;/p&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px;&quot;&gt;
     
-        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Attention Flow&lt;/p&gt;
@@ -119,8 +119,8 @@ Learning Representations&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;
 &lt;li&gt;&lt;span id=&quot;brunner2019validity&quot;&gt;Brunner, G., Liu, Y., Pascual, D., Richter, O., Ciaramita, M., &amp;amp; Wattenhofer, R. (2020). On Identifiability in Transformers. &lt;i&gt;International Conference on Learning Representations&lt;/i&gt;. https://openreview.net/forum?id=BJg1f6EFDB&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
 </description>
         <pubDate>2020-05-21</pubDate>
-        <link>http://localhost:4000/articles/2020-05/attention_flow</link>
-        <guid isPermaLink="true">http://localhost:4000/articles/2020-05/attention_flow</guid>
+        <link>/articles/2020-05/attention_flow</link>
+        <guid isPermaLink="true">/articles/2020-05/attention_flow</guid>
         
         
         <category>blogpost</category>
