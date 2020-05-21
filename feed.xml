@@ -1,30 +1,131 @@
----
-layout: null
----
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>{{ site.title | xml_escape }}</title>
-    <description>{{ site.description | xml_escape }}</description>
-    <link>{{ site.url }}/</link>
-    <atom:link href="{{ "/feed.xml" | prepend: site.url }}" rel="self" type="application/rss+xml"/>
-    <pubDate>{{ site.time | date: "%Y-%m-%d" }}</pubDate>
-    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
-    <generator>Jekyll v{{ jekyll.version }}</generator>
-    {% for post in site.posts limit:10 %}
+    <title>Samira Abnar</title>
+    <description>Samira's Blog</description>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>2020-05-21</pubDate>
+    <lastBuildDate>Thu, 21 May 2020 12:08:38 +0200</lastBuildDate>
+    <generator>Jekyll v3.8.5</generator>
+    
       <item>
-        <title>{{ post.title | xml_escape }}</title>
-        <description>{{ post.content | xml_escape }}</description>
-        <pubDate>{{ site.time | date: "%Y-%m-%d" }}</pubDate>
-        <link>{{ post.url | prepend: site.url }}</link>
-        <guid isPermaLink="true">{{ post.url | prepend: site.url }}</guid>
-        {% for tag in post.tags %}
-        <category>{{ tag | xml_escape }}</category>
-        {% endfor %}
-        {% for cat in post.categories %}
-        <category>{{ cat | xml_escape }}</category>
-        {% endfor %}
+        <title>Quantifying Attention Flow in Transformers</title>
+        <description>&lt;p&gt;Attention &lt;a class=&quot;citation&quot; href=&quot;#bahdanau2014neural&quot;&gt;(Bahdanau et al., 2015; Vaswani et al., 2017)&lt;/a&gt; has become the key building block of neural sequence processing models,
+and visualizing attention weights is the easiest and most popular approach to interpret a model’s decisions and to gain insights about its internals &lt;a class=&quot;citation&quot; href=&quot;#vaswani2017attention&quot;&gt;(Vaswani et al., 2017; Xu et al., 2015; Wang et al., 2016; Lee et al., 2017; Dehghani et al., 2019; Rocktäschel et al., 2016; Chen &amp;amp; Ji, 2019; Coenen et al., 2019; Clark et al., 2019)&lt;/a&gt;.
+Although it is wrong to equate attention with explanation &lt;a class=&quot;citation&quot; href=&quot;#pruthi2019learning&quot;&gt;(Pruthi et al., 2019; Jain &amp;amp; Wallace, 2019)&lt;/a&gt;, it can offer plausible and meaningful interpretations &lt;a class=&quot;citation&quot; href=&quot;#wiegreffe2019attention&quot;&gt;(Wiegreffe &amp;amp; Pinter, 2019; Vashishth et al., 2019; Vig, 2019)&lt;/a&gt;.
+In this post, we focus on problems arising when we move to the higher layers of a model, due to lack of token identifiability of the embeddings in higher layers &lt;a class=&quot;citation&quot; href=&quot;#brunner2019validity&quot;&gt;(Brunner et al., 2020)&lt;/a&gt;. We propose visualising and interpreting attention weights taking this phenomena into account!&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;We propose two simple but effective methods, &lt;strong&gt;Attention Rollout&lt;/strong&gt; and &lt;strong&gt;Attention Flow&lt;/strong&gt;, to compute attention scores to input tokens  (i.e., &lt;em&gt;token attention&lt;/em&gt;) at each layer, by taking raw attentions (i.e., &lt;em&gt;embedding attention&lt;/em&gt;) of that layer as well as those from the precedent layers.&lt;/p&gt;
+
+&lt;h6 id=&quot;attention-to-embeddings-vs-attention-to-input-tokens&quot;&gt;Attention to embeddings vs Attention to Input Tokens&lt;/h6&gt;
+&lt;p&gt;In the Transformer model, &lt;em&gt;self-attention&lt;/em&gt; combines information from attended embeddings into the representation of the embeddings in the next layer. Thus, across layers of the Transformer, information originating from different tokens gets increasingly mixed.&lt;/p&gt;
+
+&lt;p&gt;Hence, when looking at the $i$th self attention layer, we can not interpret the attention weights as the attention to the embeddings in the input layer. Because each embedding in this layer can potentially contain information from all embeddings in the previous layers. This makes attention weights unreliable as explanations probes when they are not directly applied on the input tokens.
+&lt;img src=&quot;img/flow_images/rat_deep_1.png&quot; alt=&quot;Raw Attention Weights&quot; style=&quot;height: 360px; float: right&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s take a look at how self attention layers in a Transformer model change across layers.
+If we only look at the attention weights in the last layer, it seems all input tokens have equal contributions to the output of the model, since the attention weights in this layer are uniformly distributed. But if we also take into account the attention weights in the previous layers into account, we realise that some of the input tokens are getting higher attention.&lt;/p&gt;
+
+&lt;p&gt;So, if we want to use attention weights to understand how a self attention network works, we need to take the flow of information in the network into account! One way to do this is to use attention weights to approximate the information flow, while taking different aspects of the architecture of the model into account.&lt;/p&gt;
+
+&lt;h6 id=&quot;information-flow-graph-of-a-transformer-encoder&quot;&gt;Information flow graph of a Transformer Encoder&lt;/h6&gt;
+&lt;p&gt;This is a schematic view of self attention layer in the Transformer Model introduced in &lt;a class=&quot;citation&quot; href=&quot;#vaswani2017attention&quot;&gt;(Vaswani et al., 2017)&lt;/a&gt;:
+&lt;!-- _includes/image.html --&gt;&lt;/p&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; display: block; float:left&quot;&gt;
+    
+        &lt;img src=&quot;/img/flow_images/attention_block.png&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Multihead self-attention block&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;Given this attention module with residual connections, we compute values in layer $l+1$ as $V_{l+1} = V_{l}  + W_{att}V_l$, where $ W_{att}$ is the attention matrix. Thus, we have $V_{l+1} = (W_{att} + I) V_{l}$. So, to account for residual connections, we add an identity matrix to the attention matrix and re-normalize the weights. This results in $A = 0.5W_{att} + 0.5I$, where $A$ is the raw attention updated by residual connections.&lt;/p&gt;
+
+&lt;p&gt;We can create the information flow graph of a Transformer model, using this equation as an approximation of how information propagates in the self attention layers. Thus, we can translate the attention weights in each layer to attention to input tokens.&lt;/p&gt;
+
+&lt;p&gt;The information flow in the network can be modelled with a &lt;a href=&quot;https://en.wikipedia.org/wiki/Directed_acyclic_graph&quot;&gt;&lt;em&gt;DAG&lt;/em&gt; (Directed Acyclic Graph)&lt;/a&gt;, in which the nodes are input tokens and hidden embeddings, edges are the attentions from the nodes in each layer to those in the previous layer, and the weights of the edges are the attention weights.
+Note that, augment this graph with residual connections to better model the connections between input tokens and hidden embedding.&lt;/p&gt;
+
+&lt;h5 id=&quot;from-attention-to-embeddings-to-attention-to-tokens&quot;&gt;From Attention to Embeddings to Attention to Tokens&lt;/h5&gt;
+&lt;p&gt;Given this graph, based on how we interpret the weights associated with the edges, which are the raw attention weights, we can use different techniques to compute the attention from each node in the graph to the input tokens.&lt;/p&gt;
+
+&lt;h6 id=&quot;attention-rollout&quot;&gt;Attention Rollout&lt;/h6&gt;
+
+&lt;p&gt;Assume the attention weights determine  the proportion of the incoming information that can propagate through each link, i.e., the identities of input tokens are linearly combined through the layers based on the attention weights. Then, to compute the attention to input tokens in layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt; given all the attention weight in the previous layers, we recursively multiply the attention weights matrices, starting from the input layer up to layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt;.&lt;/p&gt;
+
+&lt;!-- &lt;div style=&quot;width: 700; display:inline-block; clear: right; vertical-align:middle;&quot;&gt; --&gt;
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; &quot;&gt;
+    
+        &lt;img src=&quot;/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Attention Rollout&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;!-- &lt;/div&gt; --&gt;
+
+&lt;h6 id=&quot;attention-flow&quot;&gt;Attention Flow&lt;/h6&gt;
+&lt;p&gt;In the other approach, we view the attention weights as the capacity of each link. This way the problem of computing the attention in layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt; to the input tokens reduces to the &lt;a href=&quot;https://en.wikipedia.org/wiki/Network_flow_problem&quot;&gt;network flow problem&lt;/a&gt;, where we want to find the maximum flow value from each input token to each position in layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt;.&lt;br /&gt;
+&lt;!-- _includes/image.html --&gt;&lt;/p&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px;&quot;&gt;
+    
+        &lt;img src=&quot;/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Attention Flow&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;h5 id=&quot;how-it-all-works-in-practice-&quot;&gt;How it all works in practice …&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;img/bert_example.png&quot; alt=&quot;Raw Attention Weights&quot; style=&quot;height: 360px; float: right&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s see an example of how these techniques work in practice!
+Applying this technique to a pretrained Bert model, we get some insights on how the models resolve pronouns.
+What we do here is to feed the model with a sentence, masking a pronoun. Next, we look at the prediction of the model for the masked word and compare the probabilities assigned to “her” and “his”.&lt;/p&gt;
+
+&lt;p&gt;As you can see, in the first example, Attention Rollout and Attention Flow are consistent with each other and the prediction of the model. Whereas, the final layer of Raw Attention does not seem to be consistent with the prediction of the models, and it varies a lot across different layers. In the second example only Attention Flow weights are consistent with the prediction of the model.&lt;/p&gt;
+
+&lt;p&gt;To see how it works for other examples, you can take a look at &lt;a href=&quot;https://github.com/samiraabnar/attention_flow/blob/master/bert_example.ipynb&quot;&gt;this notebook&lt;/a&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+
+  &lt;p&gt;In our paper, “&lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot; title=&quot;Quantifying Attention Flow In Transformers&quot;&gt;Quantifying Attention Flow In Transformers&lt;/a&gt;”, we show that compared to raw attention weights, the token attentions from &lt;kbd&gt;attention rollout&lt;/kbd&gt; and &lt;kbd&gt;attention flow&lt;/kbd&gt; have higher correlations with the importance scores obtained from input gradients as well as an input ablation based attribution method. Furthermore, we visualise the token attention weights and demonstrate that they are better approximations of how input tokens contribute to a predicted output, compared to raw attention weights.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&quot;references&quot;&gt;References&lt;/h5&gt;
+&lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;span id=&quot;bahdanau2014neural&quot;&gt;Bahdanau, D., Cho, K., &amp;amp; Bengio, Y. (2015). Neural Machine Translation by Jointly Learning to Align and Translate. &lt;i&gt;Proceedings of the 2015 International Conference On
+Learning Representations&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;vaswani2017attention&quot;&gt;Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., &amp;amp; Polosukhin, I. (2017). Attention is all you need. &lt;i&gt;Advances in Neural Information Processing Systems&lt;/i&gt;, 5998–6008.&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;xu2015show&quot;&gt;Xu, K., Ba, J., Kiros, R., Cho, K., Courville, A., Salakhudinov, R., Zemel, R., &amp;amp; Bengio, Y. (2015). Show, attend and tell: Neural image caption generation with visual attention. &lt;i&gt;Proceedings of International Conference on Machine Learning&lt;/i&gt;, 2048–2057.&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;wang2016attention&quot;&gt;Wang, Y., Huang, M., Zhao, L., &amp;amp; others. (2016). Attention-based LSTM for aspect-level sentiment classification. &lt;i&gt;Proceedings of the 2016 Conference on Empirical Methods in Natural Language Processing&lt;/i&gt;, 606–615.&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;lee2017interactive&quot;&gt;Lee, J., Shin, J.-H., &amp;amp; Kim, J.-S. (2017). Interactive visualization and manipulation of attention-based neural machine translation. &lt;i&gt;Proceedings of the 2017 Conference on Empirical Methods in Natural Language Processing: System Demonstrations&lt;/i&gt;, 121–126.&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;dehghani2018universal&quot;&gt;Dehghani, M., Gouws, S., Vinyals, O., Uszkoreit, J., &amp;amp; Kaiser, Ł. (2019). Universal transformers. &lt;i&gt;Proceedings of the 2019 International Conference on Learning Representations&lt;/i&gt;. https://arxiv.org/abs/1807.03819&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;rocktaschel2015reasoning&quot;&gt;Rocktäschel, T., Grefenstette, E., Hermann, K. M., Kocisky, T., &amp;amp; Blunsom, P. (2016). Reasoning about Entailment with Neural Attention. &lt;i&gt;International Conference on Learning Representations (ICLR)&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;chen2019improving&quot;&gt;Chen, H., &amp;amp; Ji, Y. (2019). Improving the Interpretability of Neural Sentiment Classifiers via Data Augmentation. &lt;i&gt;ArXiv Preprint ArXiv:1909.04225&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;coenen2019visualizing&quot;&gt;Coenen, A., Reif, E., Yuan, A., Kim, B., Pearce, A., Viégas, F., &amp;amp; Wattenberg, M. (2019). Visualizing and Measuring the Geometry of BERT. &lt;i&gt;ArXiv Preprint ArXiv:1906.02715&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;clark-etal-2019-bert&quot;&gt;Clark, K., Khandelwal, U., Levy, O., &amp;amp; Manning, C. D. (2019). What Does BERT Look at? An Analysis of BERT’s Attention. &lt;i&gt;Proceedings of the 2019 ACL Workshop BlackboxNLP: Analyzing and Interpreting Neural Networks for NLP&lt;/i&gt;, 276–286. https://doi.org/10.18653/v1/W19-4828&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;pruthi2019learning&quot;&gt;Pruthi, D., Gupta, M., Dhingra, B., Neubig, G., &amp;amp; Lipton, Z. C. (2019). Learning to deceive with attention-based explanations. &lt;i&gt;ArXiv Preprint ArXiv:1909.07913&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;jain2019attention&quot;&gt;Jain, S., &amp;amp; Wallace, B. C. (2019). Attention is not Explanation. &lt;i&gt;Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies&lt;/i&gt;, 3543–3556. https://doi.org/10.18653/v1/N19-1357&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;wiegreffe2019attention&quot;&gt;Wiegreffe, S., &amp;amp; Pinter, Y. (2019, November). Attention is not not Explanation. &lt;i&gt;Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)&lt;/i&gt;. https://www.aclweb.org/anthology/D19-1002&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;vashishth2019attention&quot;&gt;Vashishth, S., Upadhyay, S., Tomar, G. S., &amp;amp; Faruqui, M. (2019). Attention interpretability across nlp tasks. &lt;i&gt;ArXiv Preprint ArXiv:1909.11218&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;vig2019visualizing&quot;&gt;Vig, J. (2019). Visualizing Attention in Transformer-Based Language models. &lt;i&gt;ArXiv Preprint ArXiv:1904.02679&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span id=&quot;brunner2019validity&quot;&gt;Brunner, G., Liu, Y., Pascual, D., Richter, O., Ciaramita, M., &amp;amp; Wattenhofer, R. (2020). On Identifiability in Transformers. &lt;i&gt;International Conference on Learning Representations&lt;/i&gt;. https://openreview.net/forum?id=BJg1f6EFDB&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
+</description>
+        <pubDate>2020-05-21</pubDate>
+        <link>/articles/2020-05/attention_flow</link>
+        <guid isPermaLink="true">/articles/2020-05/attention_flow</guid>
+        
+        
+        <category>blogpost</category>
+        
       </item>
-    {% endfor %}
+    
   </channel>
 </rss>
