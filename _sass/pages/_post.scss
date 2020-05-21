@@ -31,7 +31,19 @@
 // Post Section
 section.post {
 	margin-bottom: 80px;
+  margin-right: 200px;
+  text-align: left;
+  float: left;
+  @include media-query($small-screen) {
+    text-align: left;
+    margin-right: 10px;
+  }
+  @include media-query($medium-screen) {
+    text-align: left;
+    margin-right: 200px;
+  }
 }
+
 
 // Back home button
 
@@ -51,7 +63,7 @@ section.post {
 
 .post-title-link {
 	color: $primary;
-	font-size: 14px;
+	font-size: 40px;
 	margin-left: 10px;
 	&:hover,
 	&:focus {
@@ -89,6 +101,7 @@ a.read-more {
 
 #post {
   padding-bottom: 50px;
+  padding-right: 100px;
   .post-header {
     margin: 0 auto 50px;
   }
@@ -111,7 +124,7 @@ a.read-more {
   padding-bottom: 50px;
   min-height: 70vh;
   .page-header {
-    margin: 0 auto 50px;
+    margin: 10 auto 50px;
   }
 }
 
@@ -148,10 +161,16 @@ a.read-more {
   }
 }
 .post-image-feature {
+  margin-top: 20px;
   margin-bottom: 40px;
+  margin-right: 40px;
+
+  float: left;
+  width: 200px;
+  height: 200px;
   .feature-image {
-    width: 100%;
-    max-height: 500px;
+    width: 200px;
+    height: 200px;
   }
 }
 
@@ -245,4 +264,15 @@ a.read-more {
     color: #5f99cf;
     border-color: #5f99cf;
   }
+}
+
+.image-wrapper {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    margin-right: 40px;
+    .image-caption {
+        color: $info;
+        margin-top: $spacer / 3;
+    }
 }

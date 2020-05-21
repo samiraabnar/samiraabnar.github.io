@@ -4,8 +4,8 @@
 ####################################
 #
 title: Samira Abnar
-email: 
-description: 
+email:
+description:
 url: # the base hostname & protocol for your site
 keywords: ["blog"]
 
@@ -89,5 +89,3 @@ scholar:
   details_link:   Details
 
   query: "@*"
-
-github: [metadata]

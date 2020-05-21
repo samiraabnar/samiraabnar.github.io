@@ -9,7 +9,7 @@
 html {
   line-height: $base-line-height;
   font-family: $font-family-base;
-  font-weight: normal;
+  font-weight: 300;
   color: $text-color;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -47,7 +47,7 @@ a {
 //
 
 h1, h2, h3, h4, h5, h6 {
-	font-weight: 600;
+	font-weight: 500;
   line-height: 1.7;
 }
 
