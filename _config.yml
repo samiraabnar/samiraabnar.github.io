@@ -26,7 +26,10 @@ kramdown:
   entity_output: as_char
   toc_levels: 1..6
   enable_coderay: false
-
+gems:
+    jekyll/scholar
+    
+plugins_dir: [jekyll-scholar]
 #
 ###################################
 # Site Owner configuration
