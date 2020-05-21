@@ -6,7 +6,7 @@
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-21</pubDate>
-    <lastBuildDate>Thu, 21 May 2020 22:31:20 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 21 May 2020 23:26:57 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -99,16 +99,6 @@ What we do here is to feed the model with a sentence, masking a pronoun. Next, w
   &lt;p&gt;In our paper, “&lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot; title=&quot;Quantifying Attention Flow In Transformers&quot;&gt;Quantifying Attention Flow In Transformers&lt;/a&gt;”, we show that compared to raw attention weights, the token attentions from &lt;kbd&gt;attention rollout&lt;/kbd&gt; and &lt;kbd&gt;attention flow&lt;/kbd&gt; have higher correlations with the importance scores obtained from input gradients as well as an input ablation based attribution method. Furthermore, we visualise the token attention weights and demonstrate that they are better approximations of how input tokens contribute to a predicted output, compared to raw attention weights.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h5 id=&quot;references&quot;&gt;References&lt;/h5&gt;
-&lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;span id=&quot;bahdanau2014neural&quot;&gt;Bahdanau, D., Cho, K., &amp;amp; Bengio, Y. (2015). Neural Machine Translation by Jointly Learning to Align and Translate. &lt;i&gt;Proceedings of the 2015 International Conference On
-Learning Representations&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;vaswani2017attention&quot;&gt;Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., &amp;amp; Polosukhin, I. (2017). Attention is all you need. &lt;i&gt;Advances in Neural Information Processing Systems&lt;/i&gt;, 5998–6008.&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;pruthi2019learning&quot;&gt;Pruthi, D., Gupta, M., Dhingra, B., Neubig, G., &amp;amp; Lipton, Z. C. (2019). Learning to deceive with attention-based explanations. &lt;i&gt;ArXiv Preprint ArXiv:1909.07913&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;jain2019attention&quot;&gt;Jain, S., &amp;amp; Wallace, B. C. (2019). Attention is not Explanation. &lt;i&gt;Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies&lt;/i&gt;, 3543–3556. https://doi.org/10.18653/v1/N19-1357&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;wiegreffe2019attention&quot;&gt;Wiegreffe, S., &amp;amp; Pinter, Y. (2019, November). Attention is not not Explanation. &lt;i&gt;Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP)&lt;/i&gt;. https://www.aclweb.org/anthology/D19-1002&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;vashishth2019attention&quot;&gt;Vashishth, S., Upadhyay, S., Tomar, G. S., &amp;amp; Faruqui, M. (2019). Attention interpretability across nlp tasks. &lt;i&gt;ArXiv Preprint ArXiv:1909.11218&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;vig2019visualizing&quot;&gt;Vig, J. (2019). Visualizing Attention in Transformer-Based Language models. &lt;i&gt;ArXiv Preprint ArXiv:1904.02679&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;brunner2019validity&quot;&gt;Brunner, G., Liu, Y., Pascual, D., Richter, O., Ciaramita, M., &amp;amp; Wattenhofer, R. (2020). On Identifiability in Transformers. &lt;i&gt;International Conference on Learning Representations&lt;/i&gt;. https://openreview.net/forum?id=BJg1f6EFDB&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
 </description>
         <pubDate>2020-05-21</pubDate>
         <link>/articles/2020-05/attention_flow</link>
