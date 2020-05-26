@@ -638,7 +638,7 @@ ul.tag-cloud li a.post-tag { border-radius: 0.2em; }
 
 .image-credit { float: right; font-weight: bold; font-style: italic; color: #09ABF6; font-size: 13px; padding-right: 20px; }
 
-section.post { margin-bottom: 80px; margin-right: 200px; text-align: left; float: left; }
+section.post { margin-bottom: 80px; text-align: left; float: left; }
 @media only screen and (min-width: 600px) { section.post { text-align: left; margin-right: 1px; } }
 @media only screen and (min-width: 992px) { section.post { text-align: left; margin-right: 200px; } }
 
