@@ -3,10 +3,10 @@
   <channel>
     <title>Samira Abnar</title>
     <description>Samira's Blog</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <link>samiraabnar.github.io/</link>
+    <atom:link href="samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-26</pubDate>
-    <lastBuildDate>Tue, 26 May 2020 10:53:28 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 26 May 2020 11:03:08 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -36,7 +36,7 @@ If we only look at the attention weights in the last layer, it seems all input t
 &lt;!-- _includes/image.html --&gt;&lt;/p&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; display: block; float:left&quot;&gt;
     
-        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_block.png&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;samiraabnar.github.io/img/flow_images/attention_block.png&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Multihead self-attention block&lt;/p&gt;
@@ -61,7 +61,7 @@ Note that, augment this graph with residual connections to better model the conn
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; &quot;&gt;
     
-        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;samiraabnar.github.io/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Attention Rollout&lt;/p&gt;
@@ -75,7 +75,7 @@ Note that, augment this graph with residual connections to better model the conn
 &lt;!-- _includes/image.html --&gt;&lt;/p&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px;&quot;&gt;
     
-        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;samiraabnar.github.io/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Attention Flow&lt;/p&gt;
@@ -101,8 +101,8 @@ What we do here is to feed the model with a sentence, masking a pronoun. Next, w
 
 </description>
         <pubDate>2020-05-26</pubDate>
-        <link>http://localhost:4000/articles/2020-05/attention_flow</link>
-        <guid isPermaLink="true">http://localhost:4000/articles/2020-05/attention_flow</guid>
+        <link>samiraabnar.github.io/articles/2020-05/attention_flow</link>
+        <guid isPermaLink="true">samiraabnar.github.io/articles/2020-05/attention_flow</guid>
         
         
         <category>blogpost</category>
@@ -225,8 +225,8 @@ Now, what is different between capsule networks and transformers in this regard 
 &lt;p&gt;In very loose terms, the pose matrix in capsule nets plays the role of key and query vectors in transformers. The main point here is that there seems to be some advantage in disentangling representations that are encoding different kinds of information, and in both these models, this is done based on the roles of the hidden state in the routing or attention process.&lt;/p&gt;
 </description>
         <pubDate>2020-05-26</pubDate>
-        <link>http://localhost:4000/articles/2019-03/capsule</link>
-        <guid isPermaLink="true">http://localhost:4000/articles/2019-03/capsule</guid>
+        <link>samiraabnar.github.io/articles/2019-03/capsule</link>
+        <guid isPermaLink="true">samiraabnar.github.io/articles/2019-03/capsule</guid>
         
         
         <category>blogpost</category>
