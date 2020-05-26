@@ -641,7 +641,7 @@ ul.tag-cloud li a.post-tag { border-radius: 0.2em; }
 
 section.post { margin-bottom: 80px; text-align: left; float: left; }
 @media only screen and (min-width: 600px) { section.post { text-align: left; margin-right: 1px; } }
-@media only screen and (min-width: 992px) { section.post { text-align: left; margin-right: 20px; } }
+@media only screen and (min-width: 992px) { section.post { text-align: left; margin-right: 10px; } }
 @media only screen and (min-width: 1200px) { section.post { text-align: left; margin-right: 50px; } }
 @media only screen and (min-width: 1600px) { section.post { text-align: left; margin-right: 100px; } }
 
