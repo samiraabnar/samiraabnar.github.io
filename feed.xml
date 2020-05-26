@@ -3,10 +3,10 @@
   <channel>
     <title>Samira Abnar</title>
     <description>Samira's Blog</description>
-    <link>https://samiraabnar.github.io/</link>
-    <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-26</pubDate>
-    <lastBuildDate>Tue, 26 May 2020 17:36:01 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 26 May 2020 19:06:20 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -33,7 +33,7 @@ In this post, I focus on problems arising when we move to the higher layers of a
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; display: block; float:right&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/rat_deep_1.png&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/flow_images/rat_deep_1.png&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Raw attention weights&lt;/p&gt;
@@ -52,7 +52,7 @@ In the subject-verb agreement task, given a sentence up to its verb, the goal is
 &lt;!-- _includes/image.html --&gt;&lt;/p&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; display: block; float:left&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_block.png&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_block.png&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Transformer encoder block&lt;/p&gt;
@@ -78,7 +78,7 @@ In the figure below, we show how Attention Rollout works in a simple attention D
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; &quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Attention Rollout&lt;/p&gt;
@@ -95,7 +95,7 @@ In the figure below, we show how Attention Rollout works in a simple attention D
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Attention Flow&lt;/p&gt;
@@ -124,8 +124,8 @@ Whereas, the final layer of Raw Attention does not seem to be consistent with th
 
 </description>
         <pubDate>2020-05-26</pubDate>
-        <link>https://samiraabnar.github.io/articles/2020-05/attention_flow</link>
-        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/attention_flow</guid>
+        <link>http://localhost:4000/articles/2020-05/attention_flow</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2020-05/attention_flow</guid>
         
         
         <category>blogpost</category>
@@ -248,8 +248,8 @@ Now, what is different between capsule networks and transformers in this regard 
 &lt;p&gt;In very loose terms, the pose matrix in capsule nets plays the role of key and query vectors in transformers. The main point here is that there seems to be some advantage in disentangling representations that are encoding different kinds of information, and in both these models, this is done based on the roles of the hidden state in the routing or attention process.&lt;/p&gt;
 </description>
         <pubDate>2020-05-26</pubDate>
-        <link>https://samiraabnar.github.io/articles/2019-03/capsule</link>
-        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2019-03/capsule</guid>
+        <link>http://localhost:4000/articles/2019-03/capsule</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2019-03/capsule</guid>
         
         
         <category>blogpost</category>
