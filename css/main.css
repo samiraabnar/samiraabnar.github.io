@@ -632,7 +632,7 @@ ul.tag-cloud li a.post-tag { border-radius: 0.2em; }
 .archive ul { list-style: none; }
 .archive ul li { margin: 1em auto; }
 
-.post-listing { background-color: #fff; position: absolute; top: 400px; z-index: 233; width: 100%; padding: 20px 20px 0; -webkit-transform: translate3d(0, 0, 1px); transform: translate3d(0, 0, 1px); padding-right: 250px; }
+.post-listing { background-color: #fff; position: absolute; top: 400px; z-index: 233; width: 100%; padding: 20px 20px 0; -webkit-transform: translate3d(0, 0, 1px); transform: translate3d(0, 0, 1px); }
 @media only screen and (min-width: 600px) { .post-listing { padding: 50px 30px 0; padding-right: 1px; } }
 @media only screen and (min-width: 992px) { .post-listing { height: 100vh; overflow-y: scroll; position: initial; top: 0; padding-right: 250px; } }
 
