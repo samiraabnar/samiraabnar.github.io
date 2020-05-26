@@ -633,17 +633,17 @@ ul.tag-cloud li a.post-tag { border-radius: 0.2em; }
 .archive ul li { margin: 1em auto; }
 
 .post-listing { background-color: #fff; position: absolute; top: 400px; z-index: 233; width: 100%; padding: 20px 20px 0; -webkit-transform: translate3d(0, 0, 1px); transform: translate3d(0, 0, 1px); }
-@media only screen and (min-width: 600px) { .post-listing { padding: 50px 30px 0; padding-right: 1px; } }
-@media only screen and (min-width: 992px) { .post-listing { height: 100vh; overflow-y: scroll; position: initial; top: 0; padding-right: 100px; } }
 @media only screen and (min-width: 1200px) { .post-listing { height: 100vh; overflow-y: scroll; position: initial; top: 0; padding-right: 250px; } }
+@media only screen and (min-width: 992px) { .post-listing { height: 100vh; overflow-y: scroll; position: initial; top: 0; padding-right: 100px; } }
+@media only screen and (min-width: 600px) { .post-listing { padding: 50px 30px 0; padding-right: 1px; } }
 
 .image-credit { float: right; font-weight: bold; font-style: italic; color: #09ABF6; font-size: 13px; padding-right: 20px; }
 
 section.post { margin-bottom: 80px; text-align: left; float: left; }
-@media only screen and (min-width: 600px) { section.post { text-align: left; margin-right: 1px; } }
-@media only screen and (min-width: 992px) { section.post { text-align: left; margin-right: 10px; } }
-@media only screen and (min-width: 1200px) { section.post { text-align: left; margin-right: 10px; } }
 @media only screen and (min-width: 1600px) { section.post { text-align: left; margin-right: 100px; } }
+@media only screen and (min-width: 1200px) { section.post { text-align: left; margin-right: 50px; } }
+@media only screen and (min-width: 992px) { section.post { text-align: left; margin-right: 10px; } }
+@media only screen and (min-width: 600px) { section.post { text-align: left; margin-right: 1px; } }
 
 .back-home a { font-size: 13px; font-weight: bold; color: #09ABF6; border: 1px solid rgba(115, 115, 115, 0.87); border-radius: 0.4em; padding: 0.5em 1em; }
 
