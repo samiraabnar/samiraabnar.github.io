@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Having the right inductive biases can be crucial in many tasks or scenarios where data or computing resources are a limiting factor, or where training data i...">
+  <meta name="keywords" content="blog">
+  <meta name="author" content="Distilling Inductive Biases | Samira Abnar">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f5f5">
+
+  <!-- Twitter Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Distilling Inductive Biases | Samira Abnar">
+  <meta name="twitter:description" content="Having the right inductive biases can be crucial in many tasks or scenarios where data or computing resources are a limiting factor, or where training data i...">
+  
+    <meta property="twitter:image" content="https://samiraabnar.github.io/img/indist_images/inductive_bias_distilation_example_2.png">
+  
+
+  <!-- Open Graph Tags -->
+  <meta property="og:type" content="blog">
+  <meta property="og:url" content="https://samiraabnar.github.io/articles/2020-05/indist">
+  <meta property="og:title" content="Distilling Inductive Biases | Samira Abnar">
+  <meta property="og:description" content="Having the right inductive biases can be crucial in many tasks or scenarios where data or computing resources are a limiting factor, or where training data i...">
+  
+    <meta property="og:image" content="https://samiraabnar.github.io/img/indist_images/inductive_bias_distilation_example_2.png">
+  
+  <title>Distilling Inductive Biases | Samira Abnar</title>
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="https://samiraabnar.github.io/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://samiraabnar.github.io/css/main.css">
+
+  <link rel="canonical" href="https://samiraabnar.github.io/articles/2020-05/indist">
+  <link rel="alternate" type="application/rss+xml" title="Samira Abnar" href="https://samiraabnar.github.io/feed.xml" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  <!-- Icons -->
+  <!-- 16x16 -->
+  <link rel="shortcut icon" href="https://samiraabnar.github.io/blown.ico">
+  <!-- 32x32 -->
+  <link rel="shortcut icon" href="https://samiraabnar.github.io/blown.png">
+  <script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+       <script type="text/x-mathjax-config">
+         MathJax.Hub.Config({
+           tex2jax: {
+             inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+             processEscapes: true
+           }
+         });
+  </script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+
+
+<body>
+  <div class="row">
+    <div class="col s12 m3">
+      <div class="table cover">
+        
+
+<div class="cover-card table-cell table-middle">
+  
+  <a href="/">
+    <img src="/img/samira-logo.jpg" alt="" class="avatar">
+  </a>
+  
+  <a href="/" class="author_name">Samira Abnar</a>
+  <span class="author_job">PhD Candidate</span>
+  <span class="author_bio mbm">University of Amsterdam</span>
+  <nav class="nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="/">home</a>
+      </li>
+       
+      <li class="nav-item">
+        <a href="/about">About</a>
+      </li>
+        
+      <li class="nav-item">
+        <a href="/archive/">Archive</a>
+      </li>
+          
+      <li class="nav-item">
+        <a href="/categories/">Categories</a>
+      </li>
+            
+      <li class="nav-item">
+        <a href="/tags/">Tags</a>
+      </li>
+         
+    </ul>
+  </nav>
+  <script type="text/javascript">
+  // based on http://stackoverflow.com/a/10300743/280842
+  function gen_mail_to_link(hs, subject) {
+    var lhs,rhs;
+    var p = hs.split('@');
+    lhs = p[0];
+    rhs = p[1];
+    document.write("<a class=\"social-link-item\" target=\"_blank\" href=\"mailto");
+    document.write(":" + lhs + "@");
+    document.write(rhs + "?subject=" + subject + "\"><i class=\"fa fa-fw fa-envelope\"></i><\/a>");
+  }
+</script>
+<div class="social-links">
+  <ul>
+    
+    <li><a href="http://twitter.com/samiraabnar#username" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/samiraabnar" class="social-link-item" target="_blank"><i class="fa fa-fw fa-linkedin"></i></a></li>
+    
+    
+    <li><a href="http://instagram.com/samiraabnar" class="social-link-item" target="_blank"><i class="fa fa-fw fa-instagram"></i></a></li>
+    
+    <li><a href="http://github.com/samiraabnar" class="social-link-item" target="_blank"><i class="fa fa-fw fa-github"></i></a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ul>
+</div>
+
+</div>
+
+      </div>
+    </div>
+    <div class="col s12 m9">
+      <div class="post-listing">
+        <!-- 
+<div class="post-image-feature">
+  <img class="feature-image" src=
+  
+  "https://samiraabnar.github.io/img/indist_images/inductive_bias_distilation_example_2.png"
+  
+  alt="Distilling Inductive Biases feature image">
+
+  
+</div>
+ -->
+
+
+<div id="post">
+  <header class="post-header">
+    <h1 title="Distilling Inductive Biases">Distilling Inductive Biases</h1>
+    <span class="post-meta">
+      <span class="post-date">
+        26 MAY 2020
+      </span>
+      •
+      <span class="read-time" title="Estimated read time">
+  
+  
+    8 mins read
+  
+</span>
+
+    </span>
+
+  </header>
+
+  <article class="post-content">
+    <p><a href="https://en.wikipedia.org/wiki/No_free_lunch_in_search_and_optimization">No free lunch theorem</a> states, for any learning algorithm, any improvement on performance over one class of problems is balanced out by a decrease in the performance over another class <a class="citation" href="#wolpert1997no">(Wolpert &amp; Macready, 1997)</a>.
+In other words, different learning algorithms would work better or worse and generalise differently on different tasks based on their inductive biases.</p>
+
+<p>For example, consider the image classification problem.
+CNNs are the de facto choice for processing images, and in general data with grid-like topology. Sparse connectivity and parameter sharing in CNNs make them an effective and statistically efficient architecture. The particular form of parameter sharing in the convolution operation make CNNs equivariant to translation  <a class="citation" href="#Goodfellow-et-al-2016">(Goodfellow et al., 2016)</a>.
+On the other hand, it is well known that this translation equivariance hurts their performance in cases where the position of the objects in the image matters. This is known as the Picasso effect, where you have all the pieces of an object but not in the right context!
+<img src="img/indist_images/Pablo-Picasso-Spanish-Cubist-Oil-Canvas-Portrait.jpg" alt="" width="200px" /></p>
+
+<p>Another example are recurrent neural networks (RNNs). It has been shown that the recurrent inductive bias of RNNs helps them capture hierarchical structures in the sequences. But this recurrence and the fact that RNNs’ access to previous tokens is limited to their memory makes it harder for them to deal with long term dependencies and larger context.
+Besides, RNNs are rather slow because they have to process the data incrementally. On the other hand, Transformers have direct access to all input tokens and they are very expressive when it comes to representing arbitrary context sizes. Also, they can process the input sequence in parallel and hence they are remarkably faster than LSTMs. However, Transformers struggle to generalise on tasks that require capturing hierarchical structures when data is limited.</p>
+
+<p>While it might not be possible to have one model that can single handedly achieve the desired generalisation behaviour on a wide range of tasks, it is possible to benefit from the inductive biases of different models during training and combine them at inference time to have one best model during inference! In this post we show that it is possible to transfer the effect of inductive bias through knowledge distillation.</p>
+
+<h4 id="what-is-inductive-bias">What is Inductive bias?</h4>
+<p>Inductive biases are the characteristics of learning algorithms that influence their generalisation behaviour, independent of data. They are one of the main driving forces to push learning algorithms toward particular solutions <a class="citation" href="#mitchell1980need">(Mitchell, 1980)</a>.
+In the absence of strong inductive biases, a model can be equally attracted to several local minima on the loss surface; and the converged solution can be arbitrarily affected by random variations, for instance, the initial state or the order of training examples <a class="citation" href="#sutskever2013importance">(Sutskever et al., 2013; McCoy et al., 2020; Dodge et al., 2020)</a>.</p>
+
+<p><img src="img/indist_images/inductive_bias_distilation_example_1.png" alt="" width="400px" /></p>
+
+<p>There are two types of inductive biases: restricted hypothesis space bias and preference bias. Restricted hypothesis space bias determines the expressively of a model, while preference bias weighs the solutions within the hypothesis space <a class="citation" href="#Craven1996ExtractingCM">(Craven, 1996)</a>.</p>
+
+<p>From another point of view, As formulated by <a class="citation" href="#seuncurve">(Seung et al., 1991)</a> we can study models from two aspects:</p>
+<ol>
+  <li>whether a solution is realisable for the model, i.e., there is at least a set of weights that makes the model perform the task.</li>
+  <li>whether a solution is learnable for the model, i.e., it is possible for the model to learn that solution within a reasonable amount of time and computations.</li>
+</ol>
+
+<p>In many cases in deep learning, we are dealing with models that have similar expressive power in the domain of the problems we want to solve, however, they have different preference biases. Meaning the desired solutions are realisable for all of them, but depending on the task at hand it is more easier for some of them to learn that solution compared to the others. So, once we have the desired solution, we might be able to guild the other models toward that  solution.
+<img src="img/indist_images/inductive_bias_distilation_example_2.png" alt="" width="400px" /></p>
+
+<h4 id="having-the-right-inductive-bias-matters">Having the Right Inductive Bias Matters</h4>
+<p>To understand the effect of inductive biases, we need to take a look at the generalisation behaviour of the models.</p>
+
+<p>Let’s walk through the example of LSTMs and Transformers. When we train these models on language modelling, i.e., predicting the next word in the sequence! They both achieve more or less similar perplexities.
+To measure how well they are able to capture the hierarchical structures in the data, we compute their accuracy on the verb prediction task, i.e, when the word to be predicted is a verb how well they recognise the number of that verb. To do this, the model needs to correctly match the verb with its subject.
+Comparing different instances of LSTMs and Transformers, with different perplexities, we observe that LSTMs have a higher tendency toward solutions that achieve higher accuracy on the <a href="https://github.com/TalLinzen/rnn_agreement">subject verb agreement task</a>. In other words, lSTMs with higher perplexities, achieve higher accuracies than Transformers with lower perplexities.
+<img src="img/indist_images/Screenshot 2020-05-22 at 21.13.43.png" alt="" /></p>
+
+<p>Furthermore, we show the effectiveness of the CNNs inductive biases by comparing them with MLPs on the MNIST dataset. We train the models on original MNIST dataset and evaluate their performance on out of distribution sets from C-MNIST. We see that, while the the performance of MLPs and CNNs differs only slightly on the MNIST test set, there is a big gap between their performances on the out of distribution test sets.</p>
+
+<p><img src="img/indist_images/Screenshot 2020-05-25 at 12.16.21.png" alt="" /></p>
+
+<h4 id="knowledge-distillation-to-the-rescue">Knowledge Distillation to the Rescue</h4>
+
+<p>There are different ways to inject inductive biases into learning algorithms, for instance, through architectural choices, the objective function, curriculum  strategy, or the optimisation regime. Here, we exploit the power of Knowledge Distillation (KD) to transfer the effect of inductive biases between neural networks.</p>
+
+<p>KD refers to the process of transferring knowledge from a teacher model to a student model, where the logits from the teacher are used to train the student. KD is best known as an effective method for model compression <a class="citation" href="#hinton2015distilling">(Hinton et al., 2015)</a> which allows taking advantage of the huge number of parameters during training, without losing the efficiency of a smaller model during inference.
+When we have a teacher that performs very well on a given task, using it to train another model can lead to an improved performance in the student model. The question is where does this improvement come from. Does knowledge distillation merely act as a regularization technique or are the qualitative aspects of the solution the teachers converges to reflected in the student model.</p>
+
+<p>Interestingly, this improvement is not limited to the performance of the model on the trained task.
+Through distillation, the generalisation behaviour of the teacher that is affected by its inductive biases also transfers to the student model.</p>
+
+<p>In the language modelling example, even in the case where the perplexity increases (worsens), the accuracy on the subject verb agreement task improves.
+<img src="img/indist_images/Screenshot 2020-05-22 at 21.14.14.png" alt="" /></p>
+
+<p>In the MNIST example, not only the performance of the model on the MNIST test set improves, it also achieves a better accuracy on the out of distribution sets.</p>
+
+<p><img src="img/indist_images/Screenshot 2020-05-25 at 12.16.44.png" alt="" /></p>
+
+<p>Now, Let’s take a look at the training paths of the models when they are trained independently and when they are trained through distillation<sup id="fnref:5614e4c5"><a href="#fn:5614e4c5" class="footnote">1</a></sup>. Looking at the training path for an independent MLP, an independent CNN, and an MLP that is distilled form a CNN, we see that while MLP and CNN seem to have very different behaviour during training, the student MLP with a CNN as its teacher behaves differently than an independent MLP and more similarly to its teacher CNN. This is interesting, in particular, since the student model is only exposed to the final solution the teacher has converged to and no information about the intermediate stages of training is provided in the offline KD.</p>
+
+<p><img src="img/indist_images/Screenshot 2020-05-22 at 21.13.15.png" alt="Training Pathes of the Models" /></p>
+
+<p>Moreover comparing the final representations these models converge to, we see that as expected based on our assumptions about the inductive biases of these models, MLPs have more variance than CNNs, and Transformers have more variance compared to LSTMs. Also, distillation from a teacher with stronger inducive biases results in representations that are more similar to the representations learned by the teacher model. Finally, self-distillation does not significantly change the representations the models learn.
+<img src="img/indist_images/Screenshot 2020-05-22 at 21.14.30.png" alt="" />
+<img src="img/indist_images/Screenshot 2020-05-22 at 21.14.45.png" alt="" /></p>
+
+<p>In this post, we briefly go through the finding of our paper on “Transferring Inductive Biases Through Knowledge Distillation”, where we explore the power of knowledge distillation for transferring the effect of inductive biases from one model to another. In this paper, We consider families of models with different inductive biases, LSTMs vs. Transformers and CNNs vs. MLPs, in the context of tasks and scenarios where having the right inductive biases can be critical. We study how the effect of inductive biases is transferred through knowledge distillation, in terms of not only performance, but also different aspects of converged solutions.</p>
+
+<p>Codes to replicate the experiments we discussed in this post are available <a href="https://github.com/samiraabnar/Reflect">here</a>!</p>
+<div class="footnotes">
+  <ol>
+    <li id="fn:5614e4c5">
+      <p>To plot the training path of a model, we compute the pairwise representational similarity between different stages of training of the model. <a href="#fnref:5614e4c5" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </article>
+</div>
+
+
+<!-- 
+<div id="share-box">
+<h5>Share this:</h5>
+
+<a id="f" href="https://www.facebook.com/sharer/sharer.php?u=/articles/2020-05/indist" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" ><i class="fa fa-facebook-official fa"></i><span> facebook</span></a>
+
+<a id="t" href="https://twitter.com/intent/tweet?text=&url=/articles/2020-05/indist" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"><i class="fa fa-twitter fa"></i><span> twitter</span></a>
+
+<a id="g" href="https://plus.google.com/share?url=/articles/2020-05/indist" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" ><i class="fa fa-google-plus fa"></i><span> google</span></a>
+
+<a id="r" href="http://www.reddit.com/submit?url=/articles/2020-05/indist" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=900,height=500,toolbar=1,resizable=0'); return false;" ><i class="fa fa-reddit fa"></i><span> reddit</span></a>
+
+<a id="l" href="https://www.linkedin.com/shareArticle?mini=true&url=https://samiraabnar.github.io/articles/2020-05/indist&title=&summary=&source=webjeda" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" ><i class="fa fa-linkedin fa"></i><span> linkedin</span></a>
+
+<a id="e" href="mailto:?subject=&amp;body=Check out this site /articles/2020-05/indist"><i class="fa fa-envelope fa"></i><span> email</span></a>
+</div>
+ -->
+
+<div id="post">
+  <h4>References</h4>
+<ol class="bibliography"><li><span id="wolpert1997no">Wolpert, D. H., &amp; Macready, W. G. (1997). No Free Lunch Theorems for Optimization. <i>IEEE Transactions on Evolutionary Computation</i>, <i>1</i>(1), 67–82. https://doi.org/10.1109/4235.585893</span></li>
+<li><span id="Goodfellow-et-al-2016">Goodfellow, I., Bengio, Y., &amp; Courville, A. (2016). <i>Deep Learning</i>. MIT Press.</span></li>
+<li><span id="mitchell1980need">Mitchell, T. M. (1980). <i>The Need for Biases in Learning Generalizations</i>. Rutgers University. http://dml.cs.byu.edu/ cgc/docs/mldm_tools/Reading/Need for Bias.pdf</span></li>
+<li><span id="sutskever2013importance">Sutskever, I., Martens, J., Dahl, G., &amp; Hinton, G. (2013). On the importance of initialization and momentum in deep learning. <i>International Conference on Machine Learning</i>. https://dl.acm.org/doi/10.5555/3042817.3043064</span></li>
+<li><span id="mccoy2019berts">McCoy, R. T., Frank, R., &amp; Linzen, T. (2020). Does syntax need to grow on trees? Sources of hierarchical inductive
+               bias in sequence-to-sequence networks. <i>CoRR</i>, <i>abs/2001.03632</i>. https://arxiv.org/abs/2001.03632</span></li>
+<li><span id="dodge2020">Dodge, J., Ilharco, G., Schwartz, R., Farhadi, A., Hajishirzi, H., &amp; Smith, N. (2020). Fine-Tuning Pretrained Language Models: Weight Initializations, Data Orders, and Early Stopping. <i>ArXiv Preprint ArXiv: 2002.06305</i>. https://arxiv.org/abs/2002.06305</span></li>
+<li><span id="Craven1996ExtractingCM">Craven, M. W. (1996). <i>Extracting Comprehensible Models from Trained Neural Networks</i> [PhD thesis, The University of Wisconsin - Madison]. https://www.biostat.wisc.edu/ craven/papers/thesis.pdf</span></li>
+<li><span id="seuncurve">Seung, H. S., Sompolinsky, H., &amp; Tishby, N. (1991). Learning Curves in Large Neural Networks. <i>Proceedings of the Fourth Annual Workshop on Computational Learning Theory</i>. https://dl.acm.org/doi/10.5555/114836.114847</span></li>
+<li><span id="hinton2015distilling">Hinton, G., Vinyals, O., &amp; Dean, J. (2015). Distilling the knowledge in a neural network. <i>ArXiv Preprint ArXiv:1503.02531</i>. https://arxiv.org/abs/1503.02531</span></li></ol>
+</div>
+
+
+
+        <footer>
+  &copy; 2020 Samira Abnar.
+</footer>
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="https://samiraabnar.github.io/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://samiraabnar.github.io/js/main.js"></script>
+
+
+</body>
+</html>

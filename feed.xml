@@ -6,8 +6,110 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-26</pubDate>
-    <lastBuildDate>Tue, 26 May 2020 22:59:01 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 26 May 2020 23:00:49 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Recurrent Inductive Bias</title>
+        <description>
+</description>
+        <pubDate>2020-05-26</pubDate>
+        <link>https://samiraabnar.github.io/articles/2020-05/recurrence</link>
+        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/recurrence</guid>
+        
+        
+        <category>blogpost</category>
+        
+      </item>
+    
+      <item>
+        <title>Distilling Inductive Biases</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/No_free_lunch_in_search_and_optimization&quot;&gt;No free lunch theorem&lt;/a&gt; states, for any learning algorithm, any improvement on performance over one class of problems is balanced out by a decrease in the performance over another class &lt;a class=&quot;citation&quot; href=&quot;#wolpert1997no&quot;&gt;(Wolpert &amp;amp; Macready, 1997)&lt;/a&gt;.
+In other words, different learning algorithms would work better or worse and generalise differently on different tasks based on their inductive biases.&lt;/p&gt;
+
+&lt;p&gt;For example, consider the image classification problem.
+CNNs are the de facto choice for processing images, and in general data with grid-like topology. Sparse connectivity and parameter sharing in CNNs make them an effective and statistically efficient architecture. The particular form of parameter sharing in the convolution operation make CNNs equivariant to translation  &lt;a class=&quot;citation&quot; href=&quot;#Goodfellow-et-al-2016&quot;&gt;(Goodfellow et al., 2016)&lt;/a&gt;.
+On the other hand, it is well known that this translation equivariance hurts their performance in cases where the position of the objects in the image matters. This is known as the Picasso effect, where you have all the pieces of an object but not in the right context!
+&lt;img src=&quot;img/indist_images/Pablo-Picasso-Spanish-Cubist-Oil-Canvas-Portrait.jpg&quot; alt=&quot;&quot; width=&quot;200px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Another example are recurrent neural networks (RNNs). It has been shown that the recurrent inductive bias of RNNs helps them capture hierarchical structures in the sequences. But this recurrence and the fact that RNNs’ access to previous tokens is limited to their memory makes it harder for them to deal with long term dependencies and larger context.
+Besides, RNNs are rather slow because they have to process the data incrementally. On the other hand, Transformers have direct access to all input tokens and they are very expressive when it comes to representing arbitrary context sizes. Also, they can process the input sequence in parallel and hence they are remarkably faster than LSTMs. However, Transformers struggle to generalise on tasks that require capturing hierarchical structures when data is limited.&lt;/p&gt;
+
+&lt;p&gt;While it might not be possible to have one model that can single handedly achieve the desired generalisation behaviour on a wide range of tasks, it is possible to benefit from the inductive biases of different models during training and combine them at inference time to have one best model during inference! In this post we show that it is possible to transfer the effect of inductive bias through knowledge distillation.&lt;/p&gt;
+
+&lt;h4 id=&quot;what-is-inductive-bias&quot;&gt;What is Inductive bias?&lt;/h4&gt;
+&lt;p&gt;Inductive biases are the characteristics of learning algorithms that influence their generalisation behaviour, independent of data. They are one of the main driving forces to push learning algorithms toward particular solutions &lt;a class=&quot;citation&quot; href=&quot;#mitchell1980need&quot;&gt;(Mitchell, 1980)&lt;/a&gt;.
+In the absence of strong inductive biases, a model can be equally attracted to several local minima on the loss surface; and the converged solution can be arbitrarily affected by random variations, for instance, the initial state or the order of training examples &lt;a class=&quot;citation&quot; href=&quot;#sutskever2013importance&quot;&gt;(Sutskever et al., 2013; McCoy et al., 2020; Dodge et al., 2020)&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;img/indist_images/inductive_bias_distilation_example_1.png&quot; alt=&quot;&quot; width=&quot;400px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There are two types of inductive biases: restricted hypothesis space bias and preference bias. Restricted hypothesis space bias determines the expressively of a model, while preference bias weighs the solutions within the hypothesis space &lt;a class=&quot;citation&quot; href=&quot;#Craven1996ExtractingCM&quot;&gt;(Craven, 1996)&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;From another point of view, As formulated by &lt;a class=&quot;citation&quot; href=&quot;#seuncurve&quot;&gt;(Seung et al., 1991)&lt;/a&gt; we can study models from two aspects:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;whether a solution is realisable for the model, i.e., there is at least a set of weights that makes the model perform the task.&lt;/li&gt;
+  &lt;li&gt;whether a solution is learnable for the model, i.e., it is possible for the model to learn that solution within a reasonable amount of time and computations.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In many cases in deep learning, we are dealing with models that have similar expressive power in the domain of the problems we want to solve, however, they have different preference biases. Meaning the desired solutions are realisable for all of them, but depending on the task at hand it is more easier for some of them to learn that solution compared to the others. So, once we have the desired solution, we might be able to guild the other models toward that  solution.
+&lt;img src=&quot;img/indist_images/inductive_bias_distilation_example_2.png&quot; alt=&quot;&quot; width=&quot;400px&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;having-the-right-inductive-bias-matters&quot;&gt;Having the Right Inductive Bias Matters&lt;/h4&gt;
+&lt;p&gt;To understand the effect of inductive biases, we need to take a look at the generalisation behaviour of the models.&lt;/p&gt;
+
+&lt;p&gt;Let’s walk through the example of LSTMs and Transformers. When we train these models on language modelling, i.e., predicting the next word in the sequence! They both achieve more or less similar perplexities.
+To measure how well they are able to capture the hierarchical structures in the data, we compute their accuracy on the verb prediction task, i.e, when the word to be predicted is a verb how well they recognise the number of that verb. To do this, the model needs to correctly match the verb with its subject.
+Comparing different instances of LSTMs and Transformers, with different perplexities, we observe that LSTMs have a higher tendency toward solutions that achieve higher accuracy on the &lt;a href=&quot;https://github.com/TalLinzen/rnn_agreement&quot;&gt;subject verb agreement task&lt;/a&gt;. In other words, lSTMs with higher perplexities, achieve higher accuracies than Transformers with lower perplexities.
+&lt;img src=&quot;img/indist_images/Screenshot 2020-05-22 at 21.13.43.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Furthermore, we show the effectiveness of the CNNs inductive biases by comparing them with MLPs on the MNIST dataset. We train the models on original MNIST dataset and evaluate their performance on out of distribution sets from C-MNIST. We see that, while the the performance of MLPs and CNNs differs only slightly on the MNIST test set, there is a big gap between their performances on the out of distribution test sets.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;img/indist_images/Screenshot 2020-05-25 at 12.16.21.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;knowledge-distillation-to-the-rescue&quot;&gt;Knowledge Distillation to the Rescue&lt;/h4&gt;
+
+&lt;p&gt;There are different ways to inject inductive biases into learning algorithms, for instance, through architectural choices, the objective function, curriculum  strategy, or the optimisation regime. Here, we exploit the power of Knowledge Distillation (KD) to transfer the effect of inductive biases between neural networks.&lt;/p&gt;
+
+&lt;p&gt;KD refers to the process of transferring knowledge from a teacher model to a student model, where the logits from the teacher are used to train the student. KD is best known as an effective method for model compression &lt;a class=&quot;citation&quot; href=&quot;#hinton2015distilling&quot;&gt;(Hinton et al., 2015)&lt;/a&gt; which allows taking advantage of the huge number of parameters during training, without losing the efficiency of a smaller model during inference.
+When we have a teacher that performs very well on a given task, using it to train another model can lead to an improved performance in the student model. The question is where does this improvement come from. Does knowledge distillation merely act as a regularization technique or are the qualitative aspects of the solution the teachers converges to reflected in the student model.&lt;/p&gt;
+
+&lt;p&gt;Interestingly, this improvement is not limited to the performance of the model on the trained task.
+Through distillation, the generalisation behaviour of the teacher that is affected by its inductive biases also transfers to the student model.&lt;/p&gt;
+
+&lt;p&gt;In the language modelling example, even in the case where the perplexity increases (worsens), the accuracy on the subject verb agreement task improves.
+&lt;img src=&quot;img/indist_images/Screenshot 2020-05-22 at 21.14.14.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In the MNIST example, not only the performance of the model on the MNIST test set improves, it also achieves a better accuracy on the out of distribution sets.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;img/indist_images/Screenshot 2020-05-25 at 12.16.44.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now, Let’s take a look at the training paths of the models when they are trained independently and when they are trained through distillation&lt;sup id=&quot;fnref:5614e4c5&quot;&gt;&lt;a href=&quot;#fn:5614e4c5&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Looking at the training path for an independent MLP, an independent CNN, and an MLP that is distilled form a CNN, we see that while MLP and CNN seem to have very different behaviour during training, the student MLP with a CNN as its teacher behaves differently than an independent MLP and more similarly to its teacher CNN. This is interesting, in particular, since the student model is only exposed to the final solution the teacher has converged to and no information about the intermediate stages of training is provided in the offline KD.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;img/indist_images/Screenshot 2020-05-22 at 21.13.15.png&quot; alt=&quot;Training Pathes of the Models&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Moreover comparing the final representations these models converge to, we see that as expected based on our assumptions about the inductive biases of these models, MLPs have more variance than CNNs, and Transformers have more variance compared to LSTMs. Also, distillation from a teacher with stronger inducive biases results in representations that are more similar to the representations learned by the teacher model. Finally, self-distillation does not significantly change the representations the models learn.
+&lt;img src=&quot;img/indist_images/Screenshot 2020-05-22 at 21.14.30.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;img/indist_images/Screenshot 2020-05-22 at 21.14.45.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In this post, we briefly go through the finding of our paper on “Transferring Inductive Biases Through Knowledge Distillation”, where we explore the power of knowledge distillation for transferring the effect of inductive biases from one model to another. In this paper, We consider families of models with different inductive biases, LSTMs vs. Transformers and CNNs vs. MLPs, in the context of tasks and scenarios where having the right inductive biases can be critical. We study how the effect of inductive biases is transferred through knowledge distillation, in terms of not only performance, but also different aspects of converged solutions.&lt;/p&gt;
+
+&lt;p&gt;Codes to replicate the experiments we discussed in this post are available &lt;a href=&quot;https://github.com/samiraabnar/Reflect&quot;&gt;here&lt;/a&gt;!&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:5614e4c5&quot;&gt;
+      &lt;p&gt;To plot the training path of a model, we compute the pairwise representational similarity between different stages of training of the model. &lt;a href=&quot;#fnref:5614e4c5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>2020-05-26</pubDate>
+        <link>https://samiraabnar.github.io/articles/2020-05/indist</link>
+        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/indist</guid>
+        
+        
+        <category>blogpost</category>
+        
+      </item>
     
       <item>
         <title>Quantifying Attention Flow in Transformers</title>
