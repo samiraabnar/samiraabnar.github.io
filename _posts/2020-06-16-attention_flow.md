@@ -11,7 +11,7 @@ image:
 ---
 
 Attention {% cite bahdanau2014neural vaswani2017attention %} has become the key building block of neural sequence processing models,
-and visualizing attention weights is the easiest and most popular approach to interpret a model's decisions and to gain insights about its internals {% cite vaswani2017attention xu2015show wang2016attention  lee2017interactive dehghani2018universal rocktaschel2015reasoning chen2019improving coenen2019visualizing clark-etal-2019-bert %}.
+and visualizing attention weights is the easiest and most popular approach to interpret a model's decisions and to gain insights about its internals.
 Although it is wrong to equate attention with explanation {% cite pruthi2019learning jain2019attention %}, it can offer plausible and meaningful interpretations {% cite wiegreffe2019attention vashishth2019attention vig2019visualizing %}.
 In this post, we focus on problems arising when we move to the higher layers of a model, due to lack of token identifiability of the embeddings in higher layers {% cite brunner2019validity %}. We propose visualising and interpreting attention weights taking this phenomena into account!
 
@@ -19,7 +19,7 @@ In this post, we focus on problems arising when we move to the higher layers of 
 
 We propose two simple but effective methods, **Attention Rollout** and **Attention Flow**, to compute attention scores to input tokens  (i.e., _token attention_) at each layer, by taking raw attentions (i.e., _embedding attention_) of that layer as well as those from the precedent layers.
 
-###### Attention to embeddings vs Attention to Input Tokens
+##### Attention to embeddings vs Attention to Input Tokens
 In the Transformer model, _self-attention_ combines information from attended embeddings into the representation of the embeddings in the next layer. Thus, across layers of the Transformer, information originating from different tokens gets increasingly mixed.
 
 Hence, when looking at the $i$th self attention layer, we can not interpret the attention weights as the attention to the embeddings in the input layer. Because each embedding in this layer can potentially contain information from all embeddings in the previous layers. This makes attention weights unreliable as explanations probes when they are not directly applied on the input tokens.
@@ -30,7 +30,7 @@ If we only look at the attention weights in the last layer, it seems all input t
 
 So, if we want to use attention weights to understand how a self attention network works, we need to take the flow of information in the network into account! One way to do this is to use attention weights to approximate the information flow, while taking different aspects of the architecture of the model into account.
 
-###### Information flow graph of a Transformer Encoder
+##### Information flow graph of a Transformer Encoder
 This is a schematic view of self attention layer in the Transformer Model introduced in {% cite vaswani2017attention %}:
 {% include image.html
             img="img/flow_images/attention_block.png"
@@ -66,7 +66,7 @@ Assume the attention weights determine  the proportion of the incoming informati
 <!-- </div> -->
 
 ###### Attention Flow
-In the other approach, we view the attention weights as the capacity of each link. This way the problem of computing the attention in layer $$i$$ to the input tokens reduces to the [network flow problem](https://en.wikipedia.org/wiki/Network_flow_problem), where we want to find the maximum flow value from each input token to each position in layer $$i$$.  
+If we view the attention weights as the capacity of each link, the problem of computing the attention in layer $$i$$ to the input tokens reduces to the [network flow problem](https://en.wikipedia.org/wiki/Network_flow_problem), where we want to find the maximum flow value from each input token to each position in layer $$i$$.  
 {% include image.html
             img="img/flow_images/attention_flow.gif"
             title=""
@@ -93,7 +93,3 @@ To see how it works for other examples, you can take a look at [this notebook](h
 In our paper, "[Quantifying Attention Flow In Transformers][2ae63ee1]", we show that compared to raw attention weights, the token attentions from <kbd>attention rollout</kbd> and <kbd>attention flow</kbd> have higher correlations with the importance scores obtained from input gradients as well as an input ablation based attribution method. Furthermore, we visualise the token attention weights and demonstrate that they are better approximations of how input tokens contribute to a predicted output, compared to raw attention weights.
 
   [2ae63ee1]: https://arxiv.org/abs/2005.00928 "Quantifying Attention Flow In Transformers"
-
-
-##### References
-{% bibliography --cited  %}
