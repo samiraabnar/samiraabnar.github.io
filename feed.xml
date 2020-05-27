@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-28</pubDate>
-    <lastBuildDate>Thu, 28 May 2020 00:11:26 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2020 00:24:04 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -35,9 +35,12 @@ Here, we distinguish between three main sources of this bias:&lt;/p&gt;
 ![sequential transformer](img/rnn_images/seqtrans.png){:width=&quot;250px&quot; style=&quot;float: left; margin-right:10px&quot;}
 ![sequential universal transformer](img/rnn_images/utrans.png){:width=&quot;250px&quot; style=&quot;margin-right:10px&quot;} --&gt;
 
-&lt;p style=&quot;display: flex; justify-content: space-around;&quot;&gt;
+&lt;p style=&quot;&quot;&gt;
 &lt;img src=&quot;img/rnn_images/rnn.png&quot; alt=&quot;rnn&quot; width=&quot;250px&quot; style=&quot;float: left;&quot; /&gt;
-&lt;img src=&quot;img/rnn_images/transformer.png&quot; alt=&quot;transformer&quot; width=&quot;250px&quot; style=&quot;float: left; margin-right:10px&quot; /&gt;
+&lt;img src=&quot;img/rnn_images/transformer.png&quot; alt=&quot;transformer&quot; width=&quot;250px&quot; style=&quot;margin-right:10px&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;&quot;&gt;
 &lt;img src=&quot;img/rnn_images/seqtrans.png&quot; alt=&quot;sequential transformer&quot; width=&quot;250px&quot; style=&quot;float: left; margin-right:10px&quot; /&gt;
 &lt;img src=&quot;img/rnn_images/utrans.png&quot; alt=&quot;sequential universal transformer&quot; width=&quot;250px&quot; style=&quot;margin-right:10px&quot; /&gt;
 &lt;/p&gt;
