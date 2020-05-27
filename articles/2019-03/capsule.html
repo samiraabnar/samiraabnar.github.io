@@ -179,11 +179,11 @@
   </header>
 
   <article class="post-content">
-    <p>In this post, we go through the main building blocks of transformers and capsule networks and try to draw a connection between different components of these two models. Our main goal here is to understand if these models are inherently different and if not, how they relate.</p>
+    <p>In this post, we go through the main building blocks of transformers <a class="citation" href="#vaswani2017attention">(Vaswani et al., 2017)</a> and capsule networks <a class="citation" href="#e2018matrix">(Hinton et al., 2018)</a> and try to draw a connection between different components of these two models. Our main goal here is to understand if these models are inherently different and if not, how they relate.</p>
 
-<p>Transformers, or so-called self attention networks, are a family of deep neural network architectures, where self attention layers are stacked on top of each other to learn contextualized representations for input tokens via multiple transformations. These models have been able to achieve SOTA on many vision and NLP tasks. There is a lot of details about how transformer is implemented, but at a high level, transformer is an encoder-decoder architecture, where each of encoder and decoder blocks consists of a stack of transformer layers, and in each layer, we learn to (re-)calculate  a representation per input token. This representation is computed by attending to the representations of all tokens from the previous layer. This is illustrated in the figure below.</p>
+<p>Transformers, or so-called self attention networks, are a family of deep neural network architectures, where self attention layers are stacked on top of each other to learn contextualised representations for input tokens via multiple transformations. These models have been able to achieve SOTA on many vision and NLP tasks. There is a lot of details about how transformer is implemented, but at a high level, transformer is an encoder-decoder architecture, where each of encoder and decoder blocks consists of a stack of transformer layers, and in each layer, we learn to (re-)calculate  a representation per input token. This representation is computed by attending to the representations of all tokens from the previous layer. This is illustrated in the figure below.</p>
 
-<p><img src="img/capsule_images/trans_intro-2.png" alt="" /></p>
+<p><img src="img/capsule_images/trans_intro-2.png" alt="" style="width: 600px" /></p>
 
 <p>Thus, to compute the representations in layer $L+1$, the representations from the lower layer, $L$, are passed through a self-attention block, which updates the representation of every token with respect to all the other tokens. The future tokens are masked in the self attention in the decoder block. Also, besides the self attention, there is encoder-decoder-attention in the decoder (which is not depicted in the figure above). To see more details about the transformer, check out this great post: http://jalammar.github.io/illustrated-transformer.</p>
 
@@ -321,7 +321,8 @@ Now, what is different between capsule networks and transformers in this regard 
 
 <div id="post">
   <h4>References</h4>
-<ol class="bibliography"></ol>
+<ol class="bibliography"><li><span id="vaswani2017attention">Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., &amp; Polosukhin, I. (2017). Attention is all you need. <i>Advances in Neural Information Processing Systems</i>, 5998–6008.</span></li>
+<li><span id="e2018matrix">Hinton, G. E., Sabour, S., &amp; Frosst, N. (2018). Matrix capsules with EM routing. <i>International Conference on Learning Representations</i>. https://openreview.net/forum?id=HJWLfGWRb</span></li></ol>
 </div>
 
 
