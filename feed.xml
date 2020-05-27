@@ -5,8 +5,8 @@
     <description>Samira's Blog</description>
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>2020-05-27</pubDate>
-    <lastBuildDate>Wed, 27 May 2020 21:50:28 +0200</lastBuildDate>
+    <pubDate>2020-05-28</pubDate>
+    <lastBuildDate>Thu, 28 May 2020 00:06:13 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -35,7 +35,7 @@ Here, we distinguish between three main sources of this bias:&lt;/p&gt;
 ![sequential transformer](img/rnn_images/seqtrans.png){:width=&quot;250px&quot; style=&quot;float: left; margin-right:10px&quot;}
 ![sequential universal transformer](img/rnn_images/utrans.png){:width=&quot;250px&quot; style=&quot;margin-right:10px&quot;} --&gt;
 
-&lt;p style=&quot;display: felx; justify-content: space-around;&quot;&gt;
+&lt;p style=&quot;display: flex; justify-content: space-around;&quot;&gt;
 &lt;img src=&quot;img/rnn_images/rnn.png&quot; alt=&quot;rnn&quot; width=&quot;250px&quot; style=&quot;float: left;&quot; /&gt;
 &lt;img src=&quot;img/rnn_images/transformer.png&quot; alt=&quot;transformer&quot; width=&quot;250px&quot; style=&quot;float: left; margin-right:10px&quot; /&gt;
 &lt;img src=&quot;img/rnn_images/seqtrans.png&quot; alt=&quot;sequential transformer&quot; width=&quot;250px&quot; style=&quot;float: left; margin-right:10px&quot; /&gt;
@@ -68,7 +68,7 @@ In this task, examples are grouped into different levels of difficulty based on 
   &lt;/ol&gt;
 &lt;/div&gt;
 </description>
-        <pubDate>2020-05-27</pubDate>
+        <pubDate>2020-05-28</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-05/recurrence</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/recurrence</guid>
         
@@ -157,7 +157,7 @@ Through distillation, the generalisation behaviour of the teacher that is affect
   &lt;/ol&gt;
 &lt;/div&gt;
 </description>
-        <pubDate>2020-05-27</pubDate>
+        <pubDate>2020-05-28</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-05/indist</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/indist</guid>
         
@@ -287,7 +287,7 @@ In some sense, Attention Rollout is more restrictive compared to Attention Flow,
 &lt;p&gt;To see more examples, you can try out &lt;a href=&quot;https://github.com/samiraabnar/attention_flow/blob/master/bert_example.ipynb&quot;&gt;this notebook&lt;/a&gt;. And for more details, such as how we can handle multiple heads take a look at our paper, “&lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot; title=&quot;Quantifying Attention Flow In Transformers&quot;&gt;Quantifying Attention Flow In Transformers&lt;/a&gt;”.&lt;/p&gt;
 
 </description>
-        <pubDate>2020-05-27</pubDate>
+        <pubDate>2020-05-28</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-05/attention_flow</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/attention_flow</guid>
         
@@ -411,7 +411,7 @@ Now, what is different between capsule networks and transformers in this regard 
 
 &lt;p&gt;In very loose terms, the pose matrix in capsule nets plays the role of key and query vectors in transformers. The main point here is that there seems to be some advantage in disentangling representations that are encoding different kinds of information. In both these models, this is done based on the roles of the hidden state in the routing or attention process.&lt;/p&gt;
 </description>
-        <pubDate>2020-05-27</pubDate>
+        <pubDate>2020-05-28</pubDate>
         <link>https://samiraabnar.github.io/articles/2019-03/capsule</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2019-03/capsule</guid>
         
