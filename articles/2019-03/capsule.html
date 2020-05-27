@@ -193,7 +193,7 @@
 
 <p>Here, we explain how information from different positions in a lower layer, $L$, are integrated using multi-head self-attention, to compute the higher layer, $L+1$ representations.</p>
 
-<p><img src="img/capsule_images/multihead_att-1024x463.png" alt="" />
+<p><img src="img/capsule_images/multihead_att-1024x463.png" alt="" style="margin-bottom: 20px" />
 First of all, we should note that the representations for each position at each layer are seen as (key, value, query) triplets. Thus, for each layer, we have three matrices (K, Q, V), where each row in these matrices corresponds to a position.</p>
 
 <p>The input to attention head $i$ is a linear  transformation of the K, Q and V:
@@ -213,18 +213,18 @@ $K_i = W_k^{i}K$, $V_i = W_v^{i}V$, $Q_i = W_q^{i}Q$</p>
 
 <h4 id="matrix-capsules-with-em-routing">Matrix Capsules with EM routing:</h4>
 
-<p>Capsule networks, in the first place, were proposed to processes images in a more natural way. In 2000, Hinton and Ghahramani argued that the image recognition systems which rely on a separate preprocessing stage suffer from the fact that the segmenter does not know the general information about the object and propose to have a system in which recognition and segmentation are done simultaneously. The idea is that in order to recognize parts (segments) of an object, you need to first have a general understanding of what the object is. In other words, we need to have both top-down and bottom-up flow of information. This can also be true for NLP problems. An example of this is parsing garden path sentences. Capsule networks can be viewed as a CNN, where there is some structure on the outputs of the kernels and pooling is replaced by dynamic routing.</p>
+<p>Capsule networks, in the first place, were proposed to processes images in a more natural way. In 2000, Hinton and Ghahramani argued that the image recognition systems which rely on a separate preprocessing stage suffer from the fact that the segmenter does not know the general information about the object and propose to have a system in which recognition and segmentation are done simultaneously <a class="citation" href="#hinton2000learning">(Hinton et al., 2000)</a>. The idea is that in order to recognize parts (segments) of an object, you need to first have a general understanding of what the object is. In other words, we need to have both top-down and bottom-up flow of information. This can also be true for NLP problems. An example of this is parsing garden path sentences. Capsule networks can be viewed as a CNN, where there is some structure on the outputs of the kernels and pooling is replaced by dynamic routing.</p>
 
 <blockquote>
 
   <p>A capsule is a unit that learns to detect an implicitly defined entity over a limited domain of viewing conditions. It outputs both the probability that the entity is present and a set of “instantiation parameters” that reflect the features of the entity such as pose information. The presence probability is viewpoint invariant, e.g. it does not change as the entity moves or rotates, whereas the instantiation parameters are viewpoint equivariant, e.g. they change if the entity moves or rotates.</p>
 </blockquote>
 
-<p><img src="img/capsule_images/capsule_scalar-1-1024x408.png" alt="" style="width: 600px" />
+<p><img src="img/capsule_images/capsule_scalar-1-1024x408.png" alt="" style="width: 600px; margin-bottom: 20px;" />
 In matrix capsules with EM routing, they use a capsule network that includes a standard convolutional layer, and a layer of primary capsules followed by several layers of convolutional capsules. In this version of the capsule net, the instantiation parameters are represented as a matrix called the pose matrix.</p>
 
-<p><img src="img/capsule_images/capsule_arch-1024x245.png" alt="" style="width: 600px" />
-Each capsule layer has a fixed number of capsule types (similar to filters in CNNs), which is chosen as a hyperparameter. A capsule is an instance of a capsule type.  Each capsule type is meant to correspond to an entity, and all capsules of the same type are extracting the same entity at different positions. In lower layers, capsule types learn to recognize low-level entities, e.g. eyes, and in higher layers, they are supposed to present more high-level entities, e.g. faces.</p>
+<p><img src="img/capsule_images/capsule_arch-1024x245.png" alt="" style="width: 600px; margin-bottom: 20px" />
+Each capsule layer has a fixed number of capsule types (similar to filters in CNNs), which is chosen as a hyper-parameter. A capsule is an instance of a capsule type.  Each capsule type is meant to correspond to an entity, and all capsules of the same type are extracting the same entity at different positions. In lower layers, capsule types learn to recognize low-level entities, e.g. eyes, and in higher layers, they are supposed to present more high-level entities, e.g. faces.</p>
 
 <p>In the convolutional capsule layers, the weight matrix of each capsule type is convolved over the input, similar to how kernels are applied in CNNs. This results in different instances of each capsule type.<br />
 <img src="img/capsule_images/capsule_routing-1024x669.png" alt="" style="width: 700px" />
@@ -265,7 +265,7 @@ We can use EM to compute representations of $\Omega_{L+1}$ based on the represen
 <h5 id="dynamic-routing-vs-attention">Dynamic Routing vs Attention</h5>
 
 <p>In capsule networks, we use dynamic routing to determine the connection from the lower layer to the higher layer, in par with this in transformers we employ self-attention to decide how to attend to different parts of the input and how information from different parts contribute to the updates of representations. We can map the attention weights in transformer to assignment probabilities in capsule net; however, in capsule nets, the assignment probabilities are computed bottom-up, whereas in transformer the attention is computed top-down. i.e. the attention weights in transformer are distributed over the representations in the lower layer, but in capsule nets, the assignment probabilities are distributed over the higher layer capsules. Note that, it is true that in transformer, the attention probabilities are computed based on the similarity of the representations in the same layer, but this is equivalent to the assumption that the higher layer is first initialized with the representations from the lower layer and then it is updated based on the attention probabilities computed by comparing these initial representations with the representations from the lower layer.
-<img src="img/capsule_images/attention_dir-1024x444.png" alt="" style="width: 500px" />
+<img src="img/capsule_images/attention_dir-1024x444.png" alt="" style="width: 500px; margin-bottom: 20px" />
 The bottom-up attention in capsule nets along with having a presence probability and the penalty for activating capsules, explicitly allows the model to abstract away the concepts as the information propagates to the higher layers. On the other hand, in transformer, the top-down attention mechanism allows the nodes in the higher layer not to attend to some of the nodes in the lower layer and filter out the information that is captured in those nodes.</p>
 
 <p>Now, the question is, why do we need EM for dynamic routing in capsule nets? Why can’t we use a similar mechanism used to compute attentions in transformer to calculate assignment probabilities in capsule nets?</p>
@@ -277,7 +277,7 @@ The bottom-up attention in capsule nets along with having a presence probability
 <h5 id="capsule-types-and-attention-heads">Capsule Types and Attention Heads:</h5>
 
 <p>Both capsule nets and transformer architectures have a mechanism which allows the models to process the representations from a lower layer from different perspectives to compute the representation in the higher layer. In capsule nets,  there is a different transformation matrix between each pair of capsule types from two adjacent layers. Thus capsules that are instantiations of different capsule types view the capsules in the previous layer from a different point of view. In par with this, in transformer, we have multiple attention heads, where each attention head uses a different set of transformation matrices to compute the projection of key, value and query.  So, each attention heads works on a different projection of the representations in the lower layer. Both these mechanisms serve a similar purpose as having different kernels in convolutional neural networks.
-<img src="img/capsule_images/attention_vs_dynamicrouting.png" alt="" />
+<img src="img/capsule_images/attention_vs_dynamicrouting.png" alt="" style="width: 800px; margin-bottom: 20px" />
 Now, what is different between capsule networks and transformers in this regard is that, in capsule networks, while capsules with different types have a different point of view, in the end, assignment probabilities for a capsule in the lower layer are normalized over all capsule in the higher layer regardless of their type. Hence we have one assignment distribution per each capsule in the lower layer. Whereas in transformer, each attention head independently processes its input. This means we have a separate attention distribution for each position in the higher layer, and the outputs of the attention heads are only combined in the last step, where they are simply concatenated and linearly transformed to compute the final output of the multi-headed attention block.</p>
 
 <h5 id="positional-embedding-and-coordinate-addition">Positional embedding and coordinate addition:</h5>
@@ -322,7 +322,8 @@ Now, what is different between capsule networks and transformers in this regard 
 <div id="post">
   <h4>References</h4>
 <ol class="bibliography"><li><span id="vaswani2017attention">Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., &amp; Polosukhin, I. (2017). Attention is all you need. <i>Advances in Neural Information Processing Systems</i>, 5998–6008.</span></li>
-<li><span id="e2018matrix">Hinton, G. E., Sabour, S., &amp; Frosst, N. (2018). Matrix capsules with EM routing. <i>International Conference on Learning Representations</i>. https://openreview.net/forum?id=HJWLfGWRb</span></li></ol>
+<li><span id="e2018matrix">Hinton, G. E., Sabour, S., &amp; Frosst, N. (2018). Matrix capsules with EM routing. <i>International Conference on Learning Representations</i>. https://openreview.net/forum?id=HJWLfGWRb</span></li>
+<li><span id="hinton2000learning">Hinton, G. E., Ghahramani, Z., &amp; Teh, Y. W. (2000). Learning to parse images. <i>Advances in Neural Information Processing Systems</i>, 463–469.</span></li></ol>
 </div>
 
 

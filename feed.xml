@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-27</pubDate>
-    <lastBuildDate>Wed, 27 May 2020 12:40:12 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2020 12:49:46 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -244,7 +244,7 @@ In some sense, Attention Rollout is more restrictive compared to Attention Flow,
 
 &lt;p&gt;Here, we explain how information from different positions in a lower layer, $L$, are integrated using multi-head self-attention, to compute the higher layer, $L+1$ representations.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;img/capsule_images/multihead_att-1024x463.png&quot; alt=&quot;&quot; /&gt;
+&lt;p&gt;&lt;img src=&quot;img/capsule_images/multihead_att-1024x463.png&quot; alt=&quot;&quot; style=&quot;margin-bottom: 20px&quot; /&gt;
 First of all, we should note that the representations for each position at each layer are seen as (key, value, query) triplets. Thus, for each layer, we have three matrices (K, Q, V), where each row in these matrices corresponds to a position.&lt;/p&gt;
 
 &lt;p&gt;The input to attention head $i$ is a linear  transformation of the K, Q and V:
@@ -264,18 +264,18 @@ $K_i = W_k^{i}K$, $V_i = W_v^{i}V$, $Q_i = W_q^{i}Q$&lt;/p&gt;
 
 &lt;h4 id=&quot;matrix-capsules-with-em-routing&quot;&gt;Matrix Capsules with EM routing:&lt;/h4&gt;
 
-&lt;p&gt;Capsule networks, in the first place, were proposed to processes images in a more natural way. In 2000, Hinton and Ghahramani argued that the image recognition systems which rely on a separate preprocessing stage suffer from the fact that the segmenter does not know the general information about the object and propose to have a system in which recognition and segmentation are done simultaneously. The idea is that in order to recognize parts (segments) of an object, you need to first have a general understanding of what the object is. In other words, we need to have both top-down and bottom-up flow of information. This can also be true for NLP problems. An example of this is parsing garden path sentences. Capsule networks can be viewed as a CNN, where there is some structure on the outputs of the kernels and pooling is replaced by dynamic routing.&lt;/p&gt;
+&lt;p&gt;Capsule networks, in the first place, were proposed to processes images in a more natural way. In 2000, Hinton and Ghahramani argued that the image recognition systems which rely on a separate preprocessing stage suffer from the fact that the segmenter does not know the general information about the object and propose to have a system in which recognition and segmentation are done simultaneously &lt;a class=&quot;citation&quot; href=&quot;#hinton2000learning&quot;&gt;(Hinton et al., 2000)&lt;/a&gt;. The idea is that in order to recognize parts (segments) of an object, you need to first have a general understanding of what the object is. In other words, we need to have both top-down and bottom-up flow of information. This can also be true for NLP problems. An example of this is parsing garden path sentences. Capsule networks can be viewed as a CNN, where there is some structure on the outputs of the kernels and pooling is replaced by dynamic routing.&lt;/p&gt;
 
 &lt;blockquote&gt;
 
   &lt;p&gt;A capsule is a unit that learns to detect an implicitly defined entity over a limited domain of viewing conditions. It outputs both the probability that the entity is present and a set of “instantiation parameters” that reflect the features of the entity such as pose information. The presence probability is viewpoint invariant, e.g. it does not change as the entity moves or rotates, whereas the instantiation parameters are viewpoint equivariant, e.g. they change if the entity moves or rotates.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;img/capsule_images/capsule_scalar-1-1024x408.png&quot; alt=&quot;&quot; style=&quot;width: 600px&quot; /&gt;
+&lt;p&gt;&lt;img src=&quot;img/capsule_images/capsule_scalar-1-1024x408.png&quot; alt=&quot;&quot; style=&quot;width: 600px; margin-bottom: 20px;&quot; /&gt;
 In matrix capsules with EM routing, they use a capsule network that includes a standard convolutional layer, and a layer of primary capsules followed by several layers of convolutional capsules. In this version of the capsule net, the instantiation parameters are represented as a matrix called the pose matrix.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;img/capsule_images/capsule_arch-1024x245.png&quot; alt=&quot;&quot; style=&quot;width: 600px&quot; /&gt;
-Each capsule layer has a fixed number of capsule types (similar to filters in CNNs), which is chosen as a hyperparameter. A capsule is an instance of a capsule type.  Each capsule type is meant to correspond to an entity, and all capsules of the same type are extracting the same entity at different positions. In lower layers, capsule types learn to recognize low-level entities, e.g. eyes, and in higher layers, they are supposed to present more high-level entities, e.g. faces.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;img/capsule_images/capsule_arch-1024x245.png&quot; alt=&quot;&quot; style=&quot;width: 600px; margin-bottom: 20px&quot; /&gt;
+Each capsule layer has a fixed number of capsule types (similar to filters in CNNs), which is chosen as a hyper-parameter. A capsule is an instance of a capsule type.  Each capsule type is meant to correspond to an entity, and all capsules of the same type are extracting the same entity at different positions. In lower layers, capsule types learn to recognize low-level entities, e.g. eyes, and in higher layers, they are supposed to present more high-level entities, e.g. faces.&lt;/p&gt;
 
 &lt;p&gt;In the convolutional capsule layers, the weight matrix of each capsule type is convolved over the input, similar to how kernels are applied in CNNs. This results in different instances of each capsule type.&lt;br /&gt;
 &lt;img src=&quot;img/capsule_images/capsule_routing-1024x669.png&quot; alt=&quot;&quot; style=&quot;width: 700px&quot; /&gt;
@@ -316,7 +316,7 @@ We can use EM to compute representations of $\Omega_{L+1}$ based on the represen
 &lt;h5 id=&quot;dynamic-routing-vs-attention&quot;&gt;Dynamic Routing vs Attention&lt;/h5&gt;
 
 &lt;p&gt;In capsule networks, we use dynamic routing to determine the connection from the lower layer to the higher layer, in par with this in transformers we employ self-attention to decide how to attend to different parts of the input and how information from different parts contribute to the updates of representations. We can map the attention weights in transformer to assignment probabilities in capsule net; however, in capsule nets, the assignment probabilities are computed bottom-up, whereas in transformer the attention is computed top-down. i.e. the attention weights in transformer are distributed over the representations in the lower layer, but in capsule nets, the assignment probabilities are distributed over the higher layer capsules. Note that, it is true that in transformer, the attention probabilities are computed based on the similarity of the representations in the same layer, but this is equivalent to the assumption that the higher layer is first initialized with the representations from the lower layer and then it is updated based on the attention probabilities computed by comparing these initial representations with the representations from the lower layer.
-&lt;img src=&quot;img/capsule_images/attention_dir-1024x444.png&quot; alt=&quot;&quot; style=&quot;width: 500px&quot; /&gt;
+&lt;img src=&quot;img/capsule_images/attention_dir-1024x444.png&quot; alt=&quot;&quot; style=&quot;width: 500px; margin-bottom: 20px&quot; /&gt;
 The bottom-up attention in capsule nets along with having a presence probability and the penalty for activating capsules, explicitly allows the model to abstract away the concepts as the information propagates to the higher layers. On the other hand, in transformer, the top-down attention mechanism allows the nodes in the higher layer not to attend to some of the nodes in the lower layer and filter out the information that is captured in those nodes.&lt;/p&gt;
 
 &lt;p&gt;Now, the question is, why do we need EM for dynamic routing in capsule nets? Why can’t we use a similar mechanism used to compute attentions in transformer to calculate assignment probabilities in capsule nets?&lt;/p&gt;
@@ -328,7 +328,7 @@ The bottom-up attention in capsule nets along with having a presence probability
 &lt;h5 id=&quot;capsule-types-and-attention-heads&quot;&gt;Capsule Types and Attention Heads:&lt;/h5&gt;
 
 &lt;p&gt;Both capsule nets and transformer architectures have a mechanism which allows the models to process the representations from a lower layer from different perspectives to compute the representation in the higher layer. In capsule nets,  there is a different transformation matrix between each pair of capsule types from two adjacent layers. Thus capsules that are instantiations of different capsule types view the capsules in the previous layer from a different point of view. In par with this, in transformer, we have multiple attention heads, where each attention head uses a different set of transformation matrices to compute the projection of key, value and query.  So, each attention heads works on a different projection of the representations in the lower layer. Both these mechanisms serve a similar purpose as having different kernels in convolutional neural networks.
-&lt;img src=&quot;img/capsule_images/attention_vs_dynamicrouting.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;img/capsule_images/attention_vs_dynamicrouting.png&quot; alt=&quot;&quot; style=&quot;width: 800px; margin-bottom: 20px&quot; /&gt;
 Now, what is different between capsule networks and transformers in this regard is that, in capsule networks, while capsules with different types have a different point of view, in the end, assignment probabilities for a capsule in the lower layer are normalized over all capsule in the higher layer regardless of their type. Hence we have one assignment distribution per each capsule in the lower layer. Whereas in transformer, each attention head independently processes its input. This means we have a separate attention distribution for each position in the higher layer, and the outputs of the attention heads are only combined in the last step, where they are simply concatenated and linearly transformed to compute the final output of the multi-headed attention block.&lt;/p&gt;
 
 &lt;h5 id=&quot;positional-embedding-and-coordinate-addition&quot;&gt;Positional embedding and coordinate addition:&lt;/h5&gt;
