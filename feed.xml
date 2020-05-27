@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-27</pubDate>
-    <lastBuildDate>Wed, 27 May 2020 11:01:15 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2020 11:13:48 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -120,7 +120,7 @@ In this post, I focus on problems arising when we move to the higher layers of a
 &lt;!-- ![Raw Attention Weights](img/flow_images/rat_deep_1.png){:style=&quot;height: 360px; float: right&quot;} --&gt;&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
-&lt;div class=&quot;image-wrapper&quot; style=&quot;height: 400px; display: block; float:right; padding:0px; margin-bottom:1px; margin-top:1px; margin-right:1px&quot;&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;height: 400px; display: block; float:right; padding:0px; margin-bottom:40px; margin-top:0px; margin-right:1px&quot;&gt;
     
         &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/rat_deep_1.png&quot; alt=&quot;&quot; style=&quot;height:400px&quot; /&gt;
     
@@ -194,6 +194,16 @@ In the figure below, we show how Attention Rollout works in a simple attention D
 &lt;h5 id=&quot;how-does-this-all-works-in-practice&quot;&gt;How does this all works in practice?&lt;/h5&gt;
 
 &lt;p&gt;&lt;img src=&quot;img/flow_images/bert_example.png&quot; alt=&quot;Raw Attention Weights&quot; style=&quot;height: 360px; float: right&quot; /&gt;&lt;/p&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; &quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/bert_example.png&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Visualing attention for a 24-layer BERT&lt;/p&gt;
+    
+&lt;/div&gt;
 
 &lt;p&gt;Let’s see an example of how these techniques work in practice!
 Applying these techniques to a pretrained 24-layer BERT model, we get some insights on how the models resolve pronouns.
