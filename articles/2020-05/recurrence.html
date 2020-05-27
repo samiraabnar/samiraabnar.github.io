@@ -197,10 +197,13 @@ Here, we distinguish between three main sources of this bias:</p>
 
 <p>We can empirically examine the benefits of each of these biases. To do so, we will modify the standard Transformer to have an architecture with specifications that are similar to RNNs and we measure how the performance of the models change as we include more aspects of the recurrent inductive bias.</p>
 
-<p><img src="img/rnn_images/rnn.png" alt="rnn" width="200px" style="float: left;" />
-<img src="img/rnn_images/transformer.png" alt="transformer" width="200px" style="float: left;" />
-<img src="img/rnn_images/seqtrans.png" alt="sequential transformer" width="200px" style="float: left;" />
-<img src="img/rnn_images/utrans.png" alt="sequential universal transformer" width="200px" /></p>
+<div width="100%" style="align-items:center">
+![rnn](img/rnn_images/rnn.png){:width="200px" style="float: left;"}
+![transformer](img/rnn_images/transformer.png){:width="200px" style="float: left;"}
+![sequential transformer](img/rnn_images/seqtrans.png){:width="200px" style="float: left;"}
+![sequential universal transformer](img/rnn_images/utrans.png){:width="200px" style="float: left;"}
+</div>
+<div style="float: none"></div>
 
 <p>We employ a standard two-layer unidirectional LSTM and three different variants of Transformers:
 (1) transformer: a standard six-layer Transformer encoder with a class token (<kbd>CLS</kbd>) for classification (BERT style),
