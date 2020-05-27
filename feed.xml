@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-27</pubDate>
-    <lastBuildDate>Wed, 27 May 2020 14:28:23 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2020 14:36:02 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -29,7 +29,7 @@ Here, we distinguish between three main sources of this bias:&lt;/p&gt;
 
 &lt;p&gt;We can empirically examine the merits of each of these biases. To do so, we will modify the standard Transformer to have an architecture with specifications that are similar to RNNs and we measure how the performance of the models change as we include more aspects of the recurrent inductive bias.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;rnn_images/models.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;img/rnn_images/models.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We employ a standard two-layer unidirectional LSTM and three different variants of Transformers:
 (1) \transformer: a standard six-layer Transformer encoder with a class token (\texttt{CLS}) for classification (BERT style),
