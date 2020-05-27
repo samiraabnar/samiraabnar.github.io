@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-27</pubDate>
-    <lastBuildDate>Wed, 27 May 2020 12:01:46 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2020 12:06:47 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -122,7 +122,7 @@ In this post, I focus on problems arising when we move to the higher layers of a
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 400px; display: block; float:right; padding:0px; margin-bottom:40px; margin-top:0px; margin-right:1px&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/rat_deep_1.png&quot; alt=&quot;&quot; style=&quot;height:400px&quot; /&gt;
+        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/rat_deep_1.png&quot; alt=&quot;&quot; style=&quot;width: ; height:400px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Raw attention weights&lt;/p&gt;
@@ -141,7 +141,7 @@ In the subject-verb agreement task, given a sentence up to its verb, the goal is
 &lt;!-- _includes/image.html --&gt;&lt;/p&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; display: block; float:left&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_block.png&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_block.png&quot; alt=&quot;&quot; style=&quot;width: ; height:300px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Transformer encoder block&lt;/p&gt;
@@ -167,7 +167,7 @@ In the figure below, we show how Attention Rollout works in a simple attention D
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; &quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Attention Rollout&lt;/p&gt;
@@ -184,7 +184,7 @@ In the figure below, we show how Attention Rollout works in a simple attention D
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Attention Flow&lt;/p&gt;
@@ -200,7 +200,7 @@ What we do here is to feed the model with a sentence, masking a pronoun. Next, w
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 360px; &quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/bert_example.png&quot; alt=&quot;&quot; style=&quot;height:360px&quot; /&gt;
+        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/bert_example.png&quot; alt=&quot;&quot; style=&quot;width: ; height:360px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Visualing attention for a 24-layer BERT&lt;/p&gt;
