@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-27</pubDate>
-    <lastBuildDate>Wed, 27 May 2020 15:36:56 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2020 15:42:34 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -29,10 +29,10 @@ Here, we distinguish between three main sources of this bias:&lt;/p&gt;
 
 &lt;p&gt;We can empirically examine the benefits of each of these biases. To do so, we will modify the standard Transformer to have an architecture with specifications that are similar to RNNs and we measure how the performance of the models change as we include more aspects of the recurrent inductive bias.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;img/rnn_images/rnn.png&quot; alt=&quot;&quot; width=&quot;360px&quot; /&gt;
-&lt;img src=&quot;img/rnn_images/transformer.png&quot; alt=&quot;&quot; width=&quot;360px&quot; /&gt;
-&lt;img src=&quot;img/rnn_images/seqtrans.png&quot; alt=&quot;&quot; width=&quot;360px&quot; /&gt;
-&lt;img src=&quot;img/rnn_images/utrans.png&quot; alt=&quot;&quot; width=&quot;360px&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;img/rnn_images/rnn.png&quot; alt=&quot;&quot; width=&quot;80%&amp;quot;: style=&amp;quot;float: left;&quot; /&gt;
+&lt;img src=&quot;img/rnn_images/transformer.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;img/rnn_images/seqtrans.png&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;img/rnn_images/utrans.png&quot; alt=&quot;&quot; width=&quot;80%&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We employ a standard two-layer unidirectional LSTM and three different variants of Transformers:
 (1) transformer: a standard six-layer Transformer encoder with a class token (&lt;kbd&gt;CLS&lt;/kbd&gt;) for classification (BERT style),
@@ -52,7 +52,7 @@ In this task, examples are grouped into different levels of difficulty based on 
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:c6e920ab&quot;&gt;
-      &lt;p&gt;Agreement attractors are intervening nouns with a different number than the number of the subject. E.g., given the input &lt;kbd&gt;The **keys** to the **cabinet** (is?/are?).&lt;/kbd&gt;’’, the word &lt;kbd&gt;cabinet&lt;/kbd&gt; is an agreement attractor. &lt;a href=&quot;#fnref:c6e920ab&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;Agreement attractors are intervening nouns with a different number than the number of the subject. E.g., given the input &lt;kbd&gt;The &lt;b&gt;keys&lt;/b&gt; to the &lt;b&gt;cabinet&lt;/b&gt; {is?/are?}.&lt;/kbd&gt;’’, the word &lt;kbd&gt;cabinet&lt;/kbd&gt; is an agreement attractor. &lt;a href=&quot;#fnref:c6e920ab&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:af15b0ee&quot;&gt;
       &lt;p&gt;Confidence calibration captures how well likelihood (confidence) of the prediction of the model predicts its accuracy. For a well-calibrated model, if we bin the confidence scores and compute the accuracy for each bin, the accuracies are perfectly correlated with the confidence values. The Expected Calibration Error (ECE) is computed as the distance between the calibration curve of the model and the perfect calibration curve. &lt;a href=&quot;#fnref:af15b0ee&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;

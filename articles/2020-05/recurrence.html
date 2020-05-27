@@ -197,10 +197,10 @@ Here, we distinguish between three main sources of this bias:</p>
 
 <p>We can empirically examine the benefits of each of these biases. To do so, we will modify the standard Transformer to have an architecture with specifications that are similar to RNNs and we measure how the performance of the models change as we include more aspects of the recurrent inductive bias.</p>
 
-<p><img src="img/rnn_images/rnn.png" alt="" width="360px" />
-<img src="img/rnn_images/transformer.png" alt="" width="360px" />
-<img src="img/rnn_images/seqtrans.png" alt="" width="360px" />
-<img src="img/rnn_images/utrans.png" alt="" width="360px" /></p>
+<p><img src="img/rnn_images/rnn.png" alt="" width="80%&quot;: style=&quot;float: left;" />
+<img src="img/rnn_images/transformer.png" alt="" />
+<img src="img/rnn_images/seqtrans.png" alt="" />
+<img src="img/rnn_images/utrans.png" alt="" width="80%" /></p>
 
 <p>We employ a standard two-layer unidirectional LSTM and three different variants of Transformers:
 (1) transformer: a standard six-layer Transformer encoder with a class token (<kbd>CLS</kbd>) for classification (BERT style),
@@ -220,7 +220,7 @@ In this task, examples are grouped into different levels of difficulty based on 
 <div class="footnotes">
   <ol>
     <li id="fn:c6e920ab">
-      <p>Agreement attractors are intervening nouns with a different number than the number of the subject. E.g., given the input <kbd>The **keys** to the **cabinet** (is?/are?).</kbd>’’, the word <kbd>cabinet</kbd> is an agreement attractor. <a href="#fnref:c6e920ab" class="reversefootnote">&#8617;</a></p>
+      <p>Agreement attractors are intervening nouns with a different number than the number of the subject. E.g., given the input <kbd>The <b>keys</b> to the <b>cabinet</b> {is?/are?}.</kbd>’’, the word <kbd>cabinet</kbd> is an agreement attractor. <a href="#fnref:c6e920ab" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:af15b0ee">
       <p>Confidence calibration captures how well likelihood (confidence) of the prediction of the model predicts its accuracy. For a well-calibrated model, if we bin the confidence scores and compute the accuracy for each bin, the accuracies are perfectly correlated with the confidence values. The Expected Calibration Error (ECE) is computed as the distance between the calibration curve of the model and the perfect calibration curve. <a href="#fnref:af15b0ee" class="reversefootnote">&#8617;</a></p>
