@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-27</pubDate>
-    <lastBuildDate>Wed, 27 May 2020 11:16:51 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2020 12:01:46 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -105,18 +105,18 @@ Through distillation, the generalisation behaviour of the teacher that is affect
 &lt;p&gt;Attention has become the key building block of neural sequence processing models,
 and visualising attention weights is the easiest and most popular approach to interpret a model’s decisions and to gain insights about its internals.
 Although it is wrong to equate attention with explanation &lt;a class=&quot;citation&quot; href=&quot;#pruthi2019learning&quot;&gt;(Pruthi et al., 2019; Jain &amp;amp; Wallace, 2019)&lt;/a&gt;, it can still offer plausible and meaningful interpretations &lt;a class=&quot;citation&quot; href=&quot;#wiegreffe2019attention&quot;&gt;(Wiegreffe &amp;amp; Pinter, 2019; Vashishth et al., 2019; Vig, 2019)&lt;/a&gt;.
-In this post, I focus on problems arising when we move to the higher layers of a model, due to lack of token identifiability of the embeddings in higher layers &lt;a class=&quot;citation&quot; href=&quot;#brunner2019validity&quot;&gt;(Brunner et al., 2020)&lt;/a&gt;. I will explain the ideas proposed in &lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot;&gt;our paper&lt;/a&gt; for visualising and interpreting attention weights taking this problem into account!&lt;/p&gt;
+In this post, I focus on problems arising when we move to the higher layers of a model, due to lack of token identifiability of the embeddings in higher layers &lt;a class=&quot;citation&quot; href=&quot;#brunner2019validity&quot;&gt;(Brunner et al., 2020)&lt;/a&gt;. I discuss the ideas proposed in &lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot;&gt;our paper&lt;/a&gt; for visualising and interpreting attention weights taking this problem into account!&lt;/p&gt;
 
 &lt;!--more--&gt;
 
-&lt;p&gt;Here, I will explain two simple but effective methods, called &lt;strong&gt;Attention Rollout&lt;/strong&gt; and &lt;strong&gt;Attention Flow&lt;/strong&gt;, to compute attention scores to input tokens  (i.e., &lt;em&gt;token attention&lt;/em&gt;) at each layer, by taking raw attentions (i.e., &lt;em&gt;embedding attention&lt;/em&gt;) of that layer as well as those from the precedent layers.&lt;/p&gt;
+&lt;p&gt;Here, I explain two simple but effective methods, called &lt;strong&gt;Attention Rollout&lt;/strong&gt; and &lt;strong&gt;Attention Flow&lt;/strong&gt;, to compute attention scores to input tokens  (i.e., &lt;em&gt;token attention&lt;/em&gt;) at each layer, by taking raw attentions (i.e., &lt;em&gt;embedding attention&lt;/em&gt;) of that layer as well as those from the precedent layers.&lt;/p&gt;
 
 &lt;p&gt;Let’s first discuss the token identifiability problem in Transformers in more details.&lt;/p&gt;
 
 &lt;h5 id=&quot;attention-to-embeddings-vs-attention-to-input-tokens&quot;&gt;Attention to Embeddings vs Attention to Input Tokens&lt;/h5&gt;
-&lt;p&gt;In the Transformer model, in each layer, &lt;em&gt;self-attention&lt;/em&gt; combines information from attended embeddings of the previous layer to compute new embeddings for each token. Thus, across layers of the Transformer, information originating from different tokens gets increasingly mixed (Check out the &lt;a class=&quot;citation&quot; href=&quot;#brunner2019validity&quot;&gt;(Brunner et al., 2020)&lt;/a&gt; for a more through discussion on how identity of tokens get less and less represented in the embedding of that position as we go into deeper layers.).&lt;/p&gt;
+&lt;p&gt;In the Transformer model, in each layer, &lt;em&gt;self-attention&lt;/em&gt; combines information from attended embeddings of the previous layer to compute new embeddings for each token. Thus, across layers of the Transformer, information originating from different tokens gets increasingly mixed (Check out the &lt;a class=&quot;citation&quot; href=&quot;#brunner2019validity&quot;&gt;(Brunner et al., 2020)&lt;/a&gt; for a more thorough discussion on how the identity of tokens get less and less represented in the embedding of that position as we go into deeper layers.).&lt;/p&gt;
 
-&lt;p&gt;Hence, when looking at the $i$th self-attention layer, we can not interpret the attention weights as the attention to the input tokens, i.e., embeddings in the input layer. This makes attention weights unreliable as explanation probes to answer questions like “Which part of the input is the most important when generating the output?” (except for the very first layer where the self-attention is directly applied on the input tokens.)
+&lt;p&gt;Hence, when looking at the $i$th self-attention layer, we can not interpret the attention weights as the attention to the input tokens, i.e., embeddings in the input layer. This makes attention weights unreliable as explanation probes to answer questions like “Which part of the input is the most important when generating the output?” (except for the very first layer where the self-attention is directly applied to the input tokens.)
 &lt;!-- ![Raw Attention Weights](img/flow_images/rat_deep_1.png){:style=&quot;height: 360px; float: right&quot;} --&gt;&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
@@ -129,12 +129,12 @@ In this post, I focus on problems arising when we move to the higher layers of a
     
 &lt;/div&gt;
 
-&lt;p&gt;Let’s take a look at the example in the figure that shows how attention weights in a Transformer model change across layers. In this figure, we seen the attention weights of a 6-layer Transformer encoder trained on the subject-verb agreement classification task for an example sentence.
-In the subject-verb agreement task, given a sentence up to its verb, the goal is to classify the number of the verb. To be able to do this, a model needs to correctly recognise the subject of that verb. For the example in the figure, &lt;kbd&gt;The key to the cabinets &amp;lt;verb&amp;gt;&lt;/kbd&gt;, intuitively we expect the model to attend to the token &lt;kbd&gt;key&lt;/kbd&gt;, which is the subject of the missing verb, to correctly classify the verb number. Or the token &lt;kbd&gt;cabinets&lt;/kbd&gt;, the attractor in case it is making a mistake.&lt;/p&gt;
+&lt;p&gt;Let’s take a look at the example in the figure that shows how attention weights in a Transformer model change across layers. In this figure, we see the attention weights of a 6-layer Transformer encoder trained on the subject-verb agreement classification task for an example sentence.
+In the subject-verb agreement task, given a sentence up to its verb, the goal is to classify the number of the verb. To be able to do this, a model needs to recognise the subject of that verb correctly. For the example in the figure, &lt;kbd&gt;The key to the cabinets &amp;lt;verb&amp;gt;&lt;/kbd&gt;, intuitively we expect the model to attend to the token &lt;kbd&gt;key&lt;/kbd&gt;, which is the subject of the missing verb, to classify the verb number correctly. Or the token &lt;kbd&gt;cabinets&lt;/kbd&gt;, the attractor in case it is making a mistake.&lt;/p&gt;
 
-&lt;p&gt;However, if we only look at the attention weights in the last layer, it seems all input tokens have more or less equal contributions to the output of the model, since the attention weights from the &lt;kbd&gt;CLS&lt;/kbd&gt; token in this layer are almost uniformly distributed over all embeddings. But if we also take into account the attention weights in the previous layers, we realise that some of the input tokens are getting higher attention in earlier layers. In particular, in layer 1, we see that the embedding for the verb is mostly attending to the token &lt;kbd&gt;key&lt;/kbd&gt; and in the third layer, the &lt;kbd&gt;CLS&lt;/kbd&gt; token is mostly attending to the embedding of the verb.&lt;/p&gt;
+&lt;p&gt;However, if we only look at the attention weights in the last layer, it seems all input tokens have more or less equal contributions to the output of the model since the attention weights from the &lt;kbd&gt;CLS&lt;/kbd&gt; token in this layer are almost uniformly distributed over all embeddings. But if we also take into account the attention weights in the previous layers, we realise that some of the input tokens are getting more attention in earlier layers. Notably, in layer 1, the embedding for the verb is mostly attending to the token &lt;kbd&gt;key&lt;/kbd&gt;, while in the third layer, the &lt;kbd&gt;CLS&lt;/kbd&gt; token is mostly attending to the embedding of the verb.&lt;/p&gt;
 
-&lt;p&gt;So, if we want to use attention weights to understand how a self-attention network works, we need to take the flow of information in the network into account. One way to do this is to use attention weights to approximate the information flow, while taking different aspects of the architecture of the model into account, e.g., how multiple heads interact or the residual connections.&lt;/p&gt;
+&lt;p&gt;So, if we want to use attention weights to understand how a self-attention network works, we need to take the flow of information in the network into account. One way to do this is to use attention weights to approximate the information flow while taking different aspects of the architecture of the model into account, e.g., how multiple heads interact or the residual connections.&lt;/p&gt;
 
 &lt;h5 id=&quot;information-flow-graph-of-a-transformer-encoder&quot;&gt;Information Flow Graph of a Transformer Encoder&lt;/h5&gt;
 &lt;p&gt;Let’s take a look at the schematic view of self-attention layer in the Transformer Model introduced in &lt;a class=&quot;citation&quot; href=&quot;#vaswani2017attention&quot;&gt;(Vaswani et al., 2017)&lt;/a&gt;(figure below):
@@ -152,15 +152,15 @@ In the subject-verb agreement task, given a sentence up to its verb, the goal is
 
 &lt;p&gt;We can create the information flow graph of a Transformer model, using this equation as an approximation of how information propagates in the self-attention layers. Using this graph, we can take the attention weights in all layers into account and translate the attention weights in each layer to attention to input tokens.&lt;/p&gt;
 
-&lt;p&gt;The information flow in the network can be modelled with a &lt;a href=&quot;https://en.wikipedia.org/wiki/Directed_acyclic_graph&quot;&gt;&lt;em&gt;DAG&lt;/em&gt; (Directed Acyclic Graph)&lt;/a&gt;, in which input tokens and hidden embeddings are the nodes, and edges are the attentions from the nodes in each layer to those in the previous layer, and the weights of the edges are the attention weights.
-Note that, we augment this graph with residual connections to more accurately model the connections between input tokens and hidden embedding.&lt;/p&gt;
+&lt;p&gt;We can model the information flow in the network with a &lt;a href=&quot;https://en.wikipedia.org/wiki/Directed_acyclic_graph&quot;&gt;&lt;em&gt;DAG&lt;/em&gt; (Directed Acyclic Graph)&lt;/a&gt;, in which input tokens and hidden embeddings are the nodes, edges are the attentions from the nodes in each layer to those in the previous layer, and the weights of the edges are the attention weights.
+Note that, we augment this graph with residual connections to more accurately model the connections between input tokens and hidden embeddings.&lt;/p&gt;
 
 &lt;h5 id=&quot;from-attention-to-embeddings-to-attention-to-tokens&quot;&gt;From Attention to Embeddings to Attention to Tokens&lt;/h5&gt;
 &lt;p&gt;Given this graph, based on how we interpret the weights associated with the edges, which are the raw attention weights, we can use different techniques to compute the attention from each node in the graph to the input tokens.&lt;/p&gt;
 
 &lt;h6 id=&quot;attention-rollout&quot;&gt;Attention Rollout&lt;/h6&gt;
 
-&lt;p&gt;Assume the attention weights determine  the proportion of the incoming information that can propagate through each link, i.e., the identities of input tokens are linearly combined through the layers based on the attention weights. Then, to compute the attention to input tokens in layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt; given all the attention weight in the previous layers, we recursively multiply the attention weights matrices, starting from the input layer up to layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt;.
+&lt;p&gt;Assume the attention weights determine the proportion of the incoming information that can propagate through each link, i.e., the identities of input tokens are linearly combined through the layers based on the attention weights. Then, to compute the attention to input tokens in layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt; given all the attention weight in the previous layers, we recursively multiply the attention weights matrices, starting from the input layer up to layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt;.
 In the figure below, we show how Attention Rollout works in a simple attention DAG. In this example, the goal is to compute the attention from the embedding of the last position in the last layer to the first input token. We see that the attention weights in the second layer are multiplied by the attention weights from the first layer to compute the final attention score.&lt;/p&gt;
 
 &lt;!-- &lt;div style=&quot;width: 700; display:inline-block; clear: right; vertical-align:middle;&quot;&gt; --&gt;
@@ -179,7 +179,7 @@ In the figure below, we show how Attention Rollout works in a simple attention D
 &lt;h6 id=&quot;attention-flow&quot;&gt;Attention Flow&lt;/h6&gt;
 &lt;p&gt;If we view the attention weights as the capacity of each link, the problem of computing the attention in layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt; to the input tokens reduces to the &lt;a href=&quot;https://en.wikipedia.org/wiki/Maximum_flow_problem&quot;&gt;maximum flow problem&lt;/a&gt;, where we want to find the maximum flow value from each input token to each position in layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt;.&lt;/p&gt;
 
-&lt;p&gt;In the figure below, we see the same example as the one we saw for the Attention Rollout, except here the attention weights are viewed as the capacity of the edges. Thus, the total attention score of a path is the smallest capacity of the edges in that path. This is a very simple example and computing maximum flow can be more complicated when paths overlap.&lt;/p&gt;
+&lt;p&gt;In the figure below, we see the same example like the one we saw for the Attention Rollout, except here the attention weights are viewed as the capacity of the edges. Thus, the total attention score of a path is the smallest capacity of the edges in that path. This is a straightforward example, and maximum computing flow can be more complicated when paths overlap.&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px;&quot;&gt;
@@ -191,7 +191,11 @@ In the figure below, we show how Attention Rollout works in a simple attention D
     
 &lt;/div&gt;
 
-&lt;h5 id=&quot;how-does-this-all-works-in-practice&quot;&gt;How does this all works in practice?&lt;/h5&gt;
+&lt;h5 id=&quot;how-does-this-all-work-in-practice&quot;&gt;How does this all work in practice?&lt;/h5&gt;
+
+&lt;p&gt;Let’s see an example of how these techniques work in practice!
+Applying these techniques to a pretrained 24-layer BERT model, we get some insights on how the models resolve pronouns.
+What we do here is to feed the model with a sentence, masking a pronoun. Next, we look at the prediction of the model for the masked pronoun and compare the probabilities predicted for &lt;kbd&gt;her&lt;/kbd&gt; and &lt;kbd&gt;his&lt;/kbd&gt;.&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 360px; &quot;&gt;
@@ -203,21 +207,16 @@ In the figure below, we show how Attention Rollout works in a simple attention D
     
 &lt;/div&gt;
 
-&lt;p&gt;Let’s see an example of how these techniques work in practice!
-Applying these techniques to a pretrained 24-layer BERT model, we get some insights on how the models resolve pronouns.
-What we do here is to feed the model with a sentence, masking a pronoun. Next, we look at the prediction of the model for the masked pronoun and compare the probabilities predicted for &lt;kbd&gt;her&lt;/kbd&gt; and &lt;kbd&gt;his&lt;/kbd&gt;.&lt;/p&gt;
-
 &lt;p&gt;As we can see, in the first example (figure a), the prediction of the model is &lt;kbd&gt;his&lt;/kbd&gt;. Hence, we expect the model to attend to the word &lt;kbd&gt;author&lt;/kbd&gt; rather than &lt;kbd&gt;Sara&lt;/kbd&gt;.
 In this case, both Attention Rollout and Attention Flow are consistent with this intuition.
 Whereas, the final layer of Raw Attention does not seem to be consistent with the prediction of the models, and it varies a lot across different layers.&lt;/p&gt;
 
-&lt;p&gt;In the second example, the prediction of the model is &lt;kbd&gt;her&lt;/kbd&gt;, hence, we expect the model to pay more attention to the word &lt;kbd&gt;Mary&lt;/kbd&gt;. However, both Raw Attention weights and Attention Rollout show that the model is attending to &lt;kbd&gt;John&lt;/kbd&gt;. In this case, only Attention Flow weights are consistent with our intuition and the prediction of the model.&lt;/p&gt;
+&lt;p&gt;In the second example, the prediction of the model is &lt;kbd&gt;her&lt;/kbd&gt;, hence, we expect the model to pay more attention to the word &lt;kbd&gt;Mary&lt;/kbd&gt;. However, both Raw Attention weights and Attention Rollout show that the model is attending to &lt;kbd&gt;John&lt;/kbd&gt;. In this case, only Attention Flow weights are consistent with our intuition and the prediction of the model.
+In some sense, Attention Rollout is more restrictive compared to Attention Flow, and it provides us with more exaggerated differences between attention scores to different input tokens (because it multiplies the weights). This can be a source of error for Attention Rollout considering the approximations we have in these techniques.&lt;/p&gt;
 
-&lt;p&gt;In some sense Attention Rollout is more restrictive compared to Attention Flow, and it provides us with more exaggerated differences between attention scores to different input tokens (because it multiplies the weights). This can be a source of error for Attention Rollout considering the approximations we have in these techniques.&lt;/p&gt;
+&lt;p&gt;Note that, both Attention Rollout and Attention Flow are  &lt;strong&gt;post hoc methods for visualisation and interpretation purposes&lt;/strong&gt; and they do not provide new attention weights to be used during training or inference.&lt;/p&gt;
 
-&lt;p&gt;Note that, both Attention Rollout and Attention Flow are suggested as post-hoc methods for visualisation and interpretation purposes and they do not provide new attention weights to be used during training or inference.&lt;/p&gt;
-
-&lt;p&gt;To see more examples, you can try out &lt;a href=&quot;https://github.com/samiraabnar/attention_flow/blob/master/bert_example.ipynb&quot;&gt;this notebook&lt;/a&gt;. And for more details, such as how we can handle multiple heads take a look at out paper, “&lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot; title=&quot;Quantifying Attention Flow In Transformers&quot;&gt;Quantifying Attention Flow In Transformers&lt;/a&gt;”.&lt;/p&gt;
+&lt;p&gt;To see more examples, you can try out &lt;a href=&quot;https://github.com/samiraabnar/attention_flow/blob/master/bert_example.ipynb&quot;&gt;this notebook&lt;/a&gt;. And for more details, such as how we can handle multiple heads take a look at our paper, “&lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot; title=&quot;Quantifying Attention Flow In Transformers&quot;&gt;Quantifying Attention Flow In Transformers&lt;/a&gt;”.&lt;/p&gt;
 
 </description>
         <pubDate>2020-05-27</pubDate>
