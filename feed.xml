@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-27</pubDate>
-    <lastBuildDate>Wed, 27 May 2020 21:33:27 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2020 21:50:28 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -29,10 +29,18 @@ Here, we distinguish between three main sources of this bias:&lt;/p&gt;
 
 &lt;p&gt;We can empirically examine the benefits of each of these biases. To do so, we will modify the standard Transformer to have an architecture with specifications that are similar to RNNs and we measure how the performance of the models change as we include more aspects of the recurrent inductive bias.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;img/rnn_images/rnn.png&quot; alt=&quot;rnn&quot; width=&quot;250px&quot; style=&quot;float: left;&quot; /&gt;
+&lt;!--
+![rnn](img/rnn_images/rnn.png){:width=&quot;250px&quot; style=&quot;float: left;&quot;}
+![transformer](img/rnn_images/transformer.png){:width=&quot;250px&quot; style=&quot;float: left; margin-right:10px&quot;}
+![sequential transformer](img/rnn_images/seqtrans.png){:width=&quot;250px&quot; style=&quot;float: left; margin-right:10px&quot;}
+![sequential universal transformer](img/rnn_images/utrans.png){:width=&quot;250px&quot; style=&quot;margin-right:10px&quot;} --&gt;
+
+&lt;p style=&quot;display: felx; justify-content: space-around;&quot;&gt;
+&lt;img src=&quot;img/rnn_images/rnn.png&quot; alt=&quot;rnn&quot; width=&quot;250px&quot; style=&quot;float: left;&quot; /&gt;
 &lt;img src=&quot;img/rnn_images/transformer.png&quot; alt=&quot;transformer&quot; width=&quot;250px&quot; style=&quot;float: left; margin-right:10px&quot; /&gt;
 &lt;img src=&quot;img/rnn_images/seqtrans.png&quot; alt=&quot;sequential transformer&quot; width=&quot;250px&quot; style=&quot;float: left; margin-right:10px&quot; /&gt;
-&lt;img src=&quot;img/rnn_images/utrans.png&quot; alt=&quot;sequential universal transformer&quot; width=&quot;250px&quot; style=&quot;margin-right:10px&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;img/rnn_images/utrans.png&quot; alt=&quot;sequential universal transformer&quot; width=&quot;250px&quot; style=&quot;margin-right:10px&quot; /&gt;
+&lt;/p&gt;
 
 &lt;p&gt;We employ a standard two-layer unidirectional LSTM and three different variants of Transformers:
 (1) transformer: a standard six-layer Transformer encoder with a class token (&lt;kbd&gt;CLS&lt;/kbd&gt;) for classification (BERT style),
