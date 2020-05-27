@@ -203,16 +203,18 @@ Here, we distinguish between three main sources of this bias:</p>
 <img src="img/rnn_images/utrans.png" alt="" width="360px" /></p>
 
 <p>We employ a standard two-layer unidirectional LSTM and three different variants of Transformers:
-(1) \transformer: a standard six-layer Transformer encoder with a class token (\texttt{CLS}) for classification (BERT style),
-(2) \seqtransformer: a standard six-layer Transformer encoder with future masking where the classification is done using the representation of the last token\footnote{Note that future tokens are masked out by default when using transformer in the decoder mode, e.g., in a language modeling setup.},
-(3) \sequniversaltransformer: a six-layer Universal Transformer (missing reference) as a proxy for assessing the ability of models to capture hierarchical structure in natural language.
+(1) transformer: a standard six-layer Transformer encoder with a class token (<kbd>CLS</kbd>) for classification (BERT style),
+(2) sequential transformer: a standard six-layer Transformer encoder with future masking where the classification is done using the representation of the last token\footnote{Note that future tokens are masked out by default when using transformer in the decoder mode, e.g., in a language modeling setup.},
+(3) sequential universal transformer: a six-layer Universal Transformer (missing reference) as a proxy for assessing the ability of models to capture hierarchical structure in natural language.
 In this task, examples are grouped into different levels of difficulty based on the number of “agreement attractors”<sup id="fnref:c6e920ab"><a href="#fn:c6e920ab" class="footnote">1</a></sup>, and “distance” between the verb and its subject.</p>
 
-<p>We train these models to predict the number of the masked verb in a given sentence. As we can see in the plot blow, LSTM achieves the best performance. Interestingly, comparing all four models, we find that the performance steadily increases as more aspects of the recurrent inductive bias are included.</p>
+<p>We train these models to predict the number of the masked verb in a given sentence. As we can see in the plot blow, LSTM achieves the best performance. Interestingly, comparing all four models, we find that the performance steadily increases as more aspects of the recurrent inductive bias are included.
+<img src="img/rnn_images/accuracy.png" alt="" width="360px" /></p>
 
 <p>As another indicator of the quality of the solutions that different models converged to in the classification setup, we look into their confidence calibration<sup id="fnref:af15b0ee"><a href="#fn:af15b0ee" class="footnote">2</a></sup>.</p>
 
-<p>In figure below, we plot the Expected Calibration Error (ECE) of the models. In line with the trends in the performances of these models, the expected calibration error decreases as we move from standard Transformer toward LSTM.</p>
+<p>In figure below, we plot the Expected Calibration Error (ECE) of the models. In line with the trends in the performances of these models, the expected calibration error decreases as we move from standard Transformer toward LSTM.
+<img src="img/rnn_images/ece.png" alt="" width="360px" /></p>
 
 <p>Additionally, as shown in both above figures, we find a decreasing trend in the variance of the models, i.e., adding more inductive biases to the models decreases their variance. This is empirical evidence that supports the relation between variance of the solutions a model converges to and its inductive biases.</p>
 <div class="footnotes">

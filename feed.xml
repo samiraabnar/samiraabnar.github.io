@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-27</pubDate>
-    <lastBuildDate>Wed, 27 May 2020 15:12:38 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2020 15:33:02 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -35,16 +35,18 @@ Here, we distinguish between three main sources of this bias:&lt;/p&gt;
 &lt;img src=&quot;img/rnn_images/utrans.png&quot; alt=&quot;&quot; width=&quot;360px&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We employ a standard two-layer unidirectional LSTM and three different variants of Transformers:
-(1) \transformer: a standard six-layer Transformer encoder with a class token (\texttt{CLS}) for classification (BERT style),
-(2) \seqtransformer: a standard six-layer Transformer encoder with future masking where the classification is done using the representation of the last token\footnote{Note that future tokens are masked out by default when using transformer in the decoder mode, e.g., in a language modeling setup.},
-(3) \sequniversaltransformer: a six-layer Universal Transformer (missing reference) as a proxy for assessing the ability of models to capture hierarchical structure in natural language.
+(1) transformer: a standard six-layer Transformer encoder with a class token (&lt;kbd&gt;CLS&lt;/kbd&gt;) for classification (BERT style),
+(2) sequential transformer: a standard six-layer Transformer encoder with future masking where the classification is done using the representation of the last token\footnote{Note that future tokens are masked out by default when using transformer in the decoder mode, e.g., in a language modeling setup.},
+(3) sequential universal transformer: a six-layer Universal Transformer (missing reference) as a proxy for assessing the ability of models to capture hierarchical structure in natural language.
 In this task, examples are grouped into different levels of difficulty based on the number of “agreement attractors”&lt;sup id=&quot;fnref:c6e920ab&quot;&gt;&lt;a href=&quot;#fn:c6e920ab&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, and “distance” between the verb and its subject.&lt;/p&gt;
 
-&lt;p&gt;We train these models to predict the number of the masked verb in a given sentence. As we can see in the plot blow, LSTM achieves the best performance. Interestingly, comparing all four models, we find that the performance steadily increases as more aspects of the recurrent inductive bias are included.&lt;/p&gt;
+&lt;p&gt;We train these models to predict the number of the masked verb in a given sentence. As we can see in the plot blow, LSTM achieves the best performance. Interestingly, comparing all four models, we find that the performance steadily increases as more aspects of the recurrent inductive bias are included.
+&lt;img src=&quot;img/rnn_images/accuracy.png&quot; alt=&quot;&quot; width=&quot;360px&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;As another indicator of the quality of the solutions that different models converged to in the classification setup, we look into their confidence calibration&lt;sup id=&quot;fnref:af15b0ee&quot;&gt;&lt;a href=&quot;#fn:af15b0ee&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
-&lt;p&gt;In figure below, we plot the Expected Calibration Error (ECE) of the models. In line with the trends in the performances of these models, the expected calibration error decreases as we move from standard Transformer toward LSTM.&lt;/p&gt;
+&lt;p&gt;In figure below, we plot the Expected Calibration Error (ECE) of the models. In line with the trends in the performances of these models, the expected calibration error decreases as we move from standard Transformer toward LSTM.
+&lt;img src=&quot;img/rnn_images/ece.png&quot; alt=&quot;&quot; width=&quot;360px&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Additionally, as shown in both above figures, we find a decreasing trend in the variance of the models, i.e., adding more inductive biases to the models decreases their variance. This is empirical evidence that supports the relation between variance of the solutions a model converges to and its inductive biases.&lt;/p&gt;
 &lt;div class=&quot;footnotes&quot;&gt;
