@@ -9,29 +9,29 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="">
+  <meta name="description" content="In post we try to understand the nature of recurrent inductive bias. We provide empirical results to demonstrate the benefits of different sources of inducti...">
   <meta name="keywords" content="blog">
-  <meta name="author" content="Recurrent Inductive Bias | Samira Abnar">
+  <meta name="author" content="On the Merits of Recurrent Inductive Bias | Samira Abnar">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f5f5f5">
 
   <!-- Twitter Tags -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Recurrent Inductive Bias | Samira Abnar">
-  <meta name="twitter:description" content="">
+  <meta name="twitter:title" content="On the Merits of Recurrent Inductive Bias | Samira Abnar">
+  <meta name="twitter:description" content="In post we try to understand the nature of recurrent inductive bias. We provide empirical results to demonstrate the benefits of different sources of inducti...">
   
-    <meta property="twitter:image" content="https://samiraabnar.github.io/img/samira-logo.png">
+    <meta property="twitter:image" content="https://samiraabnar.github.io/img/img/rnn_images/rnn.png">
   
 
   <!-- Open Graph Tags -->
   <meta property="og:type" content="blog">
   <meta property="og:url" content="https://samiraabnar.github.io/articles/2020-05/recurrence">
-  <meta property="og:title" content="Recurrent Inductive Bias | Samira Abnar">
-  <meta property="og:description" content="">
+  <meta property="og:title" content="On the Merits of Recurrent Inductive Bias | Samira Abnar">
+  <meta property="og:description" content="In post we try to understand the nature of recurrent inductive bias. We provide empirical results to demonstrate the benefits of different sources of inducti...">
   
-    <meta property="og:image" content="https://samiraabnar.github.io/img/samira-logo.png">
+    <meta property="og:image" content="https://samiraabnar.github.io/img/img/rnn_images/rnn.png">
   
-  <title>Recurrent Inductive Bias | Samira Abnar</title>
+  <title>On the Merits of Recurrent Inductive Bias | Samira Abnar</title>
 
   <!-- CSS files -->
   <link rel="stylesheet" href="https://samiraabnar.github.io/css/font-awesome.min.css">
@@ -77,7 +77,7 @@
   <nav class="nav">
     <ul class="nav-list">
       <li class="nav-item">
-        <a href="/">home</a>
+        <a href="/">blog</a>
       </li>
        
       <li class="nav-item">
@@ -146,12 +146,22 @@
     </div>
     <div class="col s12 m9">
       <div class="post-listing">
-        <!--  -->
+        <!-- 
+<div class="post-image-feature">
+  <img class="feature-image" src=
+  
+  "https://samiraabnar.github.io/img/img/rnn_images/rnn.png"
+  
+  alt="On the Merits of Recurrent Inductive Bias feature image">
+
+  
+</div>
+ -->
 
 
 <div id="post">
   <header class="post-header">
-    <h1 title="Recurrent Inductive Bias">Recurrent Inductive Bias</h1>
+    <h1 title="On the Merits of Recurrent Inductive Bias">On the Merits of Recurrent Inductive Bias</h1>
     <span class="post-meta">
       <span class="post-date">
         26 MAY 2020
@@ -160,7 +170,7 @@
       <span class="read-time" title="Estimated read time">
   
   
-    1 min read
+    4 mins read
   
 </span>
 
@@ -169,7 +179,49 @@
   </header>
 
   <article class="post-content">
-    
+    <p>LSTMs <a class="citation" href="#hochreiter1997long">(Hochreiter &amp; Schmidhuber, 1997)</a> and Transformers <a class="citation" href="#vaswani2017attention">(Vaswani et al., 2017)</a> are the basic building blocks of many state-of-the-art models for sequence modeling and natural language processing.  Transformers are expressive class of models that do extremely well on many tasks where the training data is adequate in quantity <a class="citation" href="#Devlin2019BERTPO">(Devlin et al., 2019; Keskar et al., 2019; Radford et al., 2019)</a>. Several studies, however, have shown that LSTMs can perform  better than  Transformers on tasks requiring sensitivity to (linguistic) structure, specially when the data is limited <a class="citation" href="#tran-etal-2018-importance">(Tran et al., 2018; Dehghani et al., 2019)</a>. This is mainly due to the recurrent inductive biases of LSTMs that helps them better model the hierarchical structure of the inputs. <br />
+While theoretically, both recurrent neural networks (RNNs) and Transformers can deal with finite hierarchical structures, empirical results indicate superiority of RNNs over Transformers <a class="citation" href="#tran-etal-2018-importance">(Tran et al., 2018; Dehghani et al., 2019; Hahn, 2020)</a>.
+The superior performance of LSTMs over Transformers in these cases is attributed to their recurrent inductive bias. The recurrent inductive bias of LSTMs enables them to model hierarchical structure of the inputs, which is of crucial importance in the subject-verb agreement task <a class="citation" href="#tran-etal-2018-importance">(Tran et al., 2018)</a>.</p>
+
+<h4 id="what-is-recurrent-inductive-bias">What is recurrent inductive bias?</h4>
+
+<p>The inductive bias of RNNs is often referred to as the <strong>recurrent inductive bias</strong>.
+Here, we distinguish between three main sources of this bias:</p>
+<ol>
+  <li><kbd>The sequential processing of the input</kbd>: There is an inherent notion of order in the architecture that forces the model to access next tokens in the input one by one;</li>
+  <li><kbd>No direct access to the past tokens</kbd>: The model has to compress all the information from past tokens in a hidden state, which is accessible when processing a new token;</li>
+  <li><kbd>Recursion</kbd>: The model recursively applies the same function on the varying input at every time step.</li>
+</ol>
+
+<p>Transformers, in contrast, process the input in parallel. Although a weak notion of order is encoded by positional embeddings, no explicit assumption is made in the connectivity structure of the architecture. Moreover, they have a global receptive field and can access all tokens through self-attention. Finally, standard Transformers are not recursive.</p>
+
+<p>We can empirically examine the merits of each of these biases. To do so, we will modify the standard Transformer to have an architecture with specifications that are similar to RNNs and we measure how the performance of the models change as we include more aspects of the recurrent inductive bias.</p>
+
+<p><img src="articles/2020-05/img/rnn_images/models.png" alt="" /></p>
+
+<p>We employ a standard two-layer unidirectional LSTM and three different variants of Transformers:
+(1) \transformer: a standard six-layer Transformer encoder with a class token (\texttt{CLS}) for classification (BERT style),
+(2) \seqtransformer: a standard six-layer Transformer encoder with future masking where the classification is done using the representation of the last token\footnote{Note that future tokens are masked out by default when using transformer in the decoder mode, e.g., in a language modeling setup.},
+(3) \sequniversaltransformer: a six-layer Universal Transformer (missing reference) as a proxy for assessing the ability of models to capture hierarchical structure in natural language.
+In this task, examples are grouped into different levels of difficulty based on the number of “agreement attractors”<sup id="fnref:c6e920ab"><a href="#fn:c6e920ab" class="footnote">1</a></sup>, and “distance” between the verb and its subject.</p>
+
+<p>We train these models to predict the number of the masked verb in a given sentence. As we can see in the plot blow, LSTM achieves the best performance. Interestingly, comparing all four models, we find that the performance steadily increases as more aspects of the recurrent inductive bias are included.</p>
+
+<p>As another indicator of the quality of the solutions that different models converged to in the classification setup, we look into their confidence calibration<sup id="fnref:af15b0ee"><a href="#fn:af15b0ee" class="footnote">2</a></sup>.</p>
+
+<p>In figure below, we plot the Expected Calibration Error (ECE) of the models. In line with the trends in the performances of these models, the expected calibration error decreases as we move from standard Transformer toward LSTM.</p>
+
+<p>Additionally, as shown in both above figures, we find a decreasing trend in the variance of the models, i.e., adding more inductive biases to the models decreases their variance. This is empirical evidence that supports the relation between variance of the solutions a model converges to and its inductive biases.</p>
+<div class="footnotes">
+  <ol>
+    <li id="fn:c6e920ab">
+      <p>Agreement attractors are intervening nouns with a different number than the number of the subject. E.g., given the input <kbd>The **keys** to the **cabinet** (is?/are?).</kbd>’’, the word <kbd>cabinet</kbd> is an agreement attractor. <a href="#fnref:c6e920ab" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:af15b0ee">
+      <p>Confidence calibration captures how well likelihood (confidence) of the prediction of the model predicts its accuracy. For a well-calibrated model, if we bin the confidence scores and compute the accuracy for each bin, the accuracies are perfectly correlated with the confidence values. The Expected Calibration Error (ECE) is computed as the distance between the calibration curve of the model and the perfect calibration curve. <a href="#fnref:af15b0ee" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
 
   </article>
 </div>
@@ -200,7 +252,14 @@
 
 <div id="post">
   <h4>References</h4>
-<ol class="bibliography"></ol>
+<ol class="bibliography"><li><span id="hochreiter1997long">Hochreiter, S., &amp; Schmidhuber, J. (1997). Long short-term memory. <i>Neural Computation</i>, <i>9</i>(8), 1735–1780. https://dl.acm.org/doi/10.1162/neco.1997.9.8.1735</span></li>
+<li><span id="vaswani2017attention">Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., &amp; Polosukhin, I. (2017). Attention is all you need. <i>Advances in Neural Information Processing Systems</i>, 5998–6008.</span></li>
+<li><span id="Devlin2019BERTPO">Devlin, J., Chang, M.-W., Lee, K., &amp; Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. <i>Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies</i>. https://arxiv.org/abs/1810.04805</span></li>
+<li><span id="keskar2019ctrl">Keskar, N. S., McCann, B., Varshney, L. R., Xiong, C., &amp; Socher, R. (2019). Ctrl: A conditional transformer language model for controllable generation. <i>ArXiv Preprint ArXiv:1909.05858</i>. https://arxiv.org/abs/1909.05858</span></li>
+<li><span id="radford2019language">Radford, A., Wu, J., Child, R., Luan, D., Amodei, D., &amp; Sutskever, I. (2019). Language models are unsupervised multitask learners. <i>OpenAI Blog</i>, <i>1</i>(8).</span></li>
+<li><span id="tran-etal-2018-importance">Tran, K., Bisazza, A., &amp; Monz, C. (2018). The Importance of Being Recurrent for Modeling Hierarchical Structure. <i>Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing</i>. https://www.aclweb.org/anthology/D18-1503</span></li>
+<li><span id="universaltrans">Dehghani, M., Gouws, S., Vinyals, O., Uszkoreit, J., &amp; Kaiser, L. (2019). Universal Transformers. <i>Proceedings of the 7th International Conference on Learning Representations</i>. https://arxiv.org/abs/1807.03819</span></li>
+<li><span id="Hahn-2019-arxiv">Hahn, M. (2020). Theoretical Limitations of Self-Attention in Neural Sequence Models. <i>Transactions of the Association for Computational Linguistics</i>, <i>8</i>.</span></li></ol>
 </div>
 
 

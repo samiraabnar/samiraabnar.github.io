@@ -6,8 +6,63 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-27</pubDate>
-    <lastBuildDate>Wed, 27 May 2020 12:53:32 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2020 14:16:12 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>On the Merits of Recurrent Inductive Bias</title>
+        <description>&lt;p&gt;LSTMs &lt;a class=&quot;citation&quot; href=&quot;#hochreiter1997long&quot;&gt;(Hochreiter &amp;amp; Schmidhuber, 1997)&lt;/a&gt; and Transformers &lt;a class=&quot;citation&quot; href=&quot;#vaswani2017attention&quot;&gt;(Vaswani et al., 2017)&lt;/a&gt; are the basic building blocks of many state-of-the-art models for sequence modeling and natural language processing.  Transformers are expressive class of models that do extremely well on many tasks where the training data is adequate in quantity &lt;a class=&quot;citation&quot; href=&quot;#Devlin2019BERTPO&quot;&gt;(Devlin et al., 2019; Keskar et al., 2019; Radford et al., 2019)&lt;/a&gt;. Several studies, however, have shown that LSTMs can perform  better than  Transformers on tasks requiring sensitivity to (linguistic) structure, specially when the data is limited &lt;a class=&quot;citation&quot; href=&quot;#tran-etal-2018-importance&quot;&gt;(Tran et al., 2018; Dehghani et al., 2019)&lt;/a&gt;. This is mainly due to the recurrent inductive biases of LSTMs that helps them better model the hierarchical structure of the inputs. &lt;br /&gt;
+While theoretically, both recurrent neural networks (RNNs) and Transformers can deal with finite hierarchical structures, empirical results indicate superiority of RNNs over Transformers &lt;a class=&quot;citation&quot; href=&quot;#tran-etal-2018-importance&quot;&gt;(Tran et al., 2018; Dehghani et al., 2019; Hahn, 2020)&lt;/a&gt;.
+The superior performance of LSTMs over Transformers in these cases is attributed to their recurrent inductive bias. The recurrent inductive bias of LSTMs enables them to model hierarchical structure of the inputs, which is of crucial importance in the subject-verb agreement task &lt;a class=&quot;citation&quot; href=&quot;#tran-etal-2018-importance&quot;&gt;(Tran et al., 2018)&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;what-is-recurrent-inductive-bias&quot;&gt;What is recurrent inductive bias?&lt;/h4&gt;
+
+&lt;p&gt;The inductive bias of RNNs is often referred to as the &lt;strong&gt;recurrent inductive bias&lt;/strong&gt;.
+Here, we distinguish between three main sources of this bias:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;kbd&gt;The sequential processing of the input&lt;/kbd&gt;: There is an inherent notion of order in the architecture that forces the model to access next tokens in the input one by one;&lt;/li&gt;
+  &lt;li&gt;&lt;kbd&gt;No direct access to the past tokens&lt;/kbd&gt;: The model has to compress all the information from past tokens in a hidden state, which is accessible when processing a new token;&lt;/li&gt;
+  &lt;li&gt;&lt;kbd&gt;Recursion&lt;/kbd&gt;: The model recursively applies the same function on the varying input at every time step.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Transformers, in contrast, process the input in parallel. Although a weak notion of order is encoded by positional embeddings, no explicit assumption is made in the connectivity structure of the architecture. Moreover, they have a global receptive field and can access all tokens through self-attention. Finally, standard Transformers are not recursive.&lt;/p&gt;
+
+&lt;p&gt;We can empirically examine the merits of each of these biases. To do so, we will modify the standard Transformer to have an architecture with specifications that are similar to RNNs and we measure how the performance of the models change as we include more aspects of the recurrent inductive bias.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;articles/2020-05/img/rnn_images/models.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We employ a standard two-layer unidirectional LSTM and three different variants of Transformers:
+(1) \transformer: a standard six-layer Transformer encoder with a class token (\texttt{CLS}) for classification (BERT style),
+(2) \seqtransformer: a standard six-layer Transformer encoder with future masking where the classification is done using the representation of the last token\footnote{Note that future tokens are masked out by default when using transformer in the decoder mode, e.g., in a language modeling setup.},
+(3) \sequniversaltransformer: a six-layer Universal Transformer (missing reference) as a proxy for assessing the ability of models to capture hierarchical structure in natural language.
+In this task, examples are grouped into different levels of difficulty based on the number of “agreement attractors”&lt;sup id=&quot;fnref:c6e920ab&quot;&gt;&lt;a href=&quot;#fn:c6e920ab&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, and “distance” between the verb and its subject.&lt;/p&gt;
+
+&lt;p&gt;We train these models to predict the number of the masked verb in a given sentence. As we can see in the plot blow, LSTM achieves the best performance. Interestingly, comparing all four models, we find that the performance steadily increases as more aspects of the recurrent inductive bias are included.&lt;/p&gt;
+
+&lt;p&gt;As another indicator of the quality of the solutions that different models converged to in the classification setup, we look into their confidence calibration&lt;sup id=&quot;fnref:af15b0ee&quot;&gt;&lt;a href=&quot;#fn:af15b0ee&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;In figure below, we plot the Expected Calibration Error (ECE) of the models. In line with the trends in the performances of these models, the expected calibration error decreases as we move from standard Transformer toward LSTM.&lt;/p&gt;
+
+&lt;p&gt;Additionally, as shown in both above figures, we find a decreasing trend in the variance of the models, i.e., adding more inductive biases to the models decreases their variance. This is empirical evidence that supports the relation between variance of the solutions a model converges to and its inductive biases.&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:c6e920ab&quot;&gt;
+      &lt;p&gt;Agreement attractors are intervening nouns with a different number than the number of the subject. E.g., given the input &lt;kbd&gt;The **keys** to the **cabinet** (is?/are?).&lt;/kbd&gt;’’, the word &lt;kbd&gt;cabinet&lt;/kbd&gt; is an agreement attractor. &lt;a href=&quot;#fnref:c6e920ab&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:af15b0ee&quot;&gt;
+      &lt;p&gt;Confidence calibration captures how well likelihood (confidence) of the prediction of the model predicts its accuracy. For a well-calibrated model, if we bin the confidence scores and compute the accuracy for each bin, the accuracies are perfectly correlated with the confidence values. The Expected Calibration Error (ECE) is computed as the distance between the calibration curve of the model and the perfect calibration curve. &lt;a href=&quot;#fnref:af15b0ee&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>2020-05-27</pubDate>
+        <link>https://samiraabnar.github.io/articles/2020-05/recurrence</link>
+        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/recurrence</guid>
+        
+        
+        <category>blogpost</category>
+        
+      </item>
     
       <item>
         <title>Distilling Inductive Biases</title>
