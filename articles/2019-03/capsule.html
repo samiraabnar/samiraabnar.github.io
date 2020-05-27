@@ -183,7 +183,7 @@
 
 <p>Transformers, or so-called self-attention networks, are a family of deep neural network architectures, where self-attention layers are stacked on top of each other to learn contextualized representations for input tokens via multiple transformations. These models have been able to achieve SOTA on many vision and NLP tasks. There are many implementation details about the transformer. Still, at a high level, transformer is an encoder-decoder architecture, where each of encoder and decoder blocks consists of a stack of transformer layers. In each layer, we learn to (re-)calculate a representation per input token. This representation is computed by attending to the representations of all tokens from the previous layer. This is illustrated in the figure below.</p>
 
-<p><img src="img/capsule_images/trans_intro-2.png" alt="" style="width: 600px" /></p>
+<p><img src="img/capsule_images/trans_intro-2.png" alt="" style="width: 800px" /></p>
 
 <p>Thus, to compute the representations in layer $L+1$, the representations from the lower layer, $L$, are passed through a self-attention block, which updates the representation of every token with respect to all the other tokens. The future tokens are masked in the self-attention in the decoder block. Also, besides the self-attention, there is encoder-decoder-attention in the decoder (which is not depicted in the figure above). To see more details about the transformer, check out this great post: http://jalammar.github.io/illustrated-transformer.</p>
 
@@ -220,14 +220,14 @@ $K_i = W_k^{i}K$, $V_i = W_v^{i}V$, $Q_i = W_q^{i}Q$</p>
   <p>A capsule is a unit that learns to detect an implicitly defined entity over a limited domain of viewing conditions. It outputs both the probability that the entity is present and a set of “instantiation parameters” that reflect the features of the entity such as pose information. The presence probability is viewpoint invariant, e.g. it does not change as the entity moves or rotates, whereas the instantiation parameters are viewpoint equivariant, e.g. they change if the entity moves or rotates.</p>
 </blockquote>
 
-<p><img src="img/capsule_images/capsule_scalar-1-1024x408.png" alt="" style="width: 600px; margin-bottom: 20px;" />
+<p><img src="img/capsule_images/capsule_scalar-1-1024x408.png" alt="" style="width: 800px; margin-bottom: 20px;" />
 In matrix capsules with EM routing, they use a capsule network that includes a standard convolutional layer, and a layer of primary capsules followed by several layers of convolutional capsules. In this version of the capsule net, the instantiation parameters are represented as a matrix called the pose matrix.</p>
 
-<p><img src="img/capsule_images/capsule_arch-1024x245.png" alt="" style="width: 600px; margin-bottom: 20px" />
+<p><img src="img/capsule_images/capsule_arch-1024x245.png" alt="" style="width: 800px; margin-bottom: 20px" />
 Each capsule layer has a fixed number of capsule types (similar to filters in CNNs), which is chosen as a hyper-parameter. A capsule is an instance of a capsule type.  Each capsule type is meant to correspond to an entity, and all capsules of the same type are extracting the same entity at different positions. In lower layers, capsule types learn to recognize low-level entities, e.g. eyes, and in higher layers, they are supposed to present more high-level entities, e.g. faces.</p>
 
 <p>In the convolutional capsule layers, the weight matrix of each capsule type is convolved over the input, similar to how kernels are applied in CNNs. This results in different instances of each capsule type.<br />
-<img src="img/capsule_images/capsule_routing-1024x669.png" alt="" style="width: 700px" />
+<img src="img/capsule_images/capsule_routing-1024x669.png" alt="" style="width: 800px" />
 In capsule nets, the number of capsule types in each layer is predefined. Between every capsule type in two adjacent layers, there is a transformation matrix. This way, each higher layer capsule, sees the entity in the lower layer capsule from a different point of view.</p>
 
 <h5 id="the-pose-matrix">The Pose Matrix</h5>
@@ -253,7 +253,7 @@ In capsule nets, the number of capsule types in each layer is predefined. Betwee
 <h5 id="dynamic-routing-with-em">Dynamic Routing with EM</h5>
 
 <p>The main challenge here is to compute assignment probabilities, $r_{ij}$. This basically means how to connect the lower layer capsules, $\Omega_L$, to the higher layer capsules $\Omega_{L+1}$, or in other words, how to route information between capsule layers. We want these connections to not only depend on the presence of the lower layer capsules but also based on their relevance to each other as well as to the higher layer capsule. For example, a capsule representing an eye, which is part of a face, probably should not be connected to a capsule which represents a table. This can be seen as computing the attention from the lower layer capsules to the higher layer capsules. The problem is, we have no initial representation for the higher-level capsules in advance to be able to calculate this probability based on the similarity of the lower layer capsule with the higher layer capsule.  This is because the representation of a capsule depends on which capsules from the lower layer are going to be assigned to it. This is where dynamic routing kicks in and solves the problem by using EM.
-<img src="img/capsule_images/em_dr-1024x370.png" alt="" />
+<img src="img/capsule_images/em_dr-1024x370.png" alt="" style="width: 800px" />
 We can use EM to compute representations of $\Omega_{L+1}$ based on the representations of $\Omega_L$ and the assignment probabilities of the lower layer capsules to the higher layer capsules. This iterative process is called dynamic routing with EM. Note that dynamic routing with EM is part of the forward pass in Capsule Nets, and during training, the error is back-propagated through the unrolled iterations of dynamic routing.</p>
 
 <p>It is noteworthy that, the computations are a bit different for the primary capsule layers since the layer below them is not a capsule layer. The pose matrices for the primary capsules is simply a linear transformation of the outputs of the lower layer kernels, and their activation is the sigmoid of the weighted sum of the same set of lower-layer kernel outputs. In addition, the final capsule layer has one capsule per output class.  When connecting the last convolutional capsule layer to the final layer, the transformation matrices are shared over different positions, and they use a technique called “Coordinate Addition” to keep the information about the location of the convolutional capsules.</p>
@@ -265,7 +265,7 @@ We can use EM to compute representations of $\Omega_{L+1}$ based on the represen
 <h5 id="dynamic-routing-vs-attention">Dynamic Routing vs Attention</h5>
 
 <p>In capsule networks, we use dynamic routing to determine the connection from the lower layer to the higher layer, in par with this in transformers we employ self-attention to decide how to attend to different parts of the input and how information from different parts contribute to the updates of representations. We can map the attention weights in transformer to assignment probabilities in capsule net; however, in capsule nets, the assignment probabilities are computed bottom-up, whereas in transformer the attention is computed top-down. i.e. the attention weights in transformer are distributed over the representations in the lower layer, but in capsule nets, the assignment probabilities are distributed over the higher layer capsules. Note that, it is true that in transformer, the attention probabilities are computed based on the similarity of the representations in the same layer, but this is equivalent to the assumption that the higher layer is first initialized with the representations from the lower layer and then it is updated based on the attention probabilities computed by comparing these initial representations with the representations from the lower layer.
-<img src="img/capsule_images/attention_dir-1024x444.png" alt="" style="width: 500px; margin-bottom: 20px" />
+<img src="img/capsule_images/attention_dir-1024x444.png" alt="" style="width: 600px; margin-bottom: 20px" />
 The bottom-up attention in capsule nets along with having a presence probability and the penalty for activating capsules, explicitly allows the model to abstract away the concepts as the information propagates to the higher layers. On the other hand, in transformer, the top-down attention mechanism allows the nodes in the higher layer not to attend to some of the nodes in the lower layer and filter out the information that is captured in those nodes.</p>
 
 <p>Now, the question is, why do we need EM for dynamic routing in capsule nets? Why can’t we use a similar mechanism used to compute attentions in transformer to calculate assignment probabilities in capsule nets?</p>
