@@ -6,12 +6,12 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-27</pubDate>
-    <lastBuildDate>Wed, 27 May 2020 17:43:28 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2020 17:50:56 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
         <title>On the Merits of Recurrent Inductive Bias</title>
-        <description>&lt;p&gt;LSTMs &lt;a class=&quot;citation&quot; href=&quot;#hochreiter1997long&quot;&gt;(Hochreiter &amp;amp; Schmidhuber, 1997)&lt;/a&gt; and Transformers &lt;a class=&quot;citation&quot; href=&quot;#vaswani2017attention&quot;&gt;(Vaswani et al., 2017)&lt;/a&gt; are the basic building blocks of many state-of-the-art models for sequence modeling and natural language processing.  Transformers are expressive class of models that do extremely well on many tasks where the training data is adequate in quantity &lt;a class=&quot;citation&quot; href=&quot;#Devlin2019BERTPO&quot;&gt;(Devlin et al., 2019; Keskar et al., 2019; Radford et al., 2019)&lt;/a&gt;. Several studies, however, have shown that LSTMs can perform  better than  Transformers on tasks requiring sensitivity to (linguistic) structure, specially when the data is limited &lt;a class=&quot;citation&quot; href=&quot;#tran-etal-2018-importance&quot;&gt;(Tran et al., 2018; Dehghani et al., 2019)&lt;/a&gt;. This is mainly due to the recurrent inductive biases of LSTMs that helps them better model the hierarchical structure of the inputs. &lt;br /&gt;
+        <description>&lt;p&gt;LSTMs &lt;a class=&quot;citation&quot; href=&quot;#hochreiter1997long&quot;&gt;(Hochreiter &amp;amp; Schmidhuber, 1997)&lt;/a&gt; and Transformers &lt;a class=&quot;citation&quot; href=&quot;#vaswani2017attention&quot;&gt;(Vaswani et al., 2017)&lt;/a&gt; are the basic building blocks of many state-of-the-art models for sequence modeling and natural language processing.  While Transformers do extremely well on many tasks where the training data is adequate in quantity &lt;a class=&quot;citation&quot; href=&quot;#Devlin2019BERTPO&quot;&gt;(Devlin et al., 2019; Keskar et al., 2019; Radford et al., 2019)&lt;/a&gt;, several studies have shown that LSTMs can perform  better than  Transformers on tasks requiring sensitivity to (linguistic) structure, specially when the data is limited &lt;a class=&quot;citation&quot; href=&quot;#tran-etal-2018-importance&quot;&gt;(Tran et al., 2018; Dehghani et al., 2019)&lt;/a&gt;. This is mainly due to the recurrent inductive biases of LSTMs that helps them better model the hierarchical structure of the inputs. &lt;br /&gt;
 While theoretically, both recurrent neural networks (RNNs) and Transformers can deal with finite hierarchical structures, empirical results indicate superiority of RNNs over Transformers &lt;a class=&quot;citation&quot; href=&quot;#tran-etal-2018-importance&quot;&gt;(Tran et al., 2018; Dehghani et al., 2019; Hahn, 2020)&lt;/a&gt;.
 The superior performance of LSTMs over Transformers in these cases is attributed to their recurrent inductive bias. The recurrent inductive bias of LSTMs enables them to model hierarchical structure of the inputs, which is of crucial importance in the subject-verb agreement task &lt;a class=&quot;citation&quot; href=&quot;#tran-etal-2018-importance&quot;&gt;(Tran et al., 2018)&lt;/a&gt;.&lt;/p&gt;
 
@@ -29,10 +29,10 @@ Here, we distinguish between three main sources of this bias:&lt;/p&gt;
 
 &lt;p&gt;We can empirically examine the benefits of each of these biases. To do so, we will modify the standard Transformer to have an architecture with specifications that are similar to RNNs and we measure how the performance of the models change as we include more aspects of the recurrent inductive bias.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;img/rnn_images/rnn.png&quot; alt=&quot;&quot; width=&quot;200px&quot; style=&quot;float: left;&quot; /&gt;
-&lt;img src=&quot;img/rnn_images/transformer.png&quot; alt=&quot;&quot; width=&quot;200px&quot; /&gt;
-&lt;img src=&quot;img/rnn_images/seqtrans.png&quot; alt=&quot;&quot; width=&quot;200px&quot; /&gt;
-&lt;img src=&quot;img/rnn_images/utrans.png&quot; alt=&quot;&quot; width=&quot;200px&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;img/rnn_images/rnn.png&quot; alt=&quot;rnn&quot; width=&quot;200px&quot; style=&quot;float: left;&quot; /&gt;
+&lt;img src=&quot;img/rnn_images/transformer.png&quot; alt=&quot;transformer&quot; width=&quot;200px&quot; /&gt;
+&lt;img src=&quot;img/rnn_images/seqtrans.png&quot; alt=&quot;sequential transformer&quot; width=&quot;200px&quot; /&gt;
+&lt;img src=&quot;img/rnn_images/utrans.png&quot; alt=&quot;sequential universal transformer&quot; width=&quot;200px&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We employ a standard two-layer unidirectional LSTM and three different variants of Transformers:
 (1) transformer: a standard six-layer Transformer encoder with a class token (&lt;kbd&gt;CLS&lt;/kbd&gt;) for classification (BERT style),
