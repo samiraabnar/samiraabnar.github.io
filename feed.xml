@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-28</pubDate>
-    <lastBuildDate>Thu, 28 May 2020 23:05:04 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2020 23:12:34 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -163,6 +163,20 @@ In the figure below, we plot the Expected Calibration Error (ECE) of the models.
         <link>https://samiraabnar.github.io/articles/2020-05/recurrence</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/recurrence</guid>
         
+        <category>rnn</category>
+        
+        <category>recurrent</category>
+        
+        <category>inductive_bias</category>
+        
+        <category>lstm</category>
+        
+        <category>transformer</category>
+        
+        <category>subject-verb-agreement</category>
+        
+        <category>universal-transformer</category>
+        
         
         <category>blogpost</category>
         
@@ -293,6 +307,16 @@ In some sense, Attention Rollout is more restrictive compared to Attention Flow,
         <link>https://samiraabnar.github.io/articles/2020-04/attention_flow</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-04/attention_flow</guid>
         
+        <category>transformer</category>
+        
+        <category>self-attention</category>
+        
+        <category>attention_visualisation</category>
+        
+        <category>attention_rollout</category>
+        
+        <category>attention_flow</category>
+        
         
         <category>blogpost</category>
         
@@ -416,6 +440,14 @@ Now, what is different between capsule networks and transformers in this regard 
         <pubDate>2020-05-28</pubDate>
         <link>https://samiraabnar.github.io/articles/2019-03/capsule</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2019-03/capsule</guid>
+        
+        <category>capsule_networks</category>
+        
+        <category>transformer</category>
+        
+        <category>attention</category>
+        
+        <category>dynamic_routing</category>
         
         
         <category>blogpost</category>
