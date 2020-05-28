@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-28</pubDate>
-    <lastBuildDate>Thu, 28 May 2020 11:08:54 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2020 11:12:07 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -17,7 +17,7 @@ In other words, different learning algorithms would work better or worse and gen
 &lt;p&gt;For example, consider the image classification problem.
 CNNs are the de facto choice for processing images, and in general data with grid-like topology. Sparse connectivity and parameter sharing in CNNs make them an effective and statistically efficient architecture. The particular form of parameter sharing in the convolution operation make CNNs equivariant to translation  &lt;a class=&quot;citation&quot; href=&quot;#Goodfellow-et-al-2016&quot;&gt;(Goodfellow et al., 2016)&lt;/a&gt;.
 On the other hand, it is well known that this translation equivariance hurts their performance in cases where the position of the objects in the image matters. This is known as the Picasso effect, where you have all the pieces of an object but not in the right context!
-&lt;img src=&quot;img/indist_images/Pablo-Picasso-Spanish-Cubist-Oil-Canvas-Portrait.jpg&quot; alt=&quot;&quot; width=&quot;200px&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;img/indist_images/Pablo-Picasso-Spanish-Cubist-Oil-Canvas-Portrait.jpg&quot; alt=&quot;&quot; width=&quot;800px&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Another example are recurrent neural networks (RNNs). It has been shown that the recurrent inductive bias of RNNs helps them capture hierarchical structures in the sequences. But this recurrence and the fact that RNNs’ access to previous tokens is limited to their memory makes it harder for them to deal with long term dependencies and larger context.
 Besides, RNNs are rather slow because they have to process the data incrementally. On the other hand, Transformers have direct access to all input tokens and they are very expressive when it comes to representing arbitrary context sizes. Also, they can process the input sequence in parallel and hence they are remarkably faster than LSTMs. However, Transformers struggle to generalise on tasks that require capturing hierarchical structures when data is limited.&lt;/p&gt;
