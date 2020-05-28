@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="blog">
+  <meta name="author" content="Incremental Reading for Question Answering | Samira Abnar">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f5f5">
+
+  <!-- Twitter Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Incremental Reading for Question Answering | Samira Abnar">
+  <meta name="twitter:description" content="">
+  
+    <meta property="twitter:image" content="https://samiraabnar.github.io/img/posters/CL_workshop_IncReading_forPrint.png">
+  
+
+  <!-- Open Graph Tags -->
+  <meta property="og:type" content="blog">
+  <meta property="og:url" content="https://samiraabnar.github.io/articles/2019-04/incremental">
+  <meta property="og:title" content="Incremental Reading for Question Answering | Samira Abnar">
+  <meta property="og:description" content="">
+  
+    <meta property="og:image" content="https://samiraabnar.github.io/img/posters/CL_workshop_IncReading_forPrint.png">
+  
+  <title>Incremental Reading for Question Answering | Samira Abnar</title>
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="https://samiraabnar.github.io/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://samiraabnar.github.io/css/main.css">
+
+  <link rel="canonical" href="https://samiraabnar.github.io/articles/2019-04/incremental">
+  <link rel="alternate" type="application/rss+xml" title="Samira Abnar" href="https://samiraabnar.github.io/feed.xml" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  <!-- Icons -->
+  <!-- 16x16 -->
+  <link rel="shortcut icon" href="https://samiraabnar.github.io/blown.ico">
+  <!-- 32x32 -->
+  <link rel="shortcut icon" href="https://samiraabnar.github.io/blown.png">
+  <script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+       <script type="text/x-mathjax-config">
+         MathJax.Hub.Config({
+           tex2jax: {
+             inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+             processEscapes: true
+           }
+         });
+  </script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+
+
+<body>
+  <div class="row">
+    <div class="col s12 m3">
+      <div class="table cover">
+        
+
+<div class="cover-card table-cell table-middle">
+  
+  <a href="/">
+    <img src="/img/samira-logo.jpg" alt="" class="avatar">
+  </a>
+  
+  <a href="/" class="author_name">Samira Abnar</a>
+  <span class="author_job">PhD Candidate</span>
+  <span class="author_bio mbm">University of Amsterdam</span>
+  <nav class="nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="/">blog</a>
+      </li>
+       
+      <li class="nav-item">
+        <a href="/about">About</a>
+      </li>
+        
+      <li class="nav-item">
+        <a href="/archive/">Archive</a>
+      </li>
+          
+      <li class="nav-item">
+        <a href="/categories/">Categories</a>
+      </li>
+            
+      <li class="nav-item">
+        <a href="/tags/">Tags</a>
+      </li>
+         
+    </ul>
+  </nav>
+  <script type="text/javascript">
+  // based on http://stackoverflow.com/a/10300743/280842
+  function gen_mail_to_link(hs, subject) {
+    var lhs,rhs;
+    var p = hs.split('@');
+    lhs = p[0];
+    rhs = p[1];
+    document.write("<a class=\"social-link-item\" target=\"_blank\" href=\"mailto");
+    document.write(":" + lhs + "@");
+    document.write(rhs + "?subject=" + subject + "\"><i class=\"fa fa-fw fa-envelope\"></i><\/a>");
+  }
+</script>
+<div class="social-links">
+  <ul>
+    
+    <li><a href="http://twitter.com/samiraabnar#username" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/samiraabnar" class="social-link-item" target="_blank"><i class="fa fa-fw fa-linkedin"></i></a></li>
+    
+    
+    <li><a href="http://instagram.com/samiraabnar" class="social-link-item" target="_blank"><i class="fa fa-fw fa-instagram"></i></a></li>
+    
+    <li><a href="http://github.com/samiraabnar" class="social-link-item" target="_blank"><i class="fa fa-fw fa-github"></i></a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ul>
+</div>
+
+</div>
+
+      </div>
+    </div>
+    <div class="col s12 m9">
+      <div class="post-listing">
+        <!-- 
+<div class="post-image-feature">
+  <img class="feature-image" src=
+  
+  "https://samiraabnar.github.io/img/posters/CL_workshop_IncReading_forPrint.png"
+  
+  alt="Incremental Reading for Question Answering feature image">
+
+  
+</div>
+ -->
+
+
+<div id="post">
+  <header class="post-header">
+    <h1 title="Incremental Reading for Question Answering">Incremental Reading for Question Answering</h1>
+    <span class="post-meta">
+      <span class="post-date">
+        27 APR 2019
+      </span>
+      •
+      <span class="read-time" title="Estimated read time">
+  
+  
+    1 min read
+  
+</span>
+
+    </span>
+
+  </header>
+
+  <article class="post-content">
+    <p><img src="posters/CL_workshop_IncReading_forPrint.png" alt="" /></p>
+
+  </article>
+</div>
+
+
+<!-- 
+<div id="share-box">
+<h5>Share this:</h5>
+
+<a id="f" href="https://www.facebook.com/sharer/sharer.php?u=/articles/2019-04/incremental" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" ><i class="fa fa-facebook-official fa"></i><span> facebook</span></a>
+
+<a id="t" href="https://twitter.com/intent/tweet?text=&url=/articles/2019-04/incremental" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"><i class="fa fa-twitter fa"></i><span> twitter</span></a>
+
+<a id="g" href="https://plus.google.com/share?url=/articles/2019-04/incremental" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" ><i class="fa fa-google-plus fa"></i><span> google</span></a>
+
+<a id="r" href="http://www.reddit.com/submit?url=/articles/2019-04/incremental" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=900,height=500,toolbar=1,resizable=0'); return false;" ><i class="fa fa-reddit fa"></i><span> reddit</span></a>
+
+<a id="l" href="https://www.linkedin.com/shareArticle?mini=true&url=https://samiraabnar.github.io/articles/2019-04/incremental&title=&summary=&source=webjeda" onclick="window.open(this.href, 'mywin',
+'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" ><i class="fa fa-linkedin fa"></i><span> linkedin</span></a>
+
+<a id="e" href="mailto:?subject=&amp;body=Check out this site /articles/2019-04/incremental"><i class="fa fa-envelope fa"></i><span> email</span></a>
+</div>
+ -->
+
+<div id="post">
+  <h4>References</h4>
+<ol class="bibliography"></ol>
+</div>
+
+
+
+        <footer>
+  <!-- &copy; 2020 Samira Abnar. -->
+</footer>
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="https://samiraabnar.github.io/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://samiraabnar.github.io/js/main.js"></script>
+
+
+</body>
+</html>
