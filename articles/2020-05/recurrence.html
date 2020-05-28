@@ -181,7 +181,7 @@
   <article class="post-content">
     <p>LSTMs <a class="citation" href="#hochreiter1997long">(Hochreiter &amp; Schmidhuber, 1997)</a> and Transformers <a class="citation" href="#vaswani2017attention">(Vaswani et al., 2017)</a> are the basic building blocks of many state-of-the-art models for sequence modeling and natural language processing.  While Transformers do extremely well on many tasks where the training data is adequate in quantity <a class="citation" href="#Devlin2019BERTPO">(Devlin et al., 2019; Keskar et al., 2019; Radford et al., 2019)</a>, several studies have shown that LSTMs can perform  better than  Transformers on tasks requiring sensitivity to (linguistic) structure, specially when the data is limited <a class="citation" href="#tran-etal-2018-importance">(Tran et al., 2018; Dehghani et al., 2019)</a>. This is mainly due to the recurrent inductive biases of LSTMs that helps them better model the hierarchical structure of the inputs. <br />
 While theoretically, both recurrent neural networks (RNNs) and Transformers can deal with finite hierarchical structures, empirical results indicate superiority of RNNs over Transformers <a class="citation" href="#tran-etal-2018-importance">(Tran et al., 2018; Dehghani et al., 2019; Hahn, 2020)</a>.
-The superior performance of LSTMs over Transformers in these cases is attributed to their recurrent inductive bias. The recurrent inductive bias of LSTMs enables them to model hierarchical structure of the inputs, which is of crucial importance in the subject-verb agreement task <a class="citation" href="#tran-etal-2018-importance">(Tran et al., 2018)</a>.</p>
+The superior performance of LSTMs over Transformers in these cases is attributed to their recurrent inductive bias. The recurrent inductive bias of LSTMs enables them to model hierarchical structure of the inputs. The question is what is the recurrent inductive bias and why does it help?</p>
 
 <h4 id="what-is-recurrent-inductive-bias">What is recurrent inductive bias?</h4>
 
@@ -193,11 +193,13 @@ Here, we distinguish between three main sources of this bias:</p>
   <li><kbd>Recursion</kbd>: The model recursively applies the same function on the varying input at every time step.</li>
 </ol>
 
-<p>Transformers, in contrast, process the input in parallel. Although a weak notion of order is encoded by positional embeddings, no explicit assumption is made in the connectivity structure of the architecture. Moreover, they have a global receptive field and can access all tokens through self-attention. Finally, standard Transformers are not recursive.</p>
+<p>In contrast to RNNs, Transformers, process the input in parallel. Although a weak notion of order is encoded by positional embeddings, no explicit assumption is made in the connectivity structure of the architecture. Moreover, they have a global receptive field and can access all tokens through self-attention. Finally, standard Transformers are not recursive, they apply the same set of weights on all input tokens, but they don’t do it recursively.</p>
 
-<p>We can empirically examine the benefits of each of these biases. To do so, we will modify the standard Transformer to have an architecture with specifications that are similar to RNNs and we measure how the performance of the models change as we include more aspects of the recurrent inductive bias.</p>
+<p>We can empirically examine the benefits of each of these biases of RNNs that we mentioned here. To do so, we modify the standard Transformer to have an architecture with specifications that are similar to RNNs and we measure how the performance of the models change as we include more aspects of the recurrent inductive bias.</p>
 
-<p><img src="img/rnn_images/models.png" alt="models" width="250px" /></p>
+<p>As it is depicted in the figure below, in order to make a standard Transformer process the input</p>
+
+<p><img src="img/rnn_images/models.png" alt="models" width="800px" /></p>
 
 <p>We employ a standard two-layer unidirectional LSTM and three different variants of Transformers:
 (1) transformer: a standard six-layer Transformer encoder with a class token (<kbd>CLS</kbd>) for classification (BERT style),
