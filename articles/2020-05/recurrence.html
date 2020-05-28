@@ -219,9 +219,10 @@ These are the three different variants of Transformers we use:</p>
   <li><strong>Sequential Universal Transformer</strong>: Universal Transformer <a class="citation" href="#universaltrans">(Dehghani et al., 2019)</a> encoder, where we have a recurrence in depth by sharing parameters among all the layers, also with future masking.
 %
 Among these variants of Transformer, Sequential Transformer implements sequential access to tokens, and Sequential Universal Transformer has both sequential access to tokens and a form of recursion.
-Here is a schematic view of the architecture of RNN and the variants of Transformer we discussed.
-<img src="img/rnn_images/models.png" alt="models" width="800px" /></li>
+Here is a schematic view of the architecture of RNN and the variants of Transformer we discussed.</li>
 </ol>
+
+<p><img src="img/rnn_images/models.png" alt="models" width="800px" /></p>
 
 <p>These models are trained to predict the number of the masked verb in a given sentence (binary classification objective).
 In the plot below, we can see the mean and standard deviation of the accuracy over multiple trials.

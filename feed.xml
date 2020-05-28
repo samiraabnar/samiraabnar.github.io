@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-28</pubDate>
-    <lastBuildDate>Thu, 28 May 2020 18:32:43 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2020 18:33:42 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -140,9 +140,10 @@ These are the three different variants of Transformers we use:&lt;/p&gt;
   &lt;li&gt;&lt;strong&gt;Sequential Universal Transformer&lt;/strong&gt;: Universal Transformer &lt;a class=&quot;citation&quot; href=&quot;#universaltrans&quot;&gt;(Dehghani et al., 2019)&lt;/a&gt; encoder, where we have a recurrence in depth by sharing parameters among all the layers, also with future masking.
 %
 Among these variants of Transformer, Sequential Transformer implements sequential access to tokens, and Sequential Universal Transformer has both sequential access to tokens and a form of recursion.
-Here is a schematic view of the architecture of RNN and the variants of Transformer we discussed.
-&lt;img src=&quot;img/rnn_images/models.png&quot; alt=&quot;models&quot; width=&quot;800px&quot; /&gt;&lt;/li&gt;
+Here is a schematic view of the architecture of RNN and the variants of Transformer we discussed.&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;img/rnn_images/models.png&quot; alt=&quot;models&quot; width=&quot;800px&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;These models are trained to predict the number of the masked verb in a given sentence (binary classification objective).
 In the plot below, we can see the mean and standard deviation of the accuracy over multiple trials.
