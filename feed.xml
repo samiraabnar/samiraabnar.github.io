@@ -6,13 +6,12 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-29</pubDate>
-    <lastBuildDate>Fri, 29 May 2020 15:33:26 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 29 May 2020 16:00:09 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
         <title>Distilling Inductive Biases</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/No_free_lunch_in_search_and_optimization&quot;&gt;No free lunch theorem&lt;/a&gt; states, for any learning algorithm, any improvement on performance over one class of problems is balanced out by a decrease in the performance over another class &lt;a class=&quot;citation&quot; href=&quot;#wolpert1997no&quot;&gt;(Wolpert &amp;amp; Macready, 1997)&lt;/a&gt;.
-In other words, different learning algorithms would work better or worse and generalise differently on different tasks based on their inductive biases.&lt;/p&gt;
+        <description>&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/No_free_lunch_in_search_and_optimization&quot;&gt;No free lunch theorem&lt;/a&gt; states that for any learning algorithm, any improvement on performance over one class of problems is balanced out by a decrease in the performance over another class &lt;a class=&quot;citation&quot; href=&quot;#wolpert1997no&quot;&gt;(Wolpert &amp;amp; Macready, 1997)&lt;/a&gt;. In other words, there is no “one size fits all” learning algorithm.&lt;/p&gt;
 
 &lt;p&gt;For example, consider the image classification problem.
 CNNs are the de facto choice for processing images, and in general data with grid-like topology. Sparse connectivity and parameter sharing in CNNs make them an effective and statistically efficient architecture. The particular form of parameter sharing in the convolution operation make CNNs equivariant to translation  &lt;a class=&quot;citation&quot; href=&quot;#Goodfellow-et-al-2016&quot;&gt;(Goodfellow et al., 2016)&lt;/a&gt;.
