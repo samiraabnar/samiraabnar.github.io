@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-29</pubDate>
-    <lastBuildDate>Fri, 29 May 2020 15:09:36 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 29 May 2020 15:18:24 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -273,7 +273,7 @@ In the figure below, we show how Attention Rollout works in a simple attention D
 
 &lt;!-- &lt;div style=&quot;width: 700; display:inline-block; clear: right; vertical-align:middle;&quot;&gt; --&gt;
 &lt;!-- _includes/image.html --&gt;
-&lt;div class=&quot;image-wrapper&quot; style=&quot;width: 360px; &quot;&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
         &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
     
@@ -290,7 +290,7 @@ In the figure below, we show how Attention Rollout works in a simple attention D
 &lt;p&gt;In the figure below, we see the same example like the one we saw for the Attention Rollout, except here the attention weights are viewed as the capacity of the edges. Thus, the total attention score of a path is the smallest capacity of the edges in that path. This is a straightforward example, and maximum computing flow can be more complicated when paths overlap.&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
-&lt;div class=&quot;image-wrapper&quot; style=&quot;width: 360px;&quot;&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
         &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
     
