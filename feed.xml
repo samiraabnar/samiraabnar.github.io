@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-29</pubDate>
-    <lastBuildDate>Fri, 29 May 2020 11:37:01 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 29 May 2020 11:56:36 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -333,6 +333,8 @@ Using ReStA, we study four recent and successful neural language models, and eva
 %
 Our results reveal surprisingly strong differences between language models, and give insights into where the deep linguistic processing, that integrates information over multiple sentences, is happening in these models. The combination of ReStA and RSA on models and brains allows us to start addressing the important question of what kind of linguistic processes we can hope to observe in fMRI brain imaging data. In particular, our results suggest that the data on story reading from Wehbe et al. (2014) contains a signal of shallow linguistic processing, but show no evidence on the more interesting deep linguistic processing.&lt;/p&gt;
 &lt;/blockquote&gt;
+
+&lt;p&gt;Checkout our &lt;a href=&quot;https://arxiv.org/abs/1906.01539&quot;&gt;paper&lt;/a&gt;, &lt;a class=&quot;citation&quot; href=&quot;#abnar-etal-2019-blackbox&quot;&gt;(Abnar et al., 2019)&lt;/a&gt;, and the &lt;a href=&quot;https://github.com/samiraabnar/Bridge&quot;&gt;codes&lt;/a&gt; to reproduce our experiments!&lt;/p&gt;
 </description>
         <pubDate>2020-05-29</pubDate>
         <link>https://samiraabnar.github.io/articles/2019-04/blackbox</link>
@@ -492,6 +494,8 @@ Now, what is different between capsule networks and transformers in this regard 
 &lt;blockquote&gt;
   &lt;p&gt;Any system which performs goal-directed continual learning must not only learn incrementally but process and absorb information incrementally. Such a system also has to understand when its goals have been achieved. In this paper, we consider these issues in the context of question answering. Current state-of-the-art question answering models reason over an entire passage, not incrementally. As we will show, naive approaches to incremental reading, such as restriction to unidirectional language models in the model, perform poorly. We present extensions to the DocQA model to allow incremental reading without loss of accuracy. The model also jointly learns to provide the best answer given the text that is seen so far and predict whether this best-so-far answer is sufficient.&lt;/p&gt;
 &lt;/blockquote&gt;
+
+&lt;p&gt;Checkout our &lt;a href=&quot;https://arxiv.org/abs/1901.04936&quot;&gt;paper&lt;/a&gt; &lt;a class=&quot;citation&quot; href=&quot;#Abnar2019IncrementalRF&quot;&gt;(Abnar et al., 2019)&lt;/a&gt;!&lt;/p&gt;
 </description>
         <pubDate>2020-05-29</pubDate>
         <link>https://samiraabnar.github.io/articles/2018-12/incremental</link>
@@ -504,6 +508,37 @@ Now, what is different between capsule networks and transformers in this regard 
         <category>incremental_reading</category>
         
         <category>early_stopping</category>
+        
+        <category>cognitive_plausibility</category>
+        
+        
+        <category>poster</category>
+        
+      </item>
+    
+      <item>
+        <title>Experiential, Distributional and Dependency-based Word Embeddings have Complementary Roles in Decoding Brain Activity</title>
+        <description>&lt;p&gt;&lt;img src=&quot;posters/poster_final.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+
+  &lt;p&gt;We evaluate 8 different word embedding models on their usefulness for predicting the neural activation patterns associated with concrete nouns. The models we consider include an experiential model, based on crowd-sourced association data, several popular neural and distributional models, and a model that reflects the syntactic context of words (based on dependency parses). Our goal is to assess the cognitive plausibility of these various embedding models, and understand how we can further improve our methods for interpreting brain imaging data.
+We show that neural word embedding models exhibit superior performance on the tasks we consider, beating experiential word representation model.The syntactically informed model gives the overall best performance when predicting brain activation patterns from word embeddings; whereas the GloVe distributional method gives the overall best performance when predicting in the reverse direction (words vectors from brain images). Interestingly, however, the error patterns of these different models are markedly different. This may support the idea that the brain uses different systems for processing different kinds of words. Moreover, we suggest that taking the relative strengths of different embedding models into account will lead to better models of the brain activity associated with words.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Checkout our &lt;a href=&quot;https://www.aclweb.org/anthology/W18-0107/&quot;&gt;paper&lt;/a&gt;, &lt;a class=&quot;citation&quot; href=&quot;#abnar-etal-2018-experiential&quot;&gt;(Abnar et al., 2018)&lt;/a&gt;, and the &lt;a href=&quot;https://github.com/samiraabnar/NeuroSemantics&quot;&gt;codes&lt;/a&gt; to reproduce our experiments!&lt;/p&gt;
+</description>
+        <pubDate>2020-05-29</pubDate>
+        <link>https://samiraabnar.github.io/articles/2018-01/experiential</link>
+        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2018-01/experiential</guid>
+        
+        <category>brain_decoding</category>
+        
+        <category>word2vec</category>
+        
+        <category>dependency_based_word_embedding</category>
+        
+        <category>distibutional_semantics</category>
         
         <category>cognitive_plausibility</category>
         
