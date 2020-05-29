@@ -36,6 +36,8 @@
   <!-- CSS files -->
   <link rel="stylesheet" href="https://samiraabnar.github.io/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://samiraabnar.github.io/css/main.css">
+  <!-- Social Share Kit CSS -->
+  <link rel="stylesheet" href="https://samiraabnar.github.io/css/social-share-kit.css" type="text/css">
 
   <link rel="canonical" href="https://samiraabnar.github.io/articles/2019-03/capsule">
   <link rel="alternate" type="application/rss+xml" title="Samira Abnar" href="https://samiraabnar.github.io/feed.xml" />
@@ -144,6 +146,13 @@
 
       </div>
     </div>
+    <div class="ssk-sticky ssk-right ssk-center ssk-lg">
+      <a href="" class="ssk ssk-facebook"></a>
+      <a href="" class="ssk ssk-twitter"></a>
+      <a href="" class="ssk ssk-google-plus"></a>
+      <a href="" class="ssk ssk-pinterest"></a>
+      <a href="" class="ssk ssk-linkedin"></a>
+    </div>
     <div class="col s12 m9">
       <div class="post-listing">
         <!-- 
@@ -157,7 +166,6 @@
   
 </div>
  -->
-
 
 <div id="post">
   <header class="post-header">
@@ -293,37 +301,12 @@ Now, what is different between capsule networks and transformers in this regard 
 <p>In very loose terms, the pose matrix in capsule nets plays the role of key and query vectors in transformers. The main point here is that there seems to be some advantage in disentangling representations that are encoding different kinds of information. In both these models, this is done based on the roles of the hidden state in the routing or attention process.</p>
 
   </article>
-</div>
 
-
-<!-- 
-<div id="share-box">
-<h5>Share this:</h5>
-
-<a id="f" href="https://www.facebook.com/sharer/sharer.php?u=/articles/2019-03/capsule" onclick="window.open(this.href, 'mywin',
-'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" ><i class="fa fa-facebook-official fa"></i><span> facebook</span></a>
-
-<a id="t" href="https://twitter.com/intent/tweet?text=&url=/articles/2019-03/capsule" onclick="window.open(this.href, 'mywin',
-'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"><i class="fa fa-twitter fa"></i><span> twitter</span></a>
-
-<a id="g" href="https://plus.google.com/share?url=/articles/2019-03/capsule" onclick="window.open(this.href, 'mywin',
-'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" ><i class="fa fa-google-plus fa"></i><span> google</span></a>
-
-<a id="r" href="http://www.reddit.com/submit?url=/articles/2019-03/capsule" onclick="window.open(this.href, 'mywin',
-'left=20,top=20,width=900,height=500,toolbar=1,resizable=0'); return false;" ><i class="fa fa-reddit fa"></i><span> reddit</span></a>
-
-<a id="l" href="https://www.linkedin.com/shareArticle?mini=true&url=https://samiraabnar.github.io/articles/2019-03/capsule&title=&summary=&source=webjeda" onclick="window.open(this.href, 'mywin',
-'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" ><i class="fa fa-linkedin fa"></i><span> linkedin</span></a>
-
-<a id="e" href="mailto:?subject=&amp;body=Check out this site /articles/2019-03/capsule"><i class="fa fa-envelope fa"></i><span> email</span></a>
-</div>
- -->
-
-<div id="post">
   <h4>References</h4>
-<ol class="bibliography"><li><span id="vaswani2017attention">Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., &amp; Polosukhin, I. (2017). Attention is all you need. <i>Advances in Neural Information Processing Systems</i>, 5998–6008.</span></li>
+  <ol class="bibliography"><li><span id="vaswani2017attention">Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., &amp; Polosukhin, I. (2017). Attention is all you need. <i>Advances in Neural Information Processing Systems</i>, 5998–6008.</span></li>
 <li><span id="e2018matrix">Hinton, G. E., Sabour, S., &amp; Frosst, N. (2018). Matrix capsules with EM routing. <i>International Conference on Learning Representations</i>.</span></li>
 <li><span id="hinton2000learning">Hinton, G. E., Ghahramani, Z., &amp; Teh, Y. W. (2000). Learning to parse images. <i>Advances in Neural Information Processing Systems</i>, 463–469.</span></li></ol>
+  </p>
 </div>
 
 
@@ -337,7 +320,14 @@ Now, what is different between capsule networks and transformers in this regard 
   </div>
   <script type="text/javascript" src="https://samiraabnar.github.io/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="https://samiraabnar.github.io/js/main.js"></script>
+<!-- Social Share Kit JS -->
+<script type="text/javascript" src="https://samiraabnar.github.io/js/social-share-kit.js"></script>
 
+
+
+<script type="text/javascript">
+SocialShareKit.init();
+</script>
 
 </body>
 </html>
