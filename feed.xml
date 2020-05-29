@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-29</pubDate>
-    <lastBuildDate>Fri, 29 May 2020 12:19:44 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 29 May 2020 12:24:30 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -93,6 +93,30 @@ Through distillation, the generalisation behaviour of the teacher that is affect
         <link>https://samiraabnar.github.io/articles/2020-05/indist</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/indist</guid>
         
+        <category>knowledge_distillation</category>
+        
+        <category>inductive_bias</category>
+        
+        <category>rnn</category>
+        
+        <category>lstm</category>
+        
+        <category>transformer</category>
+        
+        <category>recurrent_inductive_bias</category>
+        
+        <category>cnn</category>
+        
+        <category>translation_equivariance</category>
+        
+        <category>recurrent_inductive_bias</category>
+        
+        <category>subject_verb_agreement</category>
+        
+        <category>mnist</category>
+        
+        <category>language_modelling</category>
+        
         
         <category>blogpost</category>
         
@@ -173,9 +197,9 @@ In the figure below, we plot the Expected Calibration Error (ECE) of the models.
         
         <category>transformer</category>
         
-        <category>subject-verb-agreement</category>
+        <category>subject_verb_agreement</category>
         
-        <category>universal-transformer</category>
+        <category>universal_transformer</category>
         
         
         <category>blogpost</category>
@@ -309,13 +333,19 @@ In some sense, Attention Rollout is more restrictive compared to Attention Flow,
         
         <category>transformer</category>
         
-        <category>self-attention</category>
+        <category>self_attention</category>
         
         <category>attention_visualisation</category>
         
         <category>attention_rollout</category>
         
         <category>attention_flow</category>
+        
+        <category>bert</category>
+        
+        <category>subject_verb_agreement</category>
+        
+        <category>language_modelling</category>
         
         
         <category>blogpost</category>
@@ -330,9 +360,7 @@ In some sense, Attention Rollout is more restrictive compared to Attention Flow,
 
 &lt;blockquote&gt;
   &lt;p&gt;In this paper, we define and apply representational stability analysis (ReStA), an intuitive way of analyzing neural language models. ReStA is a variant of the popular representational similarity analysis (RSA) in cognitive neuroscience. While RSA can be used to compare representations in models, model components, and human brains, ReStA compares instances of the same model, while systematically varying single model parameter.
-%
 Using ReStA, we study four recent and successful neural language models, and evaluate how sensitive their internal representations are to the amount of prior context. Using RSA, we perform a systematic study of how similar the representational spaces in the first and second (or higher) layers of these models are to each other and to patterns of activation in the human brain.
-%
 Our results reveal surprisingly strong differences between language models, and give insights into where the deep linguistic processing, that integrates information over multiple sentences, is happening in these models. The combination of ReStA and RSA on models and brains allows us to start addressing the important question of what kind of linguistic processes we can hope to observe in fMRI brain imaging data. In particular, our results suggest that the data on story reading from Wehbe et al. (2014) contains a signal of shallow linguistic processing, but show no evidence on the more interesting deep linguistic processing.&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
