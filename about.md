@@ -1,19 +1,24 @@
 ---
-layout: default
+layout: about
 title: About
 ---
-# Hi :)
+![](img/profile_pic.png){:style="width: 360px; float: right; padding:15px"}
 
-I am Samira! I am currently a PhD candidate at University of Amsterdam (I am towards the end of my PhD). My field of research is Machine Learning and Cognitive Science!
-I got into this field, because of two reasons: 1) I am super curious to understand how our brain works and what intelligence really means! 2) I feel passionate about building and developing smart tools and technologies to make our lives easier and happier!
+I am Samira!
 
-At the moment, in the era of deep learning, I am very excited about working towards developing frameworks which can help detailed profiling of different kinds of neural network models, i.e., understand their learning dynamics and the factors that affect what they learn!
+I am currently a PhD candidate at [University of Amsterdam ](http://www.uva.nl/en). My field of research is Machine Learning and Cognitive Science.
+I got into this field, because of two reasons: 1) I am super curious to understand how our brain works and what intelligence really means; 2) I feel passionate about building and developing smart tools and technologies to make our lives easier and happier.
 
-More generally, I like to work in the areas of science where we connect the dots between different theories in different fields!
+At the moment, in the era of deep learning, I am very excited about working towards developing frameworks which can help detailed profiling of different kinds of neural network models, i.e., understand their learning dynamics and the factors that affect what they learn.
+
+More generally, I like to work in the areas of science where we connect the dots between different theories in different fields.
+In my blog here, I will be writing about the small steps I am taking, with the help of my collaborators and colleagues, towards these goals.
+
+<!-- #### Projects I have supervised:
 
 
-In my blog here, I will be writing about the small steps I am taking, with the help of my collaborators and colleagues, towards these goals!
-
+#### My publications:
+{% bibliography --file publication  %} -->
 
 <!-- ### On the other hand ... -->
 

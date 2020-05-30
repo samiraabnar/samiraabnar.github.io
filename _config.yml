@@ -6,7 +6,12 @@
 title: Samira Abnar
 email:
 description:
-url: # the base hostname & protocol for your site
+url: https://samiraabnar.github.io # the base hostname & protocol for your site
+repository: samiraabnar/samiraabnar.github.io
+
+
+
+#baseurl: https://samiraabnar.github.io
 keywords: ["blog"]
 
 #

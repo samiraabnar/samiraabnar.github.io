@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="In this post, we try to understand the nature of recurrent inductive bias. I will discuss different sources of inductive biases of RNNs and provide empirical...">
+  <meta name="keywords" content="blog">
+  <meta name="author" content="On the Merits of Recurrent Inductive Bias | Samira Abnar">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f5f5">
+
+  <!-- Twitter Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="On the Merits of Recurrent Inductive Bias | Samira Abnar">
+  <meta name="twitter:description" content="In this post, we try to understand the nature of recurrent inductive bias. I will discuss different sources of inductive biases of RNNs and provide empirical...">
+  
+    
+      <meta property="twitter:image" content="https://samiraabnar.github.io/img/rnn_images/rnn-logo.png">
+    
+  
+
+  <!-- Open Graph Tags -->
+  <meta property="og:type" content="blog">
+  <meta property="og:url" content="https://samiraabnar.github.io/articles/2020-05/recurrence">
+  <meta property="og:title" content="On the Merits of Recurrent Inductive Bias | Samira Abnar">
+  <meta property="og:description" content="In this post, we try to understand the nature of recurrent inductive bias. I will discuss different sources of inductive biases of RNNs and provide empirical...">
+  
+    
+      <meta property="og:image" content="https://samiraabnar.github.io/img/rnn_images/rnn-logo.png">
+    
+  
+  <title>On the Merits of Recurrent Inductive Bias | Samira Abnar</title>
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="https://samiraabnar.github.io/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://samiraabnar.github.io/css/main.css">
+  <!-- Social Share Kit CSS -->
+  <link rel="stylesheet" href="https://samiraabnar.github.io/css/social-share-kit.css" type="text/css">
+
+  <link rel="canonical" href="https://samiraabnar.github.io/articles/2020-05/recurrence">
+  <link rel="alternate" type="application/rss+xml" title="Samira Abnar" href="https://samiraabnar.github.io/feed.xml" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  <!-- Icons -->
+  <!-- 16x16 -->
+  <link rel="shortcut icon" href="https://samiraabnar.github.io/logo.png">
+  <!-- 32x32 -->
+  <link rel="shortcut icon" href="https://samiraabnar.github.io/logo.png">
+  <script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+       <script type="text/x-mathjax-config">
+         MathJax.Hub.Config({
+           tex2jax: {
+             inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+             processEscapes: true
+           }
+         });
+  </script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+
+
+<body>
+  <div class="row">
+    <div class="col s12 m3">
+      <div class="table cover">
+        
+
+<div class="cover-card table-cell table-middle">
+  
+  <a href="/">
+    <img src="/img/samira-logo.jpg" alt="" class="avatar">
+  </a>
+  
+  <a href="/" class="author_name">Samira Abnar</a>
+  <span class="author_job">PhD Candidate</span>
+  <span class="author_bio mbm">University of Amsterdam</span>
+  <nav class="nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="/">blog</a>
+      </li>
+       
+      <li class="nav-item">
+        <a href="/about">About</a>
+      </li>
+        
+      <li class="nav-item">
+        <a href="/archive/">Archive</a>
+      </li>
+          
+      <li class="nav-item">
+        <a href="/categories/">Categories</a>
+      </li>
+            
+      <li class="nav-item">
+        <a href="/tags/">Tags</a>
+      </li>
+         
+    </ul>
+  </nav>
+  <script type="text/javascript">
+  // based on http://stackoverflow.com/a/10300743/280842
+  function gen_mail_to_link(hs, subject) {
+    var lhs,rhs;
+    var p = hs.split('@');
+    lhs = p[0];
+    rhs = p[1];
+    document.write("<a class=\"social-link-item\" target=\"_blank\" href=\"mailto");
+    document.write(":" + lhs + "@");
+    document.write(rhs + "?subject=" + subject + "\"><i class=\"fa fa-fw fa-envelope\"></i><\/a>");
+  }
+</script>
+<div class="social-links">
+  <ul>
+    
+    <li><a href="http://twitter.com/samiraabnar#username" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/samiraabnar" class="social-link-item" target="_blank"><i class="fa fa-fw fa-linkedin"></i></a></li>
+    
+    
+    <li><a href="http://instagram.com/samiraabnar" class="social-link-item" target="_blank"><i class="fa fa-fw fa-instagram"></i></a></li>
+    
+    <li><a href="http://github.com/samiraabnar" class="social-link-item" target="_blank"><i class="fa fa-fw fa-github"></i></a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ul>
+</div>
+
+</div>
+
+      </div>
+    </div>
+    <div class="ssk-sticky ssk-right ssk-center ssk-lg">
+      <a href="" class="ssk ssk-facebook"></a>
+      <a href="" class="ssk ssk-twitter"></a>
+      <a href="" class="ssk ssk-google-plus"></a>
+      <a href="" class="ssk ssk-pinterest"></a>
+      <a href="" class="ssk ssk-linkedin"></a>
+    </div>
+    <div class="col s12 m9">
+      <div class="post-listing">
+        <!-- 
+<div class="post-image-feature">
+  <img class="feature-image" src=
+  
+  "https://samiraabnar.github.io/img/rnn_images/rnn-logo.png"
+  
+  alt="On the Merits of Recurrent Inductive Bias feature image">
+
+  
+</div>
+ -->
+
+<div id="post">
+  <header class="post-header">
+    <h1 title="On the Merits of Recurrent Inductive Bias">On the Merits of Recurrent Inductive Bias</h1>
+    <span class="post-meta">
+      <span class="post-date">
+        16 MAY 2020
+      </span>
+      •
+      <span class="read-time" title="Estimated read time">
+  
+  
+    6 mins read
+  
+</span>
+
+    </span>
+
+  </header>
+
+  <article class="post-content">
+    <p>Transformers have become the most promising models in machine learning, particularly for solving natural language processing tasks. The fact that Transformer based models do so good raises the question of whether the more traditional neural network architectures for processing sequences, recurrent neural networks (RNNs), are obsolete now?</p>
+
+<p>While Transformers do extremely well on many tasks given enough training data and computation <a class="citation" href="#Devlin2019BERTPO">(Devlin et al., 2019; Keskar et al., 2019; Radford et al., 2019)</a>, several studies have shown that LSTMs, the most popular variants of RNNs, can perform better than  Transformers on tasks requiring sensitivity to hierarchical (linguistic) structure, especially when the data is limited <a class="citation" href="#tran-etal-2018-importance">(Tran et al., 2018; Dehghani et al., 2019)</a>.
+Theoretically, both RNNs and Transformers can deal with finite hierarchical structures. But, they have different preference inductive biases and the superior performance of LSTMs over Transformers in these cases is attributed to their recurrent inductive bias.
+The recurrent inductive bias of LSTMs seems to have an important role in enabling them to model the hierarchical structure of the inputs. The question we try to answer in this post is that what is the recurrent inductive bias?</p>
+
+<h4 id="what-is-inductive-bias">What is Inductive Bias?</h4>
+<p>Inductive bias is generally defined as any kind of bias in learning algorithms that does not come from the training data. Inductive biases of the learning algorithms determine their generalisation behaviour and the type of solutions they converge to. There are different sources for inductive biases in learning algorithms, for instance, the architectural choices, the objective function, the curriculum strategy, or the optimization regime.</p>
+
+<p>Let’s assume, we are given a task and two models, A and B, with similar expressive power, i.e. the desired solution for the task is realizable for both models. Also assume that model B has a stronger inductive bias toward the solution compared to model A. While model A can eventually learn the solution if we provide it with enough data and computation, model B can achieve this goal with much less data and computation.
+Hence, designing learning algorithms with proper inductive biases is essential especially when data and compute is limited.</p>
+
+<p>Moreover, in the absence of strong inductive biases, a model can be equally attracted to several local minima on the loss surface; and the converged solution can be arbitrarily affected by random variations, for instance, the initial state or the order of training examples <a class="citation" href="#sutskever2013importance">(Sutskever et al., 2013; McCoy et al., 2020; Dodge et al., 2020)</a>.</p>
+
+<h4 id="what-is-recurrent-inductive-bias">What is Recurrent Inductive Bias?</h4>
+
+<p>The inductive bias of RNNs is often referred to as the <strong>recurrent inductive bias</strong>.
+Even though this term is used frequently in the literature, I have not been able to find a clear definition for it. Generally, the term refers to any bias that origins from the recurrent architecture.
+We can distinguish between three main sources of this bias in RNNs:</p>
+<ol>
+  <li><strong>The sequential processing of the input</strong>: There is an inherent notion of order in the architecture that forces the model to access next tokens in the input one by one.</li>
+  <li><strong>No direct access to the past tokens</strong>: The model has to compress all the information from past tokens in a hidden state/memory, which is accessible when processing the next token.</li>
+  <li><strong>Recursion</strong>: The model recursively applies the same function on the varying input at every time step.</li>
+</ol>
+
+<p>In contrast to RNNs, Transformers, process the input in parallel. Although a weak notion of order is encoded by positional embeddings, no explicit assumption is made in the connectivity structure of the architecture. Moreover, they have a global receptive field and can access all tokens through self-attention. Finally, standard Transformers are not recursive, they apply the same set of weights on all input tokens, but they don’t do it recursively.</p>
+
+<h4 id="recurrent-inductive-bias-in-practice">Recurrent Inductive Bias in Practice</h4>
+<p>I have done a small experiment to examine the effect of recurrent inductive bias of RNNs in practice. Let’s take a look into it!</p>
+
+<p>The task of subject-verb agreement is proposed by <a class="citation" href="#linzen2016assessing">(Linzen et al., 2016)</a> as a proxy for assessing the ability of models to capture hierarchical structure in natural language. In this task, the goal is to predict number-agreement between subjects and verbs in English sentences. Succeeding at this task is a strong indicator that a model can learn syntactic structures. It is shown by <a class="citation" href="#tran-etal-2018-importance">(Tran et al., 2018)</a> that the recurrent inductive bias of RNNs helps them to achieve better performance on this task compared to standard Transformers.</p>
+
+<p>To empirically examine the benefits of each of the three sources of the recurrent inductive bias mentioned earlier, we can modify the standard Transformer to have an architecture with specifications that are similar to RNNs. Then we measure how the performance of the models change as we include more aspects of the recurrent inductive bias.
+These are the three different variants of Transformers we use:</p>
+<ol>
+  <li><strong>Transformer</strong>: Standard Transformer encoder with a class token (<kbd>CLS</kbd>) for classification (BERT style),</li>
+  <li><strong>Sequential Transformer</strong>: Transformer encoder with future masking where the classification is done using the representation of the last token\footnote{Note that future tokens are masked out by default when using a transformer in the decoder mode, e.g., in a language modelling setup.},</li>
+  <li><strong>Sequential Universal Transformer</strong>: Universal Transformer <a class="citation" href="#universaltrans">(Dehghani et al., 2019)</a> encoder, where we have a recurrence in depth by sharing parameters among all the layers, also with future masking.
+%
+Among these variants of Transformer, Sequential Transformer implements sequential access to tokens, and Sequential Universal Transformer has both sequential access to tokens and a form of recursion.
+Here is a schematic view of the architecture of RNN and the variants of Transformer we discussed.</li>
+</ol>
+
+<p><img src="img/rnn_images/models.png" alt="models" width="800px" /></p>
+
+<p>These models are trained to predict the number of the masked verb in a given sentence (binary classification objective).
+In the plot below, we can see the mean and standard deviation of the accuracy over multiple trials.
+As we can see, LSTM achieves the best performance and has the least variance.
+<img src="img/rnn_images/accuracy.png" alt="" width="360px" /></p>
+
+<p>Interestingly, comparing all four models, we find that the performance steadily increases as more aspects of the recurrent inductive bias are included.</p>
+
+<p>As another indicator of the quality of the solutions that different models converged to, we look into their confidence calibration[^af15b0ee].
+[^af15b0ee]: Confidence calibration captures how well likelihood (confidence) of the prediction of the model predicts its accuracy. For a well-calibrated model, if we bin the confidence scores and compute the accuracy for each bin, the accuracies are perfectly correlated with the confidence values. The Expected Calibration Error (ECE) is computed as the distance between the calibration curve of the model and the perfect calibration curve.
+In the figure below, we plot the Expected Calibration Error (ECE) of the models. In line with the trends in the performances of these models, the expected calibration error decreases as we move from standard Transformer toward LSTM.
+<img src="img/rnn_images/ece.png" alt="" width="360px" /></p>
+
+<p>Additionally, as shown in both above figures, we find a decreasing trend in the variance of the models, i.e., adding more inductive biases to the models decreases their variance. This is a piece of empirical evidence that supports the relation between variance of the solutions a model converges to and its inductive biases.</p>
+
+  </article>
+
+  <h4>References</h4>
+  <ol class="bibliography"><li><span id="Devlin2019BERTPO">Devlin, J., Chang, M.-W., Lee, K., &amp; Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. <i>Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies</i>. https://arxiv.org/abs/1810.04805</span></li>
+<li><span id="keskar2019ctrl">Keskar, N. S., McCann, B., Varshney, L. R., Xiong, C., &amp; Socher, R. (2019). Ctrl: A conditional transformer language model for controllable generation. <i>ArXiv Preprint ArXiv:1909.05858</i>. https://arxiv.org/abs/1909.05858</span></li>
+<li><span id="radford2019language">Radford, A., Wu, J., Child, R., Luan, D., Amodei, D., &amp; Sutskever, I. (2019). Language models are unsupervised multitask learners. <i>OpenAI Blog</i>, <i>1</i>(8).</span></li>
+<li><span id="tran-etal-2018-importance">Tran, K., Bisazza, A., &amp; Monz, C. (2018). The Importance of Being Recurrent for Modeling Hierarchical Structure. <i>Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing</i>. https://www.aclweb.org/anthology/D18-1503</span></li>
+<li><span id="universaltrans">Dehghani, M., Gouws, S., Vinyals, O., Uszkoreit, J., &amp; Kaiser, L. (2019). Universal Transformers. <i>Proceedings of the 7th International Conference on Learning Representations</i>. https://arxiv.org/abs/1807.03819</span></li>
+<li><span id="sutskever2013importance">Sutskever, I., Martens, J., Dahl, G., &amp; Hinton, G. (2013). On the importance of initialization and momentum in deep learning. <i>International Conference on Machine Learning</i>. https://dl.acm.org/doi/10.5555/3042817.3043064</span></li>
+<li><span id="mccoy2019berts">McCoy, R. T., Frank, R., &amp; Linzen, T. (2020). Does syntax need to grow on trees? Sources of hierarchical inductive
+               bias in sequence-to-sequence networks. <i>CoRR</i>, <i>abs/2001.03632</i>. https://arxiv.org/abs/2001.03632</span></li>
+<li><span id="dodge2020">Dodge, J., Ilharco, G., Schwartz, R., Farhadi, A., Hajishirzi, H., &amp; Smith, N. (2020). Fine-Tuning Pretrained Language Models: Weight Initializations, Data Orders, and Early Stopping. <i>ArXiv Preprint ArXiv: 2002.06305</i>. https://arxiv.org/abs/2002.06305</span></li>
+<li><span id="linzen2016assessing">Linzen, T., Dupoux, E., &amp; Goldberg, Y. (2016). Assessing the ability of LSTMs to learn syntax-sensitive dependencies. <i>Transactions of the Association for Computational Linguistics</i>, <i>4</i>, 521–535.</span></li></ol>
+  </p>
+</div>
+
+
+
+        <footer>
+  <!-- &copy; 2020 Samira Abnar. -->
+</footer>
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="https://samiraabnar.github.io/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://samiraabnar.github.io/js/main.js"></script>
+<!-- Social Share Kit JS -->
+<script type="text/javascript" src="https://samiraabnar.github.io/js/social-share-kit.js"></script>
+
+
+
+<script type="text/javascript">
+SocialShareKit.init();
+</script>
+
+</body>
+</html>

@@ -3,65 +3,407 @@
   <channel>
     <title>Samira Abnar</title>
     <description>Samira's Blog</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>2020-05-26</pubDate>
-    <lastBuildDate>Tue, 26 May 2020 10:50:44 +0200</lastBuildDate>
+    <link>https://samiraabnar.github.io/</link>
+    <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>2020-05-30</pubDate>
+    <lastBuildDate>Sat, 30 May 2020 15:18:38 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
+        <title>Distilling Inductive Biases</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/No_free_lunch_in_search_and_optimization&quot;&gt;No free lunch theorem&lt;/a&gt; states that for any learning algorithm, any improvement on performance over one class of problems is balanced out by a decrease in the performance over another class &lt;a class=&quot;citation&quot; href=&quot;#wolpert1997no&quot;&gt;(Wolpert &amp;amp; Macready, 1997)&lt;/a&gt;. In other words, &lt;strong&gt;there is no “one size fits all” learning algorithm&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;We can see this in practice in the deep learning world. Among the various neural network architectures, each of them are better or worse for solving different tasks based on their inductive biases. For example, consider the image classification problem. CNNs are the de facto choice for processing images, and in general data with grid-like topology. Sparse connectivity and parameter sharing in CNNs make them an effective and statistically efficient architecture.&lt;/p&gt;
+
+&lt;p&gt;The the convolution operation in combination with max pooling makes CNNs approximately invariant to translation.
+When a module is translation invariant, it means that if apply translation transformation on the input image, i.e., change the position of objects in the input, the output of the module won’t change! In mathematical terms if &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt; is translation invariance, then &lt;script type=&quot;math/tex&quot;&gt;f(T(x))=f(x)&lt;/script&gt;, where &lt;script type=&quot;math/tex&quot;&gt;T&lt;/script&gt; is a translation function.
+A module could also be translation equivariant, which means that any translation in the input will be reflected in the output. In mathematical terms, if &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt; is translation equivariant, then &lt;script type=&quot;math/tex&quot;&gt;f(T(x))=T(f(x))&lt;/script&gt;.
+The convolution operation is translation equivariant, and applying max pooling on top of it results in translation invariance!&lt;/p&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/translation_invariance.gif&quot; alt=&quot;Translation Invariance&quot; style=&quot;width: 360px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Translation invariance&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;Translation invariance of CNNs improves their generalization and makes them data efficient compared to fully connected networks. For example, if, during training, a CNN has only seen pictures of cats where the cat is located at the centre of the image, it can correctly classify cats at test time independent of their position in the image.  In the lack of this inductive bias, the model needs to see examples of cats at different positions to be able to correctly classify them at test time.
+On the other hand, this translation invariance can hurt the performance of CNNs in cases where the position of the objects in the image matters. This is known as the Picasso effect, where you have all the pieces of an object but not in the right context (One of the motivations behind Capsule networks is to address this drawback).&lt;/p&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Pablo-Picasso-Spanish-Cubist-Oil-Canvas-Portrait.jpg&quot; alt=&quot;Oil on canvas. Featuring a cubist portrait.&quot; style=&quot;width: 360px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Oil on canvas, featuring a cubist portrait, attributed to Pablo Picasso (1881-1973, Spanish)&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;Another example of such tradeoffs are recurrent neural networks (RNNs) in contrast to Transformers. It has been shown that the recurrent inductive bias of RNNs helps them capture hierarchical structures in sequences (&lt;a href=&quot;https://samiraabnar.github.io/articles/2020-05/recurrence&quot;&gt;Take a look at my other blog post about the recurrecnt inductive bias&lt;/a&gt;). But this recurrence and the fact that RNNs’ access to previous tokens is limited to their memory makes it harder for them to deal with long term dependencies.
+Besides, RNNs can be rather slow because they have to process data sequentially, i.e, they are not parallelizable. On the other hand, Transformers have direct access to all input tokens and they are very expressive when it comes to representing longer context sizes. Also, they can process the input sequence in parallel, hence they can be remarkably faster than LSTMs. However, Transformers struggle to generalize on tasks that require capturing hierarchical structures when training data is limited.&lt;/p&gt;
+
+&lt;p&gt;It might not be possible to have one model that can single handedly achieve the desired generalization behaviour on a wide range of tasks, but would it be possible to benefit from the inductive biases of different models during training to have one best model at inference?&lt;/p&gt;
+
+&lt;p&gt;Fortunately, it seems to be possible to do this to some extent!
+In this post, I discuss our paper, “Transferring Inductive Biases through Knowledge Distillation”, where we show that it is possible to transfer the effect of inductive bias through knowledge distillation and this can be a starting step to achieve the goal of combining the strengths of multiple models in one place!&lt;/p&gt;
+
+&lt;h4 id=&quot;what-is-inductive-bias&quot;&gt;What is Inductive bias?&lt;/h4&gt;
+&lt;p&gt;Inductive biases are the characteristics of learning algorithms that influence their generalization behaviour, independent of data. They are one of the main driving forces to push learning algorithms toward particular solutions &lt;a class=&quot;citation&quot; href=&quot;#mitchell1980need&quot;&gt;(Mitchell, 1980)&lt;/a&gt;.
+In the absence of strong inductive biases, a model can be equally attracted to several local minima on the loss surface; and the converged solution can be arbitrarily affected by random variations, for instance, the initial state or the order of training examples &lt;a class=&quot;citation&quot; href=&quot;#sutskever2013importance&quot;&gt;(Sutskever et al., 2013; McCoy et al., 2020; Dodge et al., 2020)&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In figure below, we see a schematic example of the paths that different instances of two models with different levels of inductive biases follow on a fitness landscape.&lt;sup id=&quot;fnref:3be40dd2&quot;&gt;&lt;a href=&quot;#fn:3be40dd2&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/inductive_bias_distilation_example_1.png&quot; alt=&quot;Oil on canvas. Featuring a cubist portrait.&quot; style=&quot;width: 360px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;A drawing of how inductive biases can affect models' preferences to converge to different local minima. The inductive biases are shown by colored regions (green and yellow) which indicates regions that models prefer to explore.&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;There are two types of inductive biases: &lt;strong&gt;restricted hypothesis space bias&lt;/strong&gt; and &lt;strong&gt;preference bias&lt;/strong&gt;. Restricted hypothesis space bias determines the expressively of a model, while preference bias weighs the solutions within the hypothesis space &lt;a class=&quot;citation&quot; href=&quot;#Craven1996ExtractingCM&quot;&gt;(Craven, 1996)&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;From another point of view, as formulated by &lt;a class=&quot;citation&quot; href=&quot;#seuncurve&quot;&gt;(Seung et al., 1991)&lt;/a&gt; we can study models from two aspects:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;whether a solution is realisable for the model, i.e., there is at least a set of weights that leads to the optimal solution.&lt;/li&gt;
+  &lt;li&gt;whether a solution is learnable for the model, i.e., it is possible for the model to learn that solution within a reasonable amount of time and computations.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In many cases in deep learning, we are dealing with models that have enough expressive power to solve our problems, however, they have different preference biases. Meaning the desired solutions are realisable for all of them, but depending on the task at hand it is more easier for some of them to learn the solutions compared to the others.&lt;/p&gt;
+
+&lt;!-- So,once we have the desired solution, we might be able to guid the other models toward that  solution. --&gt;
+
+&lt;h4 id=&quot;having-the-right-inductive-bias-matters&quot;&gt;Having the Right Inductive Bias Matters&lt;/h4&gt;
+&lt;p&gt;To understand the effect of inductive biases of a model, we need to take a look at its generalization behaviour.&lt;/p&gt;
+
+&lt;p&gt;Let’s walk through the example of LSTMs and Transformers.
+When we train these models on language modelling, i.e., predicting the next word in a sequence, they both achieve more or less similar perplexities.
+But how can we know which one is learning a more generlizable solution? One way to check the generalizability of language models is to test how well they have learned the syntactic rules of the language and the hierarchical structures of the sentences.
+The task of subject-verb agreement is designed for this purpose, i.e., to assess the ability of models to caputre hierchical structure in the language.
+In this task, the goal for the model is to predict the number of a masked verb in a given sentence. To do this, the model needs to correctly recognize the subject of the verb in the sentence and the main difficulty is when the verb does not follow the subject immediately and there are one or more agreement attractors between the subject and the verb. In the figure below, we see an example for this task.&lt;/p&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/sv_example.png&quot; alt=&quot;&quot; style=&quot;width: 800px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;An example from the subject-verb agreement task&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;Comparing different instances of LSTMs and Transformers, with different perplexities, we observe that LSTMs have a higher tendency toward solutions that achieve better accuracy on the &lt;a href=&quot;https://github.com/TalLinzen/rnn_agreement&quot;&gt;subject verb agreement task&lt;/a&gt;. We can see that, LSTMs with worse perplexities achieve better accuracies than Transformers with better perplexities.&lt;/p&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.13.43.png&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Accuracy on verb number prediction vs perplexity&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;Now, let’s go back to the CNN example and see how the inductive bias of CNNs works in practice.
+We can view CNNs as MLPs with an inﬁnitely strong prior over their weights, which says that the weights for one hidden unit must be identical to the weights of its neighbor but shifted in space, also that the weights must be zero, except for in the small, spatially contiguous receptive ﬁeld assigned to that hidden unit &lt;a class=&quot;citation&quot; href=&quot;#Goodfellow-et-al-2016&quot;&gt;(Goodfellow et al., 2016)&lt;/a&gt;.
+Hence, to measure the effectiveness of the CNNs inductive biases we can compare them to MLPs.
+Here you can see the results of training CNNs and MLPs on the MNIST dataset and evaluating them on the &lt;a href=&quot;https://github.com/google-research/mnist-c&quot;&gt;MNIST-C&lt;/a&gt; dataset.&lt;/p&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-25 at 12.16.21.png&quot; alt=&quot;&quot; style=&quot;width: 800px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Accuracy and Expected Calibration Error (mean$\pm$std over multiple trials) of CNNs and MLPs trained on MNIST and evaluated on MNIST, MNIST-Scaled and MNIST-Translated&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;As expected, even though the accuracies of MLPs and CNNs are only slightly different on the original MNIST test set, CNNs can generalize much better to the out of distribution test sets that include translated and scaled MNIST examples.&lt;/p&gt;
+
+&lt;h4 id=&quot;knowledge-distillation-to-the-rescue&quot;&gt;Knowledge Distillation to the Rescue&lt;/h4&gt;
+&lt;p&gt;There are different ways to inject inductive biases into learning algorithms, for instance, through architectural choices, the objective function, curriculum  strategy, or the optimisation regime.
+Here, we exploit the power of Knowledge Distillation (KD) to transfer the effect of inductive biases between neural networks.&lt;/p&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/inductive_bias_distilation_example_2.png&quot; alt=&quot;Oil on canvas. Featuring a cubist portrait.&quot; style=&quot;width: 360px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;A drawing of how inductive biases can be transferred through distillation. The inductive biases are shown by colored regions (green and yellow) which indicates regions that models prefer to explore.&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;KD refers to the process of transferring knowledge from a teacher model to a student model, where the logits from the teacher are used to train the student. It is best known as an effective method for model compression &lt;a class=&quot;citation&quot; href=&quot;#hinton2015distilling&quot;&gt;(Hinton et al., 2015)&lt;/a&gt; which allows taking advantage of the huge number of parameters during training, without losing the efficiency of a smaller model during inference.
+When we have a teacher that performs very well on a given task, using it to train another model can lead to an improved performance in the student model. The question is where does this improvement come from. Does knowledge distillation merely act as a regularization technique or are the qualitative aspects of the solution the teachers converges that are rooted in its inductive biases, also reflected in the student model.&lt;/p&gt;
+
+&lt;p&gt;Interestingly, the improvement we get from KD is not limited to the performance of the model on the trained task. Through distillation, the generalization behaviour of the teacher that is affected by its inductive biases also transfers to the student model.&lt;/p&gt;
+
+&lt;p&gt;In the language modelling example, even in the case where the perplexity increases (worsens), the accuracy on the subject verb agreement task improves.
+&lt;!-- _includes/image.html --&gt;&lt;/p&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.14.png&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Changes in accuracy vs perplexity through distillation&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;In the MNIST example, not only the performance of the student model on the MNIST test set improves, it also achieves higher accuracies on the out of distribution sets.
+&lt;!-- _includes/image.html --&gt;&lt;/p&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-25 at 12.16.44.png&quot; alt=&quot;&quot; style=&quot;width: 800px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Performances of CNNs and MLPs trained through distillation&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;h5 id=&quot;distillation-affect-the-trajectories-the-student-models-follow-during-training&quot;&gt;Distillation affect the trajectories the student models follow during training&lt;/h5&gt;
+&lt;p&gt;Now, Let’s take a look at the training paths of the models when they are trained independently and when they are trained through distillation&lt;sup id=&quot;fnref:5614e4c5&quot;&gt;&lt;a href=&quot;#fn:5614e4c5&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. Looking at the training path for an independent MLP, an independent CNN, and an MLP that is distilled form a CNN, we see that while MLP and CNN seem to have very different behaviour during training, the student MLP with a CNN as its teacher behaves differently than an independent MLP and more similarly to its teacher CNN. This is interesting, in particular, since the student model is only exposed to the final solution the teacher has converged to and no information about the intermediate stages of training is provided in the offline KD.&lt;/p&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.13.15.png&quot; alt=&quot;&quot; style=&quot;width: 600px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Training paths of CNNs and MLPs&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;Moreover comparing the final representations these models converge to, we see that as expected based on our assumptions about the inductive biases of these models, MLPs have more variance than CNNs, and Transformers have more variance compared to LSTMs. Also, distillation from a teacher with stronger inducive biases results in representations that are more similar to the representations learned by the teacher model. Finally, self-distillation does not significantly change the representations the models learn.&lt;/p&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.30.png&quot; alt=&quot;&quot; style=&quot;width: 600px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Representational similarity of converged solutions of CNNs and MLPs&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.45.png&quot; alt=&quot;&quot; style=&quot;width: 600px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Representational similarity of converged solutions of LSTMs and Transformers&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;In this post, I went through the findings of our paper on “Transferring Inductive Biases Through Knowledge Distillation”, where we explore the power of knowledge distillation for transferring the effect of inductive biases from one model to another. In this paper, We consider families of models with different inductive biases, LSTMs vs. Transformers and CNNs vs. MLPs, in the context of tasks and scenarios where having the right inductive biases can be critical. We study how the effect of inductive biases is transferred through knowledge distillation, in terms of not only performance, but also different aspects of converged solutions.&lt;/p&gt;
+
+&lt;p&gt;Codes to replicate the experiments we discussed in this post are available &lt;a href=&quot;https://github.com/samiraabnar/Reflect&quot;&gt;here&lt;/a&gt;!&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:3be40dd2&quot;&gt;
+      &lt;p&gt;Note that this is not a precise illustration since in practice different models with different architectures have different fitness landscapes, thus not directly comparable! &lt;a href=&quot;#fnref:3be40dd2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:5614e4c5&quot;&gt;
+      &lt;p&gt;To plot the training path of a model, we compute the pairwise representational similarity between different stages of training of the model. &lt;a href=&quot;#fnref:5614e4c5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>2020-05-30</pubDate>
+        <link>https://samiraabnar.github.io/articles/2020-05/indist</link>
+        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/indist</guid>
+        
+        <category>knowledge_distillation</category>
+        
+        <category>inductive_bias</category>
+        
+        <category>rnn</category>
+        
+        <category>lstm</category>
+        
+        <category>transformer</category>
+        
+        <category>recurrent_inductive_bias</category>
+        
+        <category>cnn</category>
+        
+        <category>translation_equivariance</category>
+        
+        <category>recurrent_inductive_bias</category>
+        
+        <category>subject_verb_agreement</category>
+        
+        <category>mnist</category>
+        
+        <category>language_modelling</category>
+        
+        
+        <category>blogpost</category>
+        
+      </item>
+    
+      <item>
+        <title>On the Merits of Recurrent Inductive Bias</title>
+        <description>&lt;p&gt;Transformers have become the most promising models in machine learning, particularly for solving natural language processing tasks. The fact that Transformer based models do so good raises the question of whether the more traditional neural network architectures for processing sequences, recurrent neural networks (RNNs), are obsolete now?&lt;/p&gt;
+
+&lt;p&gt;While Transformers do extremely well on many tasks given enough training data and computation &lt;a class=&quot;citation&quot; href=&quot;#Devlin2019BERTPO&quot;&gt;(Devlin et al., 2019; Keskar et al., 2019; Radford et al., 2019)&lt;/a&gt;, several studies have shown that LSTMs, the most popular variants of RNNs, can perform better than  Transformers on tasks requiring sensitivity to hierarchical (linguistic) structure, especially when the data is limited &lt;a class=&quot;citation&quot; href=&quot;#tran-etal-2018-importance&quot;&gt;(Tran et al., 2018; Dehghani et al., 2019)&lt;/a&gt;.
+Theoretically, both RNNs and Transformers can deal with finite hierarchical structures. But, they have different preference inductive biases and the superior performance of LSTMs over Transformers in these cases is attributed to their recurrent inductive bias.
+The recurrent inductive bias of LSTMs seems to have an important role in enabling them to model the hierarchical structure of the inputs. The question we try to answer in this post is that what is the recurrent inductive bias?&lt;/p&gt;
+
+&lt;h4 id=&quot;what-is-inductive-bias&quot;&gt;What is Inductive Bias?&lt;/h4&gt;
+&lt;p&gt;Inductive bias is generally defined as any kind of bias in learning algorithms that does not come from the training data. Inductive biases of the learning algorithms determine their generalisation behaviour and the type of solutions they converge to. There are different sources for inductive biases in learning algorithms, for instance, the architectural choices, the objective function, the curriculum strategy, or the optimization regime.&lt;/p&gt;
+
+&lt;p&gt;Let’s assume, we are given a task and two models, A and B, with similar expressive power, i.e. the desired solution for the task is realizable for both models. Also assume that model B has a stronger inductive bias toward the solution compared to model A. While model A can eventually learn the solution if we provide it with enough data and computation, model B can achieve this goal with much less data and computation.
+Hence, designing learning algorithms with proper inductive biases is essential especially when data and compute is limited.&lt;/p&gt;
+
+&lt;p&gt;Moreover, in the absence of strong inductive biases, a model can be equally attracted to several local minima on the loss surface; and the converged solution can be arbitrarily affected by random variations, for instance, the initial state or the order of training examples &lt;a class=&quot;citation&quot; href=&quot;#sutskever2013importance&quot;&gt;(Sutskever et al., 2013; McCoy et al., 2020; Dodge et al., 2020)&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;what-is-recurrent-inductive-bias&quot;&gt;What is Recurrent Inductive Bias?&lt;/h4&gt;
+
+&lt;p&gt;The inductive bias of RNNs is often referred to as the &lt;strong&gt;recurrent inductive bias&lt;/strong&gt;.
+Even though this term is used frequently in the literature, I have not been able to find a clear definition for it. Generally, the term refers to any bias that origins from the recurrent architecture.
+We can distinguish between three main sources of this bias in RNNs:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;The sequential processing of the input&lt;/strong&gt;: There is an inherent notion of order in the architecture that forces the model to access next tokens in the input one by one.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;No direct access to the past tokens&lt;/strong&gt;: The model has to compress all the information from past tokens in a hidden state/memory, which is accessible when processing the next token.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Recursion&lt;/strong&gt;: The model recursively applies the same function on the varying input at every time step.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In contrast to RNNs, Transformers, process the input in parallel. Although a weak notion of order is encoded by positional embeddings, no explicit assumption is made in the connectivity structure of the architecture. Moreover, they have a global receptive field and can access all tokens through self-attention. Finally, standard Transformers are not recursive, they apply the same set of weights on all input tokens, but they don’t do it recursively.&lt;/p&gt;
+
+&lt;h4 id=&quot;recurrent-inductive-bias-in-practice&quot;&gt;Recurrent Inductive Bias in Practice&lt;/h4&gt;
+&lt;p&gt;I have done a small experiment to examine the effect of recurrent inductive bias of RNNs in practice. Let’s take a look into it!&lt;/p&gt;
+
+&lt;p&gt;The task of subject-verb agreement is proposed by &lt;a class=&quot;citation&quot; href=&quot;#linzen2016assessing&quot;&gt;(Linzen et al., 2016)&lt;/a&gt; as a proxy for assessing the ability of models to capture hierarchical structure in natural language. In this task, the goal is to predict number-agreement between subjects and verbs in English sentences. Succeeding at this task is a strong indicator that a model can learn syntactic structures. It is shown by &lt;a class=&quot;citation&quot; href=&quot;#tran-etal-2018-importance&quot;&gt;(Tran et al., 2018)&lt;/a&gt; that the recurrent inductive bias of RNNs helps them to achieve better performance on this task compared to standard Transformers.&lt;/p&gt;
+
+&lt;p&gt;To empirically examine the benefits of each of the three sources of the recurrent inductive bias mentioned earlier, we can modify the standard Transformer to have an architecture with specifications that are similar to RNNs. Then we measure how the performance of the models change as we include more aspects of the recurrent inductive bias.
+These are the three different variants of Transformers we use:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Transformer&lt;/strong&gt;: Standard Transformer encoder with a class token (&lt;kbd&gt;CLS&lt;/kbd&gt;) for classification (BERT style),&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Sequential Transformer&lt;/strong&gt;: Transformer encoder with future masking where the classification is done using the representation of the last token\footnote{Note that future tokens are masked out by default when using a transformer in the decoder mode, e.g., in a language modelling setup.},&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Sequential Universal Transformer&lt;/strong&gt;: Universal Transformer &lt;a class=&quot;citation&quot; href=&quot;#universaltrans&quot;&gt;(Dehghani et al., 2019)&lt;/a&gt; encoder, where we have a recurrence in depth by sharing parameters among all the layers, also with future masking.
+%
+Among these variants of Transformer, Sequential Transformer implements sequential access to tokens, and Sequential Universal Transformer has both sequential access to tokens and a form of recursion.
+Here is a schematic view of the architecture of RNN and the variants of Transformer we discussed.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;img/rnn_images/models.png&quot; alt=&quot;models&quot; width=&quot;800px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;These models are trained to predict the number of the masked verb in a given sentence (binary classification objective).
+In the plot below, we can see the mean and standard deviation of the accuracy over multiple trials.
+As we can see, LSTM achieves the best performance and has the least variance.
+&lt;img src=&quot;img/rnn_images/accuracy.png&quot; alt=&quot;&quot; width=&quot;360px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Interestingly, comparing all four models, we find that the performance steadily increases as more aspects of the recurrent inductive bias are included.&lt;/p&gt;
+
+&lt;p&gt;As another indicator of the quality of the solutions that different models converged to, we look into their confidence calibration[^af15b0ee].
+[^af15b0ee]: Confidence calibration captures how well likelihood (confidence) of the prediction of the model predicts its accuracy. For a well-calibrated model, if we bin the confidence scores and compute the accuracy for each bin, the accuracies are perfectly correlated with the confidence values. The Expected Calibration Error (ECE) is computed as the distance between the calibration curve of the model and the perfect calibration curve.
+In the figure below, we plot the Expected Calibration Error (ECE) of the models. In line with the trends in the performances of these models, the expected calibration error decreases as we move from standard Transformer toward LSTM.
+&lt;img src=&quot;img/rnn_images/ece.png&quot; alt=&quot;&quot; width=&quot;360px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Additionally, as shown in both above figures, we find a decreasing trend in the variance of the models, i.e., adding more inductive biases to the models decreases their variance. This is a piece of empirical evidence that supports the relation between variance of the solutions a model converges to and its inductive biases.&lt;/p&gt;
+</description>
+        <pubDate>2020-05-30</pubDate>
+        <link>https://samiraabnar.github.io/articles/2020-05/recurrence</link>
+        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/recurrence</guid>
+        
+        <category>rnn</category>
+        
+        <category>recurrent</category>
+        
+        <category>inductive_bias</category>
+        
+        <category>lstm</category>
+        
+        <category>transformer</category>
+        
+        <category>subject_verb_agreement</category>
+        
+        <category>universal_transformer</category>
+        
+        
+        <category>blogpost</category>
+        
+      </item>
+    
+      <item>
         <title>Quantifying Attention Flow in Transformers</title>
-        <description>&lt;p&gt;Attention &lt;a class=&quot;citation&quot; href=&quot;#bahdanau2014neural&quot;&gt;(Bahdanau et al., 2015; Vaswani et al., 2017)&lt;/a&gt; has become the key building block of neural sequence processing models,
-and visualizing attention weights is the easiest and most popular approach to interpret a model’s decisions and to gain insights about its internals.
-Although it is wrong to equate attention with explanation &lt;a class=&quot;citation&quot; href=&quot;#pruthi2019learning&quot;&gt;(Pruthi et al., 2019; Jain &amp;amp; Wallace, 2019)&lt;/a&gt;, it can offer plausible and meaningful interpretations &lt;a class=&quot;citation&quot; href=&quot;#wiegreffe2019attention&quot;&gt;(Wiegreffe &amp;amp; Pinter, 2019; Vashishth et al., 2019; Vig, 2019)&lt;/a&gt;.
-In this post, we focus on problems arising when we move to the higher layers of a model, due to lack of token identifiability of the embeddings in higher layers &lt;a class=&quot;citation&quot; href=&quot;#brunner2019validity&quot;&gt;(Brunner et al., 2020)&lt;/a&gt;. We propose visualising and interpreting attention weights taking this phenomena into account!&lt;/p&gt;
+        <description>&lt;!-- we show that compared to raw attention weights, the token attentions from &lt;kbd&gt;Attention Rollout&lt;/kbd&gt; and &lt;kbd&gt;Attention Flow&lt;/kbd&gt; have higher correlations with the importance scores obtained from input gradients as well as an input ablation based attribution method. Furthermore, we visualise the token attention weights and demonstrate that they are better approximations of how input tokens contribute to a predicted output, compared to raw attention weights. --&gt;
+
+&lt;p&gt;Attention has become the key building block of neural sequence processing models,
+and visualising attention weights is the easiest and most popular approach to interpret a model’s decisions and to gain insights about its internals.
+Although it is wrong to equate attention with explanation &lt;a class=&quot;citation&quot; href=&quot;#pruthi2019learning&quot;&gt;(Pruthi et al., 2019; Jain &amp;amp; Wallace, 2019)&lt;/a&gt;, it can still offer plausible and meaningful interpretations &lt;a class=&quot;citation&quot; href=&quot;#wiegreffe2019attention&quot;&gt;(Wiegreffe &amp;amp; Pinter, 2019; Vashishth et al., 2019; Vig, 2019)&lt;/a&gt;.
+In this post, I focus on problems arising when we move to the higher layers of a model, due to lack of token identifiability of the embeddings in higher layers &lt;a class=&quot;citation&quot; href=&quot;#brunner2019validity&quot;&gt;(Brunner et al., 2020)&lt;/a&gt;. I discuss the ideas proposed in &lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot;&gt;our paper&lt;/a&gt; for visualising and interpreting attention weights taking this problem into account!&lt;/p&gt;
 
 &lt;!--more--&gt;
 
-&lt;p&gt;We propose two simple but effective methods, &lt;strong&gt;Attention Rollout&lt;/strong&gt; and &lt;strong&gt;Attention Flow&lt;/strong&gt;, to compute attention scores to input tokens  (i.e., &lt;em&gt;token attention&lt;/em&gt;) at each layer, by taking raw attentions (i.e., &lt;em&gt;embedding attention&lt;/em&gt;) of that layer as well as those from the precedent layers.&lt;/p&gt;
+&lt;p&gt;Here, I explain two simple but effective methods, called &lt;strong&gt;Attention Rollout&lt;/strong&gt; and &lt;strong&gt;Attention Flow&lt;/strong&gt;, to compute attention scores to input tokens  (i.e., &lt;em&gt;token attention&lt;/em&gt;) at each layer, by taking raw attentions (i.e., &lt;em&gt;embedding attention&lt;/em&gt;) of that layer as well as those from the precedent layers.&lt;/p&gt;
 
-&lt;h5 id=&quot;attention-to-embeddings-vs-attention-to-input-tokens&quot;&gt;Attention to embeddings vs Attention to Input Tokens&lt;/h5&gt;
-&lt;p&gt;In the Transformer model, &lt;em&gt;self-attention&lt;/em&gt; combines information from attended embeddings into the representation of the embeddings in the next layer. Thus, across layers of the Transformer, information originating from different tokens gets increasingly mixed.&lt;/p&gt;
+&lt;p&gt;Let’s first discuss the token identifiability problem in Transformers in more details.&lt;/p&gt;
 
-&lt;p&gt;Hence, when looking at the $i$th self attention layer, we can not interpret the attention weights as the attention to the embeddings in the input layer. Because each embedding in this layer can potentially contain information from all embeddings in the previous layers. This makes attention weights unreliable as explanations probes when they are not directly applied on the input tokens.
-&lt;img src=&quot;img/flow_images/rat_deep_1.png&quot; alt=&quot;Raw Attention Weights&quot; style=&quot;height: 360px; float: right&quot; /&gt;&lt;/p&gt;
+&lt;h5 id=&quot;attention-to-embeddings-vs-attention-to-input-tokens&quot;&gt;Attention to Embeddings vs Attention to Input Tokens&lt;/h5&gt;
+&lt;p&gt;In the Transformer model, in each layer, &lt;em&gt;self-attention&lt;/em&gt; combines information from attended embeddings of the previous layer to compute new embeddings for each token. Thus, across layers of the Transformer, information originating from different tokens gets increasingly mixed (Check out the &lt;a class=&quot;citation&quot; href=&quot;#brunner2019validity&quot;&gt;(Brunner et al., 2020)&lt;/a&gt; for a more thorough discussion on how the identity of tokens get less and less represented in the embedding of that position as we go into deeper layers.).&lt;/p&gt;
 
-&lt;p&gt;Let’s take a look at how self attention layers in a Transformer model change across layers.
-If we only look at the attention weights in the last layer, it seems all input tokens have equal contributions to the output of the model, since the attention weights in this layer are uniformly distributed. But if we also take into account the attention weights in the previous layers into account, we realise that some of the input tokens are getting higher attention.&lt;/p&gt;
+&lt;p&gt;Hence, when looking at the $i$th self-attention layer, we can not interpret the attention weights as the attention to the input tokens, i.e., embeddings in the input layer. This makes attention weights unreliable as explanation probes to answer questions like “Which part of the input is the most important when generating the output?” (except for the very first layer where the self-attention is directly applied to the input tokens.)
+&lt;!-- ![Raw Attention Weights](img/flow_images/rat_deep_1.png){:style=&quot;height: 360px; float: right&quot;} --&gt;&lt;/p&gt;
 
-&lt;p&gt;So, if we want to use attention weights to understand how a self attention network works, we need to take the flow of information in the network into account! One way to do this is to use attention weights to approximate the information flow, while taking different aspects of the architecture of the model into account.&lt;/p&gt;
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;height: 400px; display: block; float:right; padding:0px; margin-bottom:40px; margin-top:0px; margin-right:1px&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/rat_deep_1.png&quot; alt=&quot;&quot; style=&quot;width: ; height:400px&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Raw attention weights&lt;/p&gt;
+    
+&lt;/div&gt;
 
-&lt;h5 id=&quot;information-flow-graph-of-a-transformer-encoder&quot;&gt;Information flow graph of a Transformer Encoder&lt;/h5&gt;
-&lt;p&gt;This is a schematic view of self attention layer in the Transformer Model introduced in &lt;a class=&quot;citation&quot; href=&quot;#vaswani2017attention&quot;&gt;(Vaswani et al., 2017)&lt;/a&gt;:
+&lt;p&gt;Let’s take a look at the example in the figure that shows how attention weights in a Transformer model change across layers. In this figure, we see the attention weights of a 6-layer Transformer encoder trained on the subject-verb agreement classification task for an example sentence.
+In the subject-verb agreement task, given a sentence up to its verb, the goal is to classify the number of the verb. To be able to do this, a model needs to recognise the subject of that verb correctly. For the example in the figure, &lt;kbd&gt;The key to the cabinets &amp;lt;verb&amp;gt;&lt;/kbd&gt;, intuitively we expect the model to attend to the token &lt;kbd&gt;key&lt;/kbd&gt;, which is the subject of the missing verb, to classify the verb number correctly. Or the token &lt;kbd&gt;cabinets&lt;/kbd&gt;, the attractor in case it is making a mistake.&lt;/p&gt;
+
+&lt;p&gt;However, if we only look at the attention weights in the last layer, it seems all input tokens have more or less equal contributions to the output of the model since the attention weights from the &lt;kbd&gt;CLS&lt;/kbd&gt; token in this layer are almost uniformly distributed over all embeddings. But if we also take into account the attention weights in the previous layers, we realise that some of the input tokens are getting more attention in earlier layers. Notably, in layer 1, the embedding for the verb is mostly attending to the token &lt;kbd&gt;key&lt;/kbd&gt;, while in the third layer, the &lt;kbd&gt;CLS&lt;/kbd&gt; token is mostly attending to the embedding of the verb.&lt;/p&gt;
+
+&lt;p&gt;So, if we want to use attention weights to understand how a self-attention network works, we need to take the flow of information in the network into account. One way to do this is to use attention weights to approximate the information flow while taking different aspects of the architecture of the model into account, e.g., how multiple heads interact or the residual connections.&lt;/p&gt;
+
+&lt;h5 id=&quot;information-flow-graph-of-a-transformer-encoder&quot;&gt;Information Flow Graph of a Transformer Encoder&lt;/h5&gt;
+&lt;p&gt;Let’s take a look at the schematic view of self-attention layer in the Transformer Model introduced in &lt;a class=&quot;citation&quot; href=&quot;#vaswani2017attention&quot;&gt;(Vaswani et al., 2017)&lt;/a&gt;(figure below):
 &lt;!-- _includes/image.html --&gt;&lt;/p&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; display: block; float:left&quot;&gt;
     
-        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_block.png&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_block.png&quot; alt=&quot;&quot; style=&quot;width: ; height:300px&quot; /&gt;
     
     
-        &lt;p class=&quot;image-caption&quot;&gt;Multihead self-attention block&lt;/p&gt;
+        &lt;p class=&quot;image-caption&quot;&gt;Transformer encoder block&lt;/p&gt;
     
 &lt;/div&gt;
 
 &lt;p&gt;Given this attention module with residual connections, we compute values in layer $l+1$ as $V_{l+1} = V_{l}  + W_{att}V_l$, where $ W_{att}$ is the attention matrix. Thus, we have $V_{l+1} = (W_{att} + I) V_{l}$. So, to account for residual connections, we add an identity matrix to the attention matrix and re-normalize the weights. This results in $A = 0.5W_{att} + 0.5I$, where $A$ is the raw attention updated by residual connections.&lt;/p&gt;
 
-&lt;p&gt;We can create the information flow graph of a Transformer model, using this equation as an approximation of how information propagates in the self attention layers. Thus, we can translate the attention weights in each layer to attention to input tokens.&lt;/p&gt;
+&lt;p&gt;We can create the information flow graph of a Transformer model, using this equation as an approximation of how information propagates in the self-attention layers. Using this graph, we can take the attention weights in all layers into account and translate the attention weights in each layer to attention to input tokens.&lt;/p&gt;
 
-&lt;p&gt;The information flow in the network can be modelled with a &lt;a href=&quot;https://en.wikipedia.org/wiki/Directed_acyclic_graph&quot;&gt;&lt;em&gt;DAG&lt;/em&gt; (Directed Acyclic Graph)&lt;/a&gt;, in which the nodes are input tokens and hidden embeddings, edges are the attentions from the nodes in each layer to those in the previous layer, and the weights of the edges are the attention weights.
-Note that, augment this graph with residual connections to better model the connections between input tokens and hidden embedding.&lt;/p&gt;
+&lt;p&gt;We can model the information flow in the network with a &lt;a href=&quot;https://en.wikipedia.org/wiki/Directed_acyclic_graph&quot;&gt;&lt;em&gt;DAG&lt;/em&gt; (Directed Acyclic Graph)&lt;/a&gt;, in which input tokens and hidden embeddings are the nodes, edges are the attentions from the nodes in each layer to those in the previous layer, and the weights of the edges are the attention weights.
+Note that, we augment this graph with residual connections to more accurately model the connections between input tokens and hidden embeddings.&lt;/p&gt;
 
 &lt;h5 id=&quot;from-attention-to-embeddings-to-attention-to-tokens&quot;&gt;From Attention to Embeddings to Attention to Tokens&lt;/h5&gt;
 &lt;p&gt;Given this graph, based on how we interpret the weights associated with the edges, which are the raw attention weights, we can use different techniques to compute the attention from each node in the graph to the input tokens.&lt;/p&gt;
 
 &lt;h6 id=&quot;attention-rollout&quot;&gt;Attention Rollout&lt;/h6&gt;
 
-&lt;p&gt;Assume the attention weights determine  the proportion of the incoming information that can propagate through each link, i.e., the identities of input tokens are linearly combined through the layers based on the attention weights. Then, to compute the attention to input tokens in layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt; given all the attention weight in the previous layers, we recursively multiply the attention weights matrices, starting from the input layer up to layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt;.&lt;/p&gt;
+&lt;p&gt;Assume the attention weights determine the proportion of the incoming information that can propagate through each link, i.e., the identities of input tokens are linearly combined through the layers based on the attention weights. Then, to compute the attention to input tokens in layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt; given all the attention weight in the previous layers, we recursively multiply the attention weights matrices, starting from the input layer up to layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt;.
+In the figure below, we show how Attention Rollout works in a simple attention DAG. In this example, the goal is to compute the attention from the embedding of the last position in the last layer to the first input token. We see that the attention weights in the second layer are multiplied by the attention weights from the first layer to compute the final attention score.&lt;/p&gt;
 
 &lt;!-- &lt;div style=&quot;width: 700; display:inline-block; clear: right; vertical-align:middle;&quot;&gt; --&gt;
 &lt;!-- _includes/image.html --&gt;
-&lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; &quot;&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Attention Rollout&lt;/p&gt;
@@ -71,38 +413,67 @@ Note that, augment this graph with residual connections to better model the conn
 &lt;!-- &lt;/div&gt; --&gt;
 
 &lt;h6 id=&quot;attention-flow&quot;&gt;Attention Flow&lt;/h6&gt;
-&lt;p&gt;If we view the attention weights as the capacity of each link, the problem of computing the attention in layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt; to the input tokens reduces to the &lt;a href=&quot;https://en.wikipedia.org/wiki/Network_flow_problem&quot;&gt;network flow problem&lt;/a&gt;, where we want to find the maximum flow value from each input token to each position in layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt;.&lt;br /&gt;
-&lt;!-- _includes/image.html --&gt;&lt;/p&gt;
-&lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px;&quot;&gt;
+&lt;p&gt;If we view the attention weights as the capacity of each link, the problem of computing the attention in layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt; to the input tokens reduces to the &lt;a href=&quot;https://en.wikipedia.org/wiki/Maximum_flow_problem&quot;&gt;maximum flow problem&lt;/a&gt;, where we want to find the maximum flow value from each input token to each position in layer &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;In the figure below, we see the same example like the one we saw for the Attention Rollout, except here the attention weights are viewed as the capacity of the edges. Thus, the total attention score of a path is the smallest capacity of the edges in that path. This is a straightforward example, and maximum computing flow can be more complicated when paths overlap.&lt;/p&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;height:300px&quot; /&gt;
+        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Attention Flow&lt;/p&gt;
     
 &lt;/div&gt;
 
-&lt;h5 id=&quot;how-it-all-works-in-practice-&quot;&gt;How it all works in practice …&lt;/h5&gt;
-
-&lt;p&gt;&lt;img src=&quot;img/bert_example.png&quot; alt=&quot;Raw Attention Weights&quot; style=&quot;height: 360px; float: right&quot; /&gt;&lt;/p&gt;
+&lt;h5 id=&quot;how-does-this-all-work-in-practice&quot;&gt;How does this all work in practice?&lt;/h5&gt;
 
 &lt;p&gt;Let’s see an example of how these techniques work in practice!
-Applying this technique to a pretrained Bert model, we get some insights on how the models resolve pronouns.
-What we do here is to feed the model with a sentence, masking a pronoun. Next, we look at the prediction of the model for the masked word and compare the probabilities assigned to “her” and “his”.&lt;/p&gt;
+Applying these techniques to a pretrained 24-layer BERT model, we get some insights on how the models resolve pronouns.
+What we do here is to feed the model with a sentence, masking a pronoun. Next, we look at the prediction of the model for the masked pronoun and compare the probabilities predicted for &lt;kbd&gt;her&lt;/kbd&gt; and &lt;kbd&gt;his&lt;/kbd&gt;.&lt;/p&gt;
 
-&lt;p&gt;As you can see, in the first example, Attention Rollout and Attention Flow are consistent with each other and the prediction of the model. Whereas, the final layer of Raw Attention does not seem to be consistent with the prediction of the models, and it varies a lot across different layers. In the second example only Attention Flow weights are consistent with the prediction of the model.&lt;/p&gt;
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/bert_example.png&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Visualing attention for a 24-layer BERT&lt;/p&gt;
+    
+&lt;/div&gt;
 
-&lt;p&gt;To see how it works for other examples, you can take a look at &lt;a href=&quot;https://github.com/samiraabnar/attention_flow/blob/master/bert_example.ipynb&quot;&gt;this notebook&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As we can see, in the first example (figure a), the prediction of the model is &lt;kbd&gt;his&lt;/kbd&gt;. Hence, we expect the model to attend to the word &lt;kbd&gt;author&lt;/kbd&gt; rather than &lt;kbd&gt;Sara&lt;/kbd&gt;.
+In this case, both Attention Rollout and Attention Flow are consistent with this intuition.
+Whereas, the final layer of Raw Attention does not seem to be consistent with the prediction of the models, and it varies a lot across different layers.&lt;/p&gt;
 
-&lt;blockquote&gt;
+&lt;p&gt;In the second example, the prediction of the model is &lt;kbd&gt;her&lt;/kbd&gt;, hence, we expect the model to pay more attention to the word &lt;kbd&gt;Mary&lt;/kbd&gt;. However, both Raw Attention weights and Attention Rollout show that the model is attending to &lt;kbd&gt;John&lt;/kbd&gt;. In this case, only Attention Flow weights are consistent with our intuition and the prediction of the model.
+In some sense, Attention Rollout is more restrictive compared to Attention Flow, and it provides us with more exaggerated differences between attention scores to different input tokens (because it multiplies the weights). This can be a source of error for Attention Rollout considering the approximations we have in these techniques.&lt;/p&gt;
 
-  &lt;p&gt;In our paper, “&lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot; title=&quot;Quantifying Attention Flow In Transformers&quot;&gt;Quantifying Attention Flow In Transformers&lt;/a&gt;”, we show that compared to raw attention weights, the token attentions from &lt;kbd&gt;attention rollout&lt;/kbd&gt; and &lt;kbd&gt;attention flow&lt;/kbd&gt; have higher correlations with the importance scores obtained from input gradients as well as an input ablation based attribution method. Furthermore, we visualise the token attention weights and demonstrate that they are better approximations of how input tokens contribute to a predicted output, compared to raw attention weights.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;Note that, both Attention Rollout and Attention Flow are  &lt;strong&gt;post hoc methods for visualisation and interpretation purposes&lt;/strong&gt; and they do not provide new attention weights to be used during training or inference.&lt;/p&gt;
+
+&lt;p&gt;To see more examples, you can try out &lt;a href=&quot;https://github.com/samiraabnar/attention_flow/blob/master/bert_example.ipynb&quot;&gt;this notebook&lt;/a&gt;. And for more details, such as how we can handle multiple heads take a look at our paper, “&lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot; title=&quot;Quantifying Attention Flow In Transformers&quot;&gt;Quantifying Attention Flow In Transformers&lt;/a&gt;”.&lt;/p&gt;
 
 </description>
-        <pubDate>2020-05-26</pubDate>
-        <link>http://localhost:4000/articles/2020-05/attention_flow</link>
-        <guid isPermaLink="true">http://localhost:4000/articles/2020-05/attention_flow</guid>
+        <pubDate>2020-05-30</pubDate>
+        <link>https://samiraabnar.github.io/articles/2020-04/attention_flow</link>
+        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-04/attention_flow</guid>
+        
+        <category>transformer</category>
+        
+        <category>self_attention</category>
+        
+        <category>attention_visualisation</category>
+        
+        <category>attention_rollout</category>
+        
+        <category>attention_flow</category>
+        
+        <category>bert</category>
+        
+        <category>subject_verb_agreement</category>
+        
+        <category>language_modelling</category>
         
         
         <category>blogpost</category>
@@ -110,22 +481,53 @@ What we do here is to feed the model with a sentence, masking a pronoun. Next, w
       </item>
     
       <item>
+        <title>Blackbox Meets Blackbox</title>
+        <description>&lt;p&gt;&lt;img src=&quot;posters/BB19_poster.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Checkout our &lt;a href=&quot;https://arxiv.org/abs/1906.01539&quot;&gt;paper&lt;/a&gt;, &lt;a class=&quot;citation&quot; href=&quot;#abnar-etal-2019-blackbox&quot;&gt;(Abnar et al., 2019)&lt;/a&gt;, and the &lt;a href=&quot;https://github.com/samiraabnar/Bridge&quot;&gt;codes&lt;/a&gt; to reproduce our experiments!&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;In this paper, we define and apply representational stability analysis (ReStA), an intuitive way of analyzing neural language models. ReStA is a variant of the popular representational similarity analysis (RSA) in cognitive neuroscience. While RSA can be used to compare representations in models, model components, and human brains, ReStA compares instances of the same model, while systematically varying single model parameter.
+Using ReStA, we study four recent and successful neural language models, and evaluate how sensitive their internal representations are to the amount of prior context. Using RSA, we perform a systematic study of how similar the representational spaces in the first and second (or higher) layers of these models are to each other and to patterns of activation in the human brain.
+Our results reveal surprisingly strong differences between language models, and give insights into where the deep linguistic processing, that integrates information over multiple sentences, is happening in these models. The combination of ReStA and RSA on models and brains allows us to start addressing the important question of what kind of linguistic processes we can hope to observe in fMRI brain imaging data. In particular, our results suggest that the data on story reading from Wehbe et al. (2014) contains a signal of shallow linguistic processing, but show no evidence on the more interesting deep linguistic processing.&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>2020-05-30</pubDate>
+        <link>https://samiraabnar.github.io/articles/2019-04/blackbox</link>
+        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2019-04/blackbox</guid>
+        
+        <category>transformer</category>
+        
+        <category>lstm</category>
+        
+        <category>representational_similarity_analysis</category>
+        
+        <category>representational_stability_analysis</category>
+        
+        <category>brain_decoding</category>
+        
+        
+        <category>poster</category>
+        
+      </item>
+    
+      <item>
         <title>From Attention in Transformers to Dynamic Routing in Capsule Nets</title>
-        <description>&lt;p&gt;In this post, we go through the main building blocks of transformers and capsule networks and try to draw a connection between different components of these two models. Our main goal here is to understand if these models are inherently different and if not, how they relate.&lt;/p&gt;
+        <description>&lt;p&gt;In this post, we go through the main building blocks of transformers &lt;a class=&quot;citation&quot; href=&quot;#vaswani2017attention&quot;&gt;(Vaswani et al., 2017)&lt;/a&gt; and capsule networks &lt;a class=&quot;citation&quot; href=&quot;#e2018matrix&quot;&gt;(Hinton et al., 2018)&lt;/a&gt; and try to draw a connection between different components of these two models. Our main goal here is to understand if these models are inherently different, and if not, how they relate.&lt;/p&gt;
 
-&lt;p&gt;Transformers, or so-called self attention networks, are a family of deep neural network architectures, where self attention layers are stacked on top of each other to learn contextualized representations for input tokens via multiple transformations. These models have been able to achieve SOTA on many vision and NLP tasks. There is a lot of details about how transformer is implemented, but at a high level, transformer is an encoder-decoder architecture, where each of encoder and decoder blocks consists of a stack of transformer layers, and in each layer, we learn to (re-)calculate  a representation per input token. This representation is computed by attending to the representations of all tokens from the previous layer. This is illustrated in the figure below.&lt;/p&gt;
+&lt;p&gt;Transformers, or so-called self-attention networks, are a family of deep neural network architectures, where self-attention layers are stacked on top of each other to learn contextualized representations for input tokens via multiple transformations. These models have been able to achieve SOTA on many vision and NLP tasks. There are many implementation details about the transformer. Still, at a high level, transformer is an encoder-decoder architecture, where each of encoder and decoder blocks consists of a stack of transformer layers. In each layer, we learn to (re-)calculate a representation per input token. This representation is computed by attending to the representations of all tokens from the previous layer. This is illustrated in the figure below.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;img/capsule_images/trans_intro-2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;img/capsule_images/trans_intro-2.png&quot; alt=&quot;&quot; style=&quot;width: 800px&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Thus, to compute the representations in layer $L+1$, the representations from the lower layer, $L$, are passed through a self-attention block, which updates the representation of every token with respect to all the other tokens. The future tokens are masked in the self attention in the decoder block. Also, besides the self attention, there is encoder-decoder-attention in the decoder (which is not depicted in the figure above). To see more details about the transformer, check out this great post: http://jalammar.github.io/illustrated-transformer.&lt;/p&gt;
+&lt;p&gt;Thus, to compute the representations in layer $L+1$, the representations from the lower layer, $L$, are passed through a self-attention block, which updates the representation of every token with respect to all the other tokens. The future tokens are masked in the self-attention in the decoder block. Also, besides the self-attention, there is encoder-decoder-attention in the decoder (which is not depicted in the figure above). To see more details about the transformer, check out this great post: http://jalammar.github.io/illustrated-transformer.&lt;/p&gt;
 
-&lt;p&gt;The key component of transformer is the self-attention, and one important property of it is using multi-headed attention mechanism. In this post, we mainly focus on this component and dig into some of its details as we get back to it when comparing capsule nets with transformers.&lt;/p&gt;
+&lt;p&gt;The main component of transformer is the self-attention, and one essential property of it is using a multi-headed attention mechanism. In this post, we mainly focus on this component and dig into some of its details as we get back to it when comparing capsule nets with transformers.&lt;/p&gt;
 
-&lt;p&gt;The main motivation of using multi-head attention is to get the chance of exploring multiple representation subspaces since each attention head gets a different projection of the representations. In an ideal case, each head would learn to attend to different parts of the input by taking a different aspect into account and it is shown that in practice, different attention heads compute different attention distributions. Having multiple attention heads in transformers can be considered similar to having multiple filters in CNNs.&lt;/p&gt;
+&lt;p&gt;The primary motivation of using multi-head attention is to get the chance of exploring multiple representation subspaces since each attention head gets a different projection of the representations. In an ideal case, each head would learn to attend to different parts of the input by taking a different aspect into account, and it is shown that in practice, different attention heads compute different attention distributions. Having multiple attention heads in transformers can be considered similar to having multiple filters in CNNs.&lt;/p&gt;
 
 &lt;p&gt;Here, we explain how information from different positions in a lower layer, $L$, are integrated using multi-head self-attention, to compute the higher layer, $L+1$ representations.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;img/capsule_images/multihead_att-1024x463.png&quot; alt=&quot;&quot; /&gt;
+&lt;p&gt;&lt;img src=&quot;img/capsule_images/multihead_att-1024x463.png&quot; alt=&quot;&quot; style=&quot;margin-bottom: 20px&quot; /&gt;
 First of all, we should note that the representations for each position at each layer are seen as (key, value, query) triplets. Thus, for each layer, we have three matrices (K, Q, V), where each row in these matrices corresponds to a position.&lt;/p&gt;
 
 &lt;p&gt;The input to attention head $i$ is a linear  transformation of the K, Q and V:
@@ -137,7 +539,7 @@ $K_i = W_k^{i}K$, $V_i = W_v^{i}V$, $Q_i = W_q^{i}Q$&lt;/p&gt;
 
 &lt;p&gt;where $d_i$ is the length of $K_i$.&lt;/p&gt;
 
-&lt;p&gt;Intuitively speaking, the representation of each position in layer $L+1$, is a weighted combination of all the representations in layer $L$. In order to compute these weights, the attention distributions, each attention head, computes a similarity between the query in each position in layer $L+1$ to the keys of all positions in layer $L$, and  then, the distribution of attention over all positions is computed by applying the softmax function on these similarity scores. Thus, for each position in each self attention layer, we have a distribution of attention weights over the positions in the lower layer per attention head. Eventually, for each attention head, the values at all positions are combined using the attention probabilities of the head. In the last step, the values of all the attention heads are concatenated and transformed linearly to compute the output of the multiple head attention component:&lt;/p&gt;
+&lt;p&gt;Intuitively speaking, the representation of each position in layer $L+1$, is a weighted combination of all the representations in layer $L$. In order to compute these weights, the attention distributions, each attention head, computes the similarity between the query in each position in layer $L+1$ to the keys of all positions in layer $L$. Then, the distribution of attention over all positions is computed by applying the softmax function on these similarity scores. Thus, for each position in each self-attention layer, we have a distribution of attention weights over the positions in the lower layer per attention head. Eventually, for each attention head, the values at all positions are combined using the attention probabilities of the head. In the last step, the values of all the attention heads are concatenated and transformed linearly to compute the output of the multiple head attention component:&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\text{multi-attention}(K,Q,V) = [attention_i(K_0,Q_0,V_0), ... , attention_i(K_m,Q_m,V_m) ]W_o&lt;/script&gt;
 
@@ -145,22 +547,22 @@ $K_i = W_k^{i}K$, $V_i = W_v^{i}V$, $Q_i = W_q^{i}Q$&lt;/p&gt;
 
 &lt;h4 id=&quot;matrix-capsules-with-em-routing&quot;&gt;Matrix Capsules with EM routing:&lt;/h4&gt;
 
-&lt;p&gt;Capsule networks, in the first place, were proposed to processes images in a more natural way. In 2000, Hinton and Ghahramani argued that the image recognition systems which rely on a separate preprocessing stage suffer from the fact that the segmenter does not know the general information about the object and propose to have a system in which recognition and segmentation are done simultaneously. The idea is that in order to recognize parts (segments) of an object, you need to first have a general understanding of what the object is. In other words, we need to have both top-down and bottom-up flow of information. This can also be true for NLP problems. An example of this is parsing garden path sentences. Capsule networks can be viewed as a CNN, where there is some structure on the outputs of the kernels and pooling is replaced by dynamic routing.&lt;/p&gt;
+&lt;p&gt;Capsule networks, in the first place, were proposed to processes images in a more natural way. In 2000, Hinton and Ghahramani argued that the image recognition systems which rely on a separate preprocessing stage suffer from the fact that the segmenter does not know the general information about the object and propose to have a system in which recognition and segmentation are done simultaneously &lt;a class=&quot;citation&quot; href=&quot;#hinton2000learning&quot;&gt;(Hinton et al., 2000)&lt;/a&gt;. The idea is that in order to recognize parts (segments) of an object, you need to first have a general understanding of what the object is. In other words, we need to have both top-down and bottom-up flow of information. This can also be true for NLP problems. An example of this is parsing garden path sentences. Capsule networks can be viewed as a CNN, where there is some structure on the outputs of the kernels and pooling is replaced by dynamic routing.&lt;/p&gt;
 
 &lt;blockquote&gt;
 
   &lt;p&gt;A capsule is a unit that learns to detect an implicitly defined entity over a limited domain of viewing conditions. It outputs both the probability that the entity is present and a set of “instantiation parameters” that reflect the features of the entity such as pose information. The presence probability is viewpoint invariant, e.g. it does not change as the entity moves or rotates, whereas the instantiation parameters are viewpoint equivariant, e.g. they change if the entity moves or rotates.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&quot;img/capsule_images/capsule_scalar-1-1024x408.png&quot; alt=&quot;&quot; /&gt;
+&lt;p&gt;&lt;img src=&quot;img/capsule_images/capsule_scalar-1-1024x408.png&quot; alt=&quot;&quot; style=&quot;width: 800px; margin-bottom: 20px;&quot; /&gt;
 In matrix capsules with EM routing, they use a capsule network that includes a standard convolutional layer, and a layer of primary capsules followed by several layers of convolutional capsules. In this version of the capsule net, the instantiation parameters are represented as a matrix called the pose matrix.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;img/capsule_images/capsule_arch-1024x245.png&quot; alt=&quot;&quot; /&gt;
-Each capsule layer has a fixed number of capsule types (similar to filters in CNNs), which is chosen as a hyperparameter. A capsule is an instance of a capsule type.  Each capsule type is meant to correspond to an entity and all capsules of the same type are extracting the same entity at different positions. In lower layers, capsule types learn to recognize low-level entities, e.g. eyes, and in higher layers, they are supposed to present more high-level entities e.g. faces.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;img/capsule_images/capsule_arch-1024x245.png&quot; alt=&quot;&quot; style=&quot;width: 800px; margin-bottom: 20px&quot; /&gt;
+Each capsule layer has a fixed number of capsule types (similar to filters in CNNs), which is chosen as a hyper-parameter. A capsule is an instance of a capsule type.  Each capsule type is meant to correspond to an entity, and all capsules of the same type are extracting the same entity at different positions. In lower layers, capsule types learn to recognize low-level entities, e.g. eyes, and in higher layers, they are supposed to present more high-level entities, e.g. faces.&lt;/p&gt;
 
 &lt;p&gt;In the convolutional capsule layers, the weight matrix of each capsule type is convolved over the input, similar to how kernels are applied in CNNs. This results in different instances of each capsule type.&lt;br /&gt;
-&lt;img src=&quot;img/capsule_images/capsule_routing-1024x669.png&quot; alt=&quot;&quot; /&gt;
-In capsule nets, the number of capsule types in each layer is predefined. Between every capsule type in two adjacent layers, there is a transformation matrix. This way each higher layer capsule, sees the entity in the lower layer capsule from a different point of view.&lt;/p&gt;
+&lt;img src=&quot;img/capsule_images/capsule_routing-1024x669.png&quot; alt=&quot;&quot; style=&quot;width: 800px&quot; /&gt;
+In capsule nets, the number of capsule types in each layer is predefined. Between every capsule type in two adjacent layers, there is a transformation matrix. This way, each higher layer capsule, sees the entity in the lower layer capsule from a different point of view.&lt;/p&gt;
 
 &lt;h5 id=&quot;the-pose-matrix&quot;&gt;The Pose Matrix&lt;/h5&gt;
 
@@ -176,7 +578,7 @@ In capsule nets, the number of capsule types in each layer is predefined. Betwee
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;a_j \propto cost(j|active=false) - cost(j|active=true)&lt;/script&gt;
 
-&lt;p&gt;The question is what are these costs and how do we compute them?&lt;/p&gt;
+&lt;p&gt;The question is, what are these costs, and how do we compute them?&lt;/p&gt;
 
 &lt;p&gt;If the sum of the assignment probabilities to a higher layer capsule is more than zero, i.e. there are some lower layer capsules assigned to this capsule, there is a cost for not activating that capsule. But the activation probability of a capsule is not calculated only based on the values of the assignment probabilities. We should also consider how well the vote matrices of the lower layer capsules assigned to the higher layer capsule are consistent with each other.&lt;/p&gt;
 
@@ -184,37 +586,37 @@ In capsule nets, the number of capsule types in each layer is predefined. Betwee
 
 &lt;h5 id=&quot;dynamic-routing-with-em&quot;&gt;Dynamic Routing with EM&lt;/h5&gt;
 
-&lt;p&gt;The main challenge here is to compute assignment probabilities, $r_{ij}$. This basically means how to connect the lower layer capsules, $\Omega_L$, to the higher layer capsules $\Omega_{L+1}$, or in other words, how to route information between capsule layers. We want these connections to not only depend on the presence of the lower layer capsules, but also based on their relevance to each other as well as to the higher layer capsule. For example, a capsule representing an eye, which is part of a face, probably should not be connected to a capsule which represents a table. This can be seen as computing the attention from the lower layer capsules to the higher layer capsules. The problem is, we have no initial representation for the higher level capsules in advance to be able to calculate this probability based on the similarity of the lower layer capsule with the higher layer capsule.  This is because the representation of a capsule depends on which capsules from the lower layer are going to be assigned to it. This is exactly where dynamic routing  kicks in and solves the problem by using EM.
-&lt;img src=&quot;img/capsule_images/em_dr-1024x370.png&quot; alt=&quot;&quot; /&gt;
+&lt;p&gt;The main challenge here is to compute assignment probabilities, $r_{ij}$. This basically means how to connect the lower layer capsules, $\Omega_L$, to the higher layer capsules $\Omega_{L+1}$, or in other words, how to route information between capsule layers. We want these connections to not only depend on the presence of the lower layer capsules but also based on their relevance to each other as well as to the higher layer capsule. For example, a capsule representing an eye, which is part of a face, probably should not be connected to a capsule which represents a table. This can be seen as computing the attention from the lower layer capsules to the higher layer capsules. The problem is, we have no initial representation for the higher-level capsules in advance to be able to calculate this probability based on the similarity of the lower layer capsule with the higher layer capsule.  This is because the representation of a capsule depends on which capsules from the lower layer are going to be assigned to it. This is where dynamic routing kicks in and solves the problem by using EM.
+&lt;img src=&quot;img/capsule_images/em_dr-1024x370.png&quot; alt=&quot;&quot; style=&quot;width: 800px&quot; /&gt;
 We can use EM to compute representations of $\Omega_{L+1}$ based on the representations of $\Omega_L$ and the assignment probabilities of the lower layer capsules to the higher layer capsules. This iterative process is called dynamic routing with EM. Note that dynamic routing with EM is part of the forward pass in Capsule Nets, and during training, the error is back-propagated through the unrolled iterations of dynamic routing.&lt;/p&gt;
 
-&lt;p&gt;It is noteworthy that, the computations are a bit different for the primary capsule layers since the layer below them is not a capsule layer. The pose matrices for the primary capsules is simply a linear transformation of the outputs of the lower layer kernels, and their activation is the sigmoid of the weighted sum of the same set of lower-layer kernel outputs. In addition, the final capsule layer has one capsule per output class.  When connecting the last convolutional capsule layer to the final layer, the transformation matrices are shared over different positions and they use a technique called “Coordinate Addition” to keep the information about the location of the convolutional capsules.&lt;/p&gt;
+&lt;p&gt;It is noteworthy that, the computations are a bit different for the primary capsule layers since the layer below them is not a capsule layer. The pose matrices for the primary capsules is simply a linear transformation of the outputs of the lower layer kernels, and their activation is the sigmoid of the weighted sum of the same set of lower-layer kernel outputs. In addition, the final capsule layer has one capsule per output class.  When connecting the last convolutional capsule layer to the final layer, the transformation matrices are shared over different positions, and they use a technique called “Coordinate Addition” to keep the information about the location of the convolutional capsules.&lt;/p&gt;
 
 &lt;h4 id=&quot;capsule-nets-vs-transformers&quot;&gt;Capsule Nets vs Transformers:&lt;/h4&gt;
 
-&lt;p&gt;Finally, we get to the most interesting part to compare these two models. While from the implementation perspective, capsule Nets and transformer don’t seem to be very similar, there are a couple of functional similarities between the different components of these two families of models.&lt;/p&gt;
+&lt;p&gt;Finally, we get to the most exciting part to compare these two models. While from the implementation perspective, capsule Nets and transformer don’t seem to be very similar, there are a couple of functional similarities between the different components of these two families of models.&lt;/p&gt;
 
 &lt;h5 id=&quot;dynamic-routing-vs-attention&quot;&gt;Dynamic Routing vs Attention&lt;/h5&gt;
 
-&lt;p&gt;In capsule networks, we use dynamic routing to determine the connection from the lower layer to the higher layer, in par with this in transformers we employ self-attention to decide how to attend to different parts of the input and how information from different parts contribute to the updates of representations. We can map the attention weights in transformer to assignment probabilities in capsule net, however, in capsule nets the assignment probabilities are computed bottom up, whereas in transformer the attention is computed top down. i.e. the attention weights in transformer are distributed over the representations in the lower layer, but in capsule nets, the assignment probabilities are distributed over the higher layer capsules. Note that, it is true that in Transformer, the attention probabilities are computed based on the similarity of the representations in the same layer, but this is equivalent to the assumption that the higher layer is first initialized with the representations from the lower layer and then it is updated based on the attention probabilities computed by comparing this initial representations with the representations from the lower layer.
-&lt;img src=&quot;img/capsule_images/attention_dir-1024x444.png&quot; alt=&quot;&quot; /&gt;
-The bottom up attention in capsule nets along with having a presence probability and the penalty for activating capsules, explicitly allows the model to abstract away the concepts as the information propagates to the higher layers. On the other hand, in transformer, the top down attention mechanism allows the nodes in the higher layer not to attend to some of the nodes in the lower layer and filter out the information that is captured in those nodes.&lt;/p&gt;
+&lt;p&gt;In capsule networks, we use dynamic routing to determine the connection from the lower layer to the higher layer, in par with this in transformers we employ self-attention to decide how to attend to different parts of the input and how information from different parts contribute to the updates of representations. We can map the attention weights in transformer to assignment probabilities in capsule net; however, in capsule nets, the assignment probabilities are computed bottom-up, whereas in transformer the attention is computed top-down. i.e. the attention weights in transformer are distributed over the representations in the lower layer, but in capsule nets, the assignment probabilities are distributed over the higher layer capsules. Note that, it is true that in transformer, the attention probabilities are computed based on the similarity of the representations in the same layer, but this is equivalent to the assumption that the higher layer is first initialized with the representations from the lower layer and then it is updated based on the attention probabilities computed by comparing these initial representations with the representations from the lower layer.
+&lt;img src=&quot;img/capsule_images/attention_dir-1024x444.png&quot; alt=&quot;&quot; style=&quot;width: 600px; margin-bottom: 20px&quot; /&gt;
+The bottom-up attention in capsule nets along with having a presence probability and the penalty for activating capsules, explicitly allows the model to abstract away the concepts as the information propagates to the higher layers. On the other hand, in transformer, the top-down attention mechanism allows the nodes in the higher layer not to attend to some of the nodes in the lower layer and filter out the information that is captured in those nodes.&lt;/p&gt;
 
-&lt;p&gt;Now, the question is why do we need EM for dynamic routing in capsule nets? Why can’t we use a similar mechanism used to compute attentions in transformer to calculate assignment probabilities in capsule nets?&lt;/p&gt;
+&lt;p&gt;Now, the question is, why do we need EM for dynamic routing in capsule nets? Why can’t we use a similar mechanism used to compute attentions in transformer to calculate assignment probabilities in capsule nets?&lt;/p&gt;
 
 &lt;p&gt;Presumably, we could use dot product similarity to compute the similarity of a lower layer capsule with the higher layer capsules to compute the assignment probabilities.&lt;/p&gt;
 
-&lt;p&gt;The challenge is that in capsule nets, we don’t have any prior assumption on the representations of the higher layer capsules since what they are supposed to represent are not known in advance. On the other hand in transformer the number of nodes in all layers are the same and equal to the number of input tokens, so we can interpret each node as a contextualized representation of the corresponding input token. This let us initialize the representations in each higher layer with the corresponding representations from the lower layer, which allows us to use the similarities scores between the representations to compute the attention weights.&lt;/p&gt;
+&lt;p&gt;The challenge is that in capsule nets, we don’t have any prior assumption on the representations of the higher layer capsules since what they are supposed to represent are not known in advance. On the other hand in transformer the number of nodes in all layers are the same and equal to the number of input tokens, thus we can interpret each node as a contextualized representation of the corresponding input token. This let us initialize the representations in each higher layer with the corresponding representations from the lower layer, which allows us to use the similarities scores between the representations to compute the attention weights.&lt;/p&gt;
 
 &lt;h5 id=&quot;capsule-types-and-attention-heads&quot;&gt;Capsule Types and Attention Heads:&lt;/h5&gt;
 
-&lt;p&gt;Both capsule nets and transformer architectures, have a mechanism which allows the models to process the representations from a lower layer from different perspectives to compute the representation in the higher layer. In capsule nets,  there is a different transformation matrix between each pair of capsule types from two adjacent layers, thus capsules that are instantiations of different capsule types view the capsules in the previous layer from a different point of view. In par with this, in transformer, we have multiple attention heads, where each attention head uses a different set of transformation matrices to compute the projection of key, value and query.  So, each attention heads works on a different projection of the representations in the lower layer. Both these mechanism, serve a similar purpose as having different kernels in convolutional neural networks.
-&lt;img src=&quot;img/capsule_images/attention_vs_dynamicrouting.png&quot; alt=&quot;&quot; /&gt;
+&lt;p&gt;Both capsule nets and transformer architectures have a mechanism which allows the models to process the representations from a lower layer from different perspectives to compute the representation in the higher layer. In capsule nets,  there is a different transformation matrix between each pair of capsule types from two adjacent layers. Thus capsules that are instantiations of different capsule types view the capsules in the previous layer from a different point of view. In par with this, in transformer, we have multiple attention heads, where each attention head uses a different set of transformation matrices to compute the projection of key, value and query.  So, each attention heads works on a different projection of the representations in the lower layer. Both these mechanisms serve a similar purpose as having different kernels in convolutional neural networks.
+&lt;img src=&quot;img/capsule_images/attention_vs_dynamicrouting.png&quot; alt=&quot;&quot; style=&quot;width: 800px; margin-bottom: 20px&quot; /&gt;
 Now, what is different between capsule networks and transformers in this regard is that, in capsule networks, while capsules with different types have a different point of view, in the end, assignment probabilities for a capsule in the lower layer are normalized over all capsule in the higher layer regardless of their type. Hence we have one assignment distribution per each capsule in the lower layer. Whereas in transformer, each attention head independently processes its input. This means we have a separate attention distribution for each position in the higher layer, and the outputs of the attention heads are only combined in the last step, where they are simply concatenated and linearly transformed to compute the final output of the multi-headed attention block.&lt;/p&gt;
 
 &lt;h5 id=&quot;positional-embedding-and-coordinate-addition&quot;&gt;Positional embedding and coordinate addition:&lt;/h5&gt;
 
-&lt;p&gt;In both transformer and capsule nets, there is some mechanism to explicitly add the position information of the features into the representations the models compute. However, in transformer this is done before the first layer,  where the positional embeddings are added to the word embeddings, whereas in capsule nets it is done in the final layer by coordinate addition,  where the scaled coordinate (row, column) of the center of the receptive field of each capsule is added to the first two elements of the right-hand column of its vote matrix.&lt;/p&gt;
+&lt;p&gt;In both transformer and capsule nets, there is some mechanism to explicitly add the position information of the features into the representations the models compute. However, in the transformer, this is done before the first layer,  where the positional embeddings are added to the word embeddings. In contrast, in capsule nets, it is done in the final layer by coordinate addition,  where the scaled coordinate (row, column) of the centre of the receptive field of each capsule is added to the first two elements of the right-hand column of its vote matrix.&lt;/p&gt;
 
 &lt;h5 id=&quot;structured-hidden-representations&quot;&gt;Structured hidden representations:&lt;/h5&gt;
 
@@ -222,14 +624,82 @@ Now, what is different between capsule networks and transformers in this regard 
 
 &lt;p&gt;In par with this, in transformer, the representations are decomposed into key, query, and value triplets, where key and query are addressing vectors used to calculate the similarity between different parts of the input, and compute the attention distribution to find the extent to which different parts of the input contribute to each others’ representations.&lt;/p&gt;
 
-&lt;p&gt;In very loose terms, the pose matrix in capsule nets plays the role of key and query vectors in transformers. The main point here is that there seems to be some advantage in disentangling representations that are encoding different kinds of information, and in both these models, this is done based on the roles of the hidden state in the routing or attention process.&lt;/p&gt;
+&lt;p&gt;In very loose terms, the pose matrix in capsule nets plays the role of key and query vectors in transformers. The main point here is that there seems to be some advantage in disentangling representations that are encoding different kinds of information. In both these models, this is done based on the roles of the hidden state in the routing or attention process.&lt;/p&gt;
 </description>
-        <pubDate>2020-05-26</pubDate>
-        <link>http://localhost:4000/articles/2019-03/capsule</link>
-        <guid isPermaLink="true">http://localhost:4000/articles/2019-03/capsule</guid>
+        <pubDate>2020-05-30</pubDate>
+        <link>https://samiraabnar.github.io/articles/2019-03/capsule</link>
+        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2019-03/capsule</guid>
+        
+        <category>capsule_networks</category>
+        
+        <category>transformer</category>
+        
+        <category>attention</category>
+        
+        <category>dynamic_routing</category>
         
         
         <category>blogpost</category>
+        
+      </item>
+    
+      <item>
+        <title>Incremental Reading for Question Answering</title>
+        <description>&lt;p&gt;&lt;img src=&quot;posters/CL_workshop_IncReading_forPrint.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Checkout our &lt;a href=&quot;https://arxiv.org/abs/1901.04936&quot;&gt;paper&lt;/a&gt; &lt;a class=&quot;citation&quot; href=&quot;#Abnar2019IncrementalRF&quot;&gt;(Abnar et al., 2019)&lt;/a&gt;!&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Any system which performs goal-directed continual learning must not only learn incrementally but process and absorb information incrementally. Such a system also has to understand when its goals have been achieved. In this paper, we consider these issues in the context of question answering. Current state-of-the-art question answering models reason over an entire passage, not incrementally. As we will show, naive approaches to incremental reading, such as restriction to unidirectional language models in the model, perform poorly. We present extensions to the DocQA model to allow incremental reading without loss of accuracy. The model also jointly learns to provide the best answer given the text that is seen so far and predict whether this best-so-far answer is sufficient.&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>2020-05-30</pubDate>
+        <link>https://samiraabnar.github.io/articles/2018-12/incremental</link>
+        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2018-12/incremental</guid>
+        
+        <category>lstm</category>
+        
+        <category>question_answering</category>
+        
+        <category>incremental_reading</category>
+        
+        <category>early_stopping</category>
+        
+        <category>cognitive_plausibility</category>
+        
+        
+        <category>poster</category>
+        
+      </item>
+    
+      <item>
+        <title>Experiential, Distributional and Dependency-based Word Embeddings have Complementary Roles in Decoding Brain Activity</title>
+        <description>&lt;p&gt;&lt;img src=&quot;posters/poster_final.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Checkout our &lt;a href=&quot;https://www.aclweb.org/anthology/W18-0107/&quot;&gt;paper&lt;/a&gt;, &lt;a class=&quot;citation&quot; href=&quot;#abnar-etal-2018-experiential&quot;&gt;(Abnar et al., 2018)&lt;/a&gt;, and the &lt;a href=&quot;https://github.com/samiraabnar/NeuroSemantics&quot;&gt;codes&lt;/a&gt; to reproduce our experiments!&lt;/p&gt;
+
+&lt;blockquote&gt;
+
+  &lt;p&gt;We evaluate 8 different word embedding models on their usefulness for predicting the neural activation patterns associated with concrete nouns. The models we consider include an experiential model, based on crowd-sourced association data, several popular neural and distributional models, and a model that reflects the syntactic context of words (based on dependency parses). Our goal is to assess the cognitive plausibility of these various embedding models, and understand how we can further improve our methods for interpreting brain imaging data.
+We show that neural word embedding models exhibit superior performance on the tasks we consider, beating experiential word representation model.The syntactically informed model gives the overall best performance when predicting brain activation patterns from word embeddings; whereas the GloVe distributional method gives the overall best performance when predicting in the reverse direction (words vectors from brain images). Interestingly, however, the error patterns of these different models are markedly different. This may support the idea that the brain uses different systems for processing different kinds of words. Moreover, we suggest that taking the relative strengths of different embedding models into account will lead to better models of the brain activity associated with words.&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>2020-05-30</pubDate>
+        <link>https://samiraabnar.github.io/articles/2018-01/experiential</link>
+        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2018-01/experiential</guid>
+        
+        <category>brain_decoding</category>
+        
+        <category>word2vec</category>
+        
+        <category>dependency_based_word_embedding</category>
+        
+        <category>distibutional_semantics</category>
+        
+        <category>cognitive_plausibility</category>
+        
+        
+        <category>poster</category>
         
       </item>
     

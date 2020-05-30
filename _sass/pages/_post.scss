@@ -1,4 +1,50 @@
 // Post listing
+.about {
+  background-color: $white;
+  position: absolute;
+  top: 400px;
+  z-index: 233;
+  width: 100%;
+  padding: 20px 20px 0;
+  -webkit-transform: translate3d(0,0,1px);
+  transform: translate3d(0,0,1px);
+
+  @media only screen and (min-width : 320px)  {
+    padding: 50px 30px 0;
+    padding-right: 5px;
+  }
+
+  @media only screen and (min-width : 480px)  {
+    padding: 50px 30px 0;
+    padding-right: 10px;
+  }
+
+  @media only screen and (min-width : 768px) {
+    height: 100vh;
+    position: initial;
+    top: 0;
+    padding-right: 100px;
+    overflow-y: scroll;
+  }
+
+  @media only screen and (min-width : 992px){
+    height: 100vh;
+    position: initial;
+    top: 0;
+    padding-right: 200px;
+    overflow-y: scroll;
+  }
+
+  @media only screen and (min-width : 1200px) {
+    height: 100vh;
+    position: initial;
+    top: 0;
+    padding-right: 200px;
+    overflow-y: scroll;
+  }
+}
+
+// Post listing
 .post-listing {
   background-color: $white;
   position: absolute;
@@ -8,15 +54,37 @@
   padding: 20px 20px 0;
   -webkit-transform: translate3d(0,0,1px);
   transform: translate3d(0,0,1px);
-  @include media-query($small-screen) {
-    padding: 50px 30px 0;
+
+  @include media-query($larger-screen) {
+    height: 100vh;
+    overflow-y: scroll;
+    position: initial;
+    top: 0;
+    padding-right: 200px;
   }
+
+  @include media-query($large-screen) {
+    height: 100vh;
+    overflow-y: scroll;
+    position: initial;
+    top: 0;
+    padding-right: 120px;
+  }
+
   @include media-query($medium-screen) {
     height: 100vh;
     overflow-y: scroll;
     position: initial;
     top: 0;
+    padding-right: 100px;
   }
+
+  @include media-query($small-screen) {
+    padding: 50px 30px 0;
+    padding-right: 1px;
+
+  }
+
 }
 
 .image-credit {
@@ -31,17 +99,40 @@
 // Post Section
 section.post {
 	margin-bottom: 80px;
-  margin-right: 200px;
   text-align: left;
   float: left;
-  @include media-query($small-screen) {
-    text-align: left;
-    margin-right: 10px;
-  }
-  @include media-query($medium-screen) {
-    text-align: left;
-    margin-right: 200px;
-  }
+
+
+  /* Custom, iPhone Retina */
+    @media only screen and (min-width : 320px) {
+      text-align: left;
+      margin-right: 1px;
+    }
+
+    /* Extra Small Devices, Phones */
+    @media only screen and (min-width : 480px) {
+      text-align: left;
+      margin-right: 1px;
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (min-width : 768px) {
+      text-align: left;
+      margin-right: 50px;
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (min-width : 992px) {
+      text-align: left;
+      margin-right: 100px;
+    }
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (min-width : 1200px) {
+      text-align: left;
+      margin-right: 200px;
+    }
+
 }
 
 
@@ -101,10 +192,34 @@ a.read-more {
 
 #post {
   padding-bottom: 50px;
-  padding-right: 100px;
+
   .post-header {
     margin: 0 auto 50px;
   }
+
+  /* Custom, iPhone Retina */
+    @media only screen and (min-width : 320px) {
+      padding-right: 1px;
+    }
+
+    /* Extra Small Devices, Phones */
+    @media only screen and (min-width : 480px) {
+      padding-right: 1px;
+    }
+    /* Small Devices, Tablets */
+    @media only screen and (min-width : 768px) {
+      padding-right: 50px;
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (min-width : 992px) {
+      padding-right: 100px;
+    }
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (min-width : 1200px) {
+      padding-right: 200px;
+    }
 }
 
 #post h1 {
@@ -119,6 +234,16 @@ a.read-more {
   margin: 1.75em 0 1.2em;
   position: relative;
 }
+
+// #post p {
+//   display: flex;
+//   justify-content: space-around;
+// }
+//
+// #post-content p {
+//   display: flex;
+//   justify-content: space-around;
+// }
 
 #page {
   padding-bottom: 50px;
@@ -161,16 +286,13 @@ a.read-more {
   }
 }
 .post-image-feature {
-  margin-top: 20px;
-  margin-bottom: 40px;
+  margin-top: 40px;
+  margin-bottom: 20px;
   margin-right: 40px;
-
   float: left;
   width: 200px;
-  height: 200px;
   .feature-image {
     width: 200px;
-    height: 200px;
   }
 }
 
@@ -272,8 +394,10 @@ a.read-more {
     margin-bottom: 50px;
     margin-right: 40px;
     .image-caption {
-        color: $info;
         margin-top: $spacer / 3;
+        color: #757575;
+        font-size: 15px;
+        font-weight: lighter;
     }
 }
 

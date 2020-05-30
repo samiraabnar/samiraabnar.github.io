@@ -20,7 +20,7 @@ layout: default
       {% endif %}
     </p>
     <h4>
-      <a href="{{ site.url }}{{ post.url }}" class="post-title" title="{{ post.title | escape }}">{{ post.title }}</a>
+      <a href="{{ post.url }}" class="post-title" title="{{ post.title | escape }}">{{ post.title }}</a>
       {% if post.link %}
       <a class="post-title-link" href="{{ post.link }}" target="_blank" title="{{ post.title | escape }}"><i class="fa fa-external-link"></i></a>
       {% endif %}
@@ -51,18 +51,19 @@ layout: default
     </div><!-- /.image-wrap -->
     {% endif %}
     {% if post.excerpt %}
-    <div class="post-description">
+    <div style="display: table-cell;" class="post-description">
       <p>
         {{ post.excerpt }}
       </p>
+      {% if post.excerpt != post.content %}
+      <div style="clear:left" class="post-meta" >
+      <a href="{{ site.url }}{{ post.url }}">>>Read More</a>
+      </div>
+      {% endif %}
     </div>
     {% endif %}
 
-    {% if post.excerpt != post.content %}
-    <div style="clear:left" class="post-meta" >
-    <a href="{{ site.baseurl }}{{ post.url }}">>>Read More</a>
-  </div>
-    {% endif %}
+
   <hr>
 </section>
 {% endfor %}
