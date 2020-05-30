@@ -6,21 +6,18 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-30</pubDate>
-    <lastBuildDate>Sat, 30 May 2020 14:14:51 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 30 May 2020 15:18:38 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
         <title>Distilling Inductive Biases</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/No_free_lunch_in_search_and_optimization&quot;&gt;No free lunch theorem&lt;/a&gt; states that for any learning algorithm, any improvement on performance over one class of problems is balanced out by a decrease in the performance over another class &lt;a class=&quot;citation&quot; href=&quot;#wolpert1997no&quot;&gt;(Wolpert &amp;amp; Macready, 1997)&lt;/a&gt;. In other words, there is no “one size fits all” learning algorithm.&lt;/p&gt;
+        <description>&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/No_free_lunch_in_search_and_optimization&quot;&gt;No free lunch theorem&lt;/a&gt; states that for any learning algorithm, any improvement on performance over one class of problems is balanced out by a decrease in the performance over another class &lt;a class=&quot;citation&quot; href=&quot;#wolpert1997no&quot;&gt;(Wolpert &amp;amp; Macready, 1997)&lt;/a&gt;. In other words, &lt;strong&gt;there is no “one size fits all” learning algorithm&lt;/strong&gt;.&lt;/p&gt;
 
-&lt;p&gt;We can see this in practice in the deep learning world. Among the various neural network architectures, each of them are better or worse for solving different tasks based on their inductive biases.&lt;/p&gt;
-
-&lt;p&gt;For example, consider the image classification problem.
-CNNs are the de facto choice for processing images, and in general data with grid-like topology. Sparse connectivity and parameter sharing in CNNs make them an effective and statistically efficient architecture.&lt;/p&gt;
+&lt;p&gt;We can see this in practice in the deep learning world. Among the various neural network architectures, each of them are better or worse for solving different tasks based on their inductive biases. For example, consider the image classification problem. CNNs are the de facto choice for processing images, and in general data with grid-like topology. Sparse connectivity and parameter sharing in CNNs make them an effective and statistically efficient architecture.&lt;/p&gt;
 
 &lt;p&gt;The the convolution operation in combination with max pooling makes CNNs approximately invariant to translation.
-When a model or an operation is translation invariant, it means that the if we translate the input, i.e., change the position of objects in the input, the output of the model or the operation won’t change! In mathematical terms if &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt; is translation invariance, then &lt;script type=&quot;math/tex&quot;&gt;f(T(x))=f(x)&lt;/script&gt;.
-A model or an operation could also be translation equivariant, which means that any translation in the input will be reflected in the output. In mathematical terms, if &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt; is translation equivariant, then &lt;script type=&quot;math/tex&quot;&gt;f(T(x))=T(f(x))&lt;/script&gt;.
+When a module is translation invariant, it means that if apply translation transformation on the input image, i.e., change the position of objects in the input, the output of the module won’t change! In mathematical terms if &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt; is translation invariance, then &lt;script type=&quot;math/tex&quot;&gt;f(T(x))=f(x)&lt;/script&gt;, where &lt;script type=&quot;math/tex&quot;&gt;T&lt;/script&gt; is a translation function.
+A module could also be translation equivariant, which means that any translation in the input will be reflected in the output. In mathematical terms, if &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt; is translation equivariant, then &lt;script type=&quot;math/tex&quot;&gt;f(T(x))=T(f(x))&lt;/script&gt;.
 The convolution operation is translation equivariant, and applying max pooling on top of it results in translation invariance!&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
@@ -33,8 +30,8 @@ The convolution operation is translation equivariant, and applying max pooling o
     
 &lt;/div&gt;
 
-&lt;p&gt;On the other hand, it is well known that this translation invariance can hurt the performance of CNNs in cases where the position of the objects in the image matters. This is known as the Picasso effect, where you have all the pieces of an object but not in the right context!
-&lt;!-- ![](img/indist_images/Pablo-Picasso-Spanish-Cubist-Oil-Canvas-Portrait.jpg){:width=&quot;200px&quot;} --&gt;&lt;/p&gt;
+&lt;p&gt;Translation invariance of CNNs improves their generalization and makes them data efficient compared to fully connected networks. For example, if, during training, a CNN has only seen pictures of cats where the cat is located at the centre of the image, it can correctly classify cats at test time independent of their position in the image.  In the lack of this inductive bias, the model needs to see examples of cats at different positions to be able to correctly classify them at test time.
+On the other hand, this translation invariance can hurt the performance of CNNs in cases where the position of the objects in the image matters. This is known as the Picasso effect, where you have all the pieces of an object but not in the right context (One of the motivations behind Capsule networks is to address this drawback).&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
@@ -46,16 +43,19 @@ The convolution operation is translation equivariant, and applying max pooling o
     
 &lt;/div&gt;
 
-&lt;p&gt;Another example of such tradeoffs are recurrent neural networks (RNNs) in contrast to Transformers. It has been shown that the recurrent inductive bias of RNNs helps them capture hierarchical structures in sequences (&lt;a href=&quot;https://samiraabnar.github.io/articles/2020-05/recurrence&quot;&gt;Take a look at my other post about the recurrecnt inductive bias&lt;/a&gt;). But this recurrence and the fact that RNNs’ access to previous tokens is limited to their memory makes it harder for them to deal with long term dependencies and larger context.
-Besides, RNNs can be rather slow because they have to process the data sequentially, i.e, they are not parallelizable. On the other hand, Transformers have direct access to all input tokens and they are very expressive when it comes to representing longer context sizes. Also, they can process the input sequence in parallel and hence they can be remarkably faster than LSTMs. However, Transformers struggle to generalize on tasks that require capturing hierarchical structures when data is limited.&lt;/p&gt;
+&lt;p&gt;Another example of such tradeoffs are recurrent neural networks (RNNs) in contrast to Transformers. It has been shown that the recurrent inductive bias of RNNs helps them capture hierarchical structures in sequences (&lt;a href=&quot;https://samiraabnar.github.io/articles/2020-05/recurrence&quot;&gt;Take a look at my other blog post about the recurrecnt inductive bias&lt;/a&gt;). But this recurrence and the fact that RNNs’ access to previous tokens is limited to their memory makes it harder for them to deal with long term dependencies.
+Besides, RNNs can be rather slow because they have to process data sequentially, i.e, they are not parallelizable. On the other hand, Transformers have direct access to all input tokens and they are very expressive when it comes to representing longer context sizes. Also, they can process the input sequence in parallel, hence they can be remarkably faster than LSTMs. However, Transformers struggle to generalize on tasks that require capturing hierarchical structures when training data is limited.&lt;/p&gt;
 
-&lt;p&gt;While it might not be possible to have one model that can single handedly achieve the desired generalization behaviour on a wide range of tasks, it is possible to benefit from the inductive biases of different models during training and combine them at inference time to have one best model during inference! In this post we show that it is possible to transfer the effect of inductive bias through knowledge distillation and this can be a starting step to achieve the goal of combining the strengths of multiple models in one place!&lt;/p&gt;
+&lt;p&gt;It might not be possible to have one model that can single handedly achieve the desired generalization behaviour on a wide range of tasks, but would it be possible to benefit from the inductive biases of different models during training to have one best model at inference?&lt;/p&gt;
+
+&lt;p&gt;Fortunately, it seems to be possible to do this to some extent!
+In this post, I discuss our paper, “Transferring Inductive Biases through Knowledge Distillation”, where we show that it is possible to transfer the effect of inductive bias through knowledge distillation and this can be a starting step to achieve the goal of combining the strengths of multiple models in one place!&lt;/p&gt;
 
 &lt;h4 id=&quot;what-is-inductive-bias&quot;&gt;What is Inductive bias?&lt;/h4&gt;
 &lt;p&gt;Inductive biases are the characteristics of learning algorithms that influence their generalization behaviour, independent of data. They are one of the main driving forces to push learning algorithms toward particular solutions &lt;a class=&quot;citation&quot; href=&quot;#mitchell1980need&quot;&gt;(Mitchell, 1980)&lt;/a&gt;.
 In the absence of strong inductive biases, a model can be equally attracted to several local minima on the loss surface; and the converged solution can be arbitrarily affected by random variations, for instance, the initial state or the order of training examples &lt;a class=&quot;citation&quot; href=&quot;#sutskever2013importance&quot;&gt;(Sutskever et al., 2013; McCoy et al., 2020; Dodge et al., 2020)&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;In figure below, we see a schematic example of the paths that different instances of two models with different levels of inductive biases follow on a fitness landscape.&lt;/p&gt;
+&lt;p&gt;In figure below, we see a schematic example of the paths that different instances of two models with different levels of inductive biases follow on a fitness landscape.&lt;sup id=&quot;fnref:3be40dd2&quot;&gt;&lt;a href=&quot;#fn:3be40dd2&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
@@ -67,31 +67,26 @@ In the absence of strong inductive biases, a model can be equally attracted to s
     
 &lt;/div&gt;
 
-&lt;p&gt;There are two types of inductive biases: restricted hypothesis space bias and preference bias. Restricted hypothesis space bias determines the expressively of a model, while preference bias weighs the solutions within the hypothesis space &lt;a class=&quot;citation&quot; href=&quot;#Craven1996ExtractingCM&quot;&gt;(Craven, 1996)&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;There are two types of inductive biases: &lt;strong&gt;restricted hypothesis space bias&lt;/strong&gt; and &lt;strong&gt;preference bias&lt;/strong&gt;. Restricted hypothesis space bias determines the expressively of a model, while preference bias weighs the solutions within the hypothesis space &lt;a class=&quot;citation&quot; href=&quot;#Craven1996ExtractingCM&quot;&gt;(Craven, 1996)&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;From another point of view, as formulated by &lt;a class=&quot;citation&quot; href=&quot;#seuncurve&quot;&gt;(Seung et al., 1991)&lt;/a&gt; we can study models from two aspects:&lt;/p&gt;
 &lt;ol&gt;
-  &lt;li&gt;whether a solution is realisable for the model, i.e., there is at least a set of weights that makes the model perform the task.&lt;/li&gt;
+  &lt;li&gt;whether a solution is realisable for the model, i.e., there is at least a set of weights that leads to the optimal solution.&lt;/li&gt;
   &lt;li&gt;whether a solution is learnable for the model, i.e., it is possible for the model to learn that solution within a reasonable amount of time and computations.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;In many cases in deep learning, we are dealing with models that have similar expressive power in the domain of the problems we want to solve, however, they have different preference biases. Meaning the desired solutions are realisable for all of them, but depending on the task at hand it is more easier for some of them to learn that solution compared to the others. So, once we have the desired solution, we might be able to guild the other models toward that  solution.&lt;/p&gt;
+&lt;p&gt;In many cases in deep learning, we are dealing with models that have enough expressive power to solve our problems, however, they have different preference biases. Meaning the desired solutions are realisable for all of them, but depending on the task at hand it is more easier for some of them to learn the solutions compared to the others.&lt;/p&gt;
 
-&lt;!-- _includes/image.html --&gt;
-&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
-    
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/inductive_bias_distilation_example_2.png&quot; alt=&quot;Oil on canvas. Featuring a cubist portrait.&quot; style=&quot;width: 360px; height:&quot; /&gt;
-    
-    
-        &lt;p class=&quot;image-caption&quot;&gt;A drawing of how inductive biases can be transferred through distillation. The inductive biases are shown by colored regions (green and yellow) which indicates regions that models prefer to explore.&lt;/p&gt;
-    
-&lt;/div&gt;
+&lt;!-- So,once we have the desired solution, we might be able to guid the other models toward that  solution. --&gt;
 
 &lt;h4 id=&quot;having-the-right-inductive-bias-matters&quot;&gt;Having the Right Inductive Bias Matters&lt;/h4&gt;
-&lt;p&gt;To understand the effect of inductive biases, we need to take a look at the generalization behaviour of the models.&lt;/p&gt;
+&lt;p&gt;To understand the effect of inductive biases of a model, we need to take a look at its generalization behaviour.&lt;/p&gt;
 
-&lt;p&gt;Let’s walk through the example of LSTMs and Transformers. When we train these models on language modelling, i.e., predicting the next word in the sequence! They both achieve more or less similar perplexities.
-To measure how well they are able to capture the hierarchical structures in the data, we compute their accuracy on the verb prediction task, i.e, when the word to be predicted is a verb, how well the model recognizes the number of that verb. To do this, the model needs to correctly match the verb with its subject.&lt;/p&gt;
+&lt;p&gt;Let’s walk through the example of LSTMs and Transformers.
+When we train these models on language modelling, i.e., predicting the next word in a sequence, they both achieve more or less similar perplexities.
+But how can we know which one is learning a more generlizable solution? One way to check the generalizability of language models is to test how well they have learned the syntactic rules of the language and the hierarchical structures of the sentences.
+The task of subject-verb agreement is designed for this purpose, i.e., to assess the ability of models to caputre hierchical structure in the language.
+In this task, the goal for the model is to predict the number of a masked verb in a given sentence. To do this, the model needs to correctly recognize the subject of the verb in the sentence and the main difficulty is when the verb does not follow the subject immediately and there are one or more agreement attractors between the subject and the verb. In the figure below, we see an example for this task.&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
@@ -103,7 +98,7 @@ To measure how well they are able to capture the hierarchical structures in the 
     
 &lt;/div&gt;
 
-&lt;p&gt;Comparing different instances of LSTMs and Transformers, with different perplexities, we observe that LSTMs have a higher tendency toward solutions that achieve higher accuracy on the &lt;a href=&quot;https://github.com/TalLinzen/rnn_agreement&quot;&gt;subject verb agreement task&lt;/a&gt;. In other words, lSTMs with higher perplexities, achieve higher accuracies than Transformers with lower perplexities.&lt;/p&gt;
+&lt;p&gt;Comparing different instances of LSTMs and Transformers, with different perplexities, we observe that LSTMs have a higher tendency toward solutions that achieve better accuracy on the &lt;a href=&quot;https://github.com/TalLinzen/rnn_agreement&quot;&gt;subject verb agreement task&lt;/a&gt;. We can see that, LSTMs with worse perplexities achieve better accuracies than Transformers with better perplexities.&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
@@ -136,6 +131,16 @@ Here you can see the results of training CNNs and MLPs on the MNIST dataset and 
 &lt;p&gt;There are different ways to inject inductive biases into learning algorithms, for instance, through architectural choices, the objective function, curriculum  strategy, or the optimisation regime.
 Here, we exploit the power of Knowledge Distillation (KD) to transfer the effect of inductive biases between neural networks.&lt;/p&gt;
 
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/inductive_bias_distilation_example_2.png&quot; alt=&quot;Oil on canvas. Featuring a cubist portrait.&quot; style=&quot;width: 360px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;A drawing of how inductive biases can be transferred through distillation. The inductive biases are shown by colored regions (green and yellow) which indicates regions that models prefer to explore.&lt;/p&gt;
+    
+&lt;/div&gt;
+
 &lt;p&gt;KD refers to the process of transferring knowledge from a teacher model to a student model, where the logits from the teacher are used to train the student. It is best known as an effective method for model compression &lt;a class=&quot;citation&quot; href=&quot;#hinton2015distilling&quot;&gt;(Hinton et al., 2015)&lt;/a&gt; which allows taking advantage of the huge number of parameters during training, without losing the efficiency of a smaller model during inference.
 When we have a teacher that performs very well on a given task, using it to train another model can lead to an improved performance in the student model. The question is where does this improvement come from. Does knowledge distillation merely act as a regularization technique or are the qualitative aspects of the solution the teachers converges that are rooted in its inductive biases, also reflected in the student model.&lt;/p&gt;
 
@@ -164,7 +169,7 @@ When we have a teacher that performs very well on a given task, using it to trai
 &lt;/div&gt;
 
 &lt;h5 id=&quot;distillation-affect-the-trajectories-the-student-models-follow-during-training&quot;&gt;Distillation affect the trajectories the student models follow during training&lt;/h5&gt;
-&lt;p&gt;Now, Let’s take a look at the training paths of the models when they are trained independently and when they are trained through distillation&lt;sup id=&quot;fnref:5614e4c5&quot;&gt;&lt;a href=&quot;#fn:5614e4c5&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Looking at the training path for an independent MLP, an independent CNN, and an MLP that is distilled form a CNN, we see that while MLP and CNN seem to have very different behaviour during training, the student MLP with a CNN as its teacher behaves differently than an independent MLP and more similarly to its teacher CNN. This is interesting, in particular, since the student model is only exposed to the final solution the teacher has converged to and no information about the intermediate stages of training is provided in the offline KD.&lt;/p&gt;
+&lt;p&gt;Now, Let’s take a look at the training paths of the models when they are trained independently and when they are trained through distillation&lt;sup id=&quot;fnref:5614e4c5&quot;&gt;&lt;a href=&quot;#fn:5614e4c5&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. Looking at the training path for an independent MLP, an independent CNN, and an MLP that is distilled form a CNN, we see that while MLP and CNN seem to have very different behaviour during training, the student MLP with a CNN as its teacher behaves differently than an independent MLP and more similarly to its teacher CNN. This is interesting, in particular, since the student model is only exposed to the final solution the teacher has converged to and no information about the intermediate stages of training is provided in the offline KD.&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
@@ -203,6 +208,9 @@ When we have a teacher that performs very well on a given task, using it to trai
 &lt;p&gt;Codes to replicate the experiments we discussed in this post are available &lt;a href=&quot;https://github.com/samiraabnar/Reflect&quot;&gt;here&lt;/a&gt;!&lt;/p&gt;
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
+    &lt;li id=&quot;fn:3be40dd2&quot;&gt;
+      &lt;p&gt;Note that this is not a precise illustration since in practice different models with different architectures have different fitness landscapes, thus not directly comparable! &lt;a href=&quot;#fnref:3be40dd2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
     &lt;li id=&quot;fn:5614e4c5&quot;&gt;
       &lt;p&gt;To plot the training path of a model, we compute the pairwise representational similarity between different stages of training of the model. &lt;a href=&quot;#fnref:5614e4c5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
