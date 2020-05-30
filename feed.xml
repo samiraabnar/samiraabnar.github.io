@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-05-30</pubDate>
-    <lastBuildDate>Sat, 30 May 2020 15:18:38 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 30 May 2020 20:11:06 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -244,6 +244,74 @@ When we have a teacher that performs very well on a given task, using it to trai
         <category>mnist</category>
         
         <category>language_modelling</category>
+        
+        
+        <category>blogpost</category>
+        
+      </item>
+    
+      <item>
+        <title>Visualizing Model Comparison</title>
+        <description>&lt;p&gt;When training deep neural networks, we often strive to compare the models
+and understand the consequences of different design choices beyond the final performance on the models on a given task.
+For example, it is can be very insightful to visualize the internal representations of the models in 2D or 3D
+using dimensionality reduction techniques such as &lt;a href=&quot;https://en.wikipedia.org/wiki/Principal_component_analysis&quot;&gt;PCA&lt;/a&gt; or &lt;a href=&quot;https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding&quot;&gt;t-SNE&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;But when we want to see differences in the representational spaces of different models, it can be tricky to just compare the plots by eyes. To quantify the similarity between the representational spaces of two models, we can apply
+&lt;strong&gt;representational similarity analysis&lt;/strong&gt; (RSA) &lt;a class=&quot;citation&quot; href=&quot;#repsimlaakso2000&quot;&gt;(Laakso &amp;amp; Cottrell, 2000)&lt;/a&gt;, which in simple terms is to compute the similarity of similarities between two spaces. This is in particular useful when these models do not have the same architecture and their parameter space is not directly comparable. Thus, if we have a set of models and we want to know how they are all compared to each other in terms of representational similarity, we can compute the representational similarity between each model pair. This will give us the similarity matrix of the models and we can
+visualize this in 2d or 3d using a &lt;a href=&quot;https://en.wikipedia.org/wiki/Multidimensional_scaling&quot;&gt;multi dimensional scaling algorithm&lt;/a&gt;. I have depicted this process in the figure below.&lt;/p&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/repsim_images/repsim_alg.png&quot; alt=&quot;Representational similarity&quot; style=&quot;width: 800px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Computing representational similarity of multiple models&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;Assume we have $m$ models, and we want to visualize them in 2d based on the similarity of their penultimate layers.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;First, we feed a sample set of size $n$ from the validation/test set (e.g. 1000 examples) to the forward pass of each model and obtain the representation from a particular layer, e.g., penultimate layer, of the models.&lt;/li&gt;
+  &lt;li&gt;Next, for each model, we calculate the similarity of the representations of all pairs from the sample set using some similarity metric, e.g., dot product. This leads to a matrix of size $n\times n$ (part 1 in the figure above).&lt;/li&gt;
+  &lt;li&gt;We use the samples similarity matrix associated with each model to compute the similarity between all pairs of models. Thus, we compute the dot product (we can use any other measure of similarity as well) of the corresponding rows of these two matrices after normalization, and average all the similarity of all rows, which leads to a single scalar (part 2 and 3 in the figure above).&lt;/li&gt;
+  &lt;li&gt;Given all possible pairs of models, we then have a model similarity matrix of size $m\times m$ and we apply a &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html&quot;&gt;multi dimensional scaling algorithm&lt;/a&gt; to embed all the models in a 2D space based on their similarities.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the example below we see the similarity between the penultimate layers of the models trained on the MNIST dataset.
+&lt;!-- _includes/image.html --&gt;&lt;/p&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/repsim_images/mnist_repsim.png&quot; alt=&quot;Representational similarity&quot; style=&quot;width: 400px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Representational similarity of different instances of MLPs and CNNs trained on MNIST&lt;/p&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;We can use this technique not only to compare different models but also to compare different components of the same model, e.g., different layers, or to see how the representations of a model change/evolve during training. For example, in figure below, we can see the training trajectories of a CNN and an MLP on the MNIST dataset. To obtain these training trajectories, we compute the pairwise similarity between the representations obtained from the models at different stages of the training process.&lt;/p&gt;
+
+&lt;!-- _includes/image.html --&gt;
+&lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
+    
+        &lt;img src=&quot;https://samiraabnar.github.io/img/repsim_images/training_path.png&quot; alt=&quot;Representational similarity&quot; style=&quot;width: 800px; height:&quot; /&gt;
+    
+    
+        &lt;p class=&quot;image-caption&quot;&gt;Visualizing training paths of models using RSA&lt;/p&gt;
+    
+&lt;/div&gt;
+
+</description>
+        <pubDate>2020-05-30</pubDate>
+        <link>https://samiraabnar.github.io/articles/2020-05/vizualization</link>
+        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/vizualization</guid>
+        
+        <category>representational_similarity_analysis</category>
+        
+        <category>multi_dimensional_scaling</category>
+        
+        <category>neural_networks</category>
         
         
         <category>blogpost</category>

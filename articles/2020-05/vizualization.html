@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="In this post, I explain the representational analysis technique and how we can use it in combination with a multi dimensional scaling algorithm to visualize ...">
+  <meta name="keywords" content="blog">
+  <meta name="author" content="Visualizing Model Comparison | Samira Abnar">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f5f5">
+
+  <!-- Twitter Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Visualizing Model Comparison | Samira Abnar">
+  <meta name="twitter:description" content="In this post, I explain the representational analysis technique and how we can use it in combination with a multi dimensional scaling algorithm to visualize ...">
+  
+    
+      <meta property="twitter:image" content="https://samiraabnar.github.io/img/repsim_images/repsim_alg.png">
+    
+  
+
+  <!-- Open Graph Tags -->
+  <meta property="og:type" content="blog">
+  <meta property="og:url" content="https://samiraabnar.github.io/articles/2020-05/vizualization">
+  <meta property="og:title" content="Visualizing Model Comparison | Samira Abnar">
+  <meta property="og:description" content="In this post, I explain the representational analysis technique and how we can use it in combination with a multi dimensional scaling algorithm to visualize ...">
+  
+    
+      <meta property="og:image" content="https://samiraabnar.github.io/img/repsim_images/repsim_alg.png">
+    
+  
+  <title>Visualizing Model Comparison | Samira Abnar</title>
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="https://samiraabnar.github.io/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://samiraabnar.github.io/css/main.css">
+  <!-- Social Share Kit CSS -->
+  <link rel="stylesheet" href="https://samiraabnar.github.io/css/social-share-kit.css" type="text/css">
+
+  <link rel="canonical" href="https://samiraabnar.github.io/articles/2020-05/vizualization">
+  <link rel="alternate" type="application/rss+xml" title="Samira Abnar" href="https://samiraabnar.github.io/feed.xml" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  <!-- Icons -->
+  <!-- 16x16 -->
+  <link rel="shortcut icon" href="https://samiraabnar.github.io/logo.png">
+  <!-- 32x32 -->
+  <link rel="shortcut icon" href="https://samiraabnar.github.io/logo.png">
+  <script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+       <script type="text/x-mathjax-config">
+         MathJax.Hub.Config({
+           tex2jax: {
+             inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+             processEscapes: true
+           }
+         });
+  </script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+
+
+<body>
+  <div class="row">
+    <div class="col s12 m3">
+      <div class="table cover">
+        
+
+<div class="cover-card table-cell table-middle">
+  
+  <a href="/">
+    <img src="/img/samira-logo.jpg" alt="" class="avatar">
+  </a>
+  
+  <a href="/" class="author_name">Samira Abnar</a>
+  <span class="author_job">PhD Candidate</span>
+  <span class="author_bio mbm">University of Amsterdam</span>
+  <nav class="nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="/">blog</a>
+      </li>
+       
+      <li class="nav-item">
+        <a href="/about">About</a>
+      </li>
+        
+      <li class="nav-item">
+        <a href="/archive/">Archive</a>
+      </li>
+          
+      <li class="nav-item">
+        <a href="/categories/">Categories</a>
+      </li>
+            
+      <li class="nav-item">
+        <a href="/tags/">Tags</a>
+      </li>
+         
+    </ul>
+  </nav>
+  <script type="text/javascript">
+  // based on http://stackoverflow.com/a/10300743/280842
+  function gen_mail_to_link(hs, subject) {
+    var lhs,rhs;
+    var p = hs.split('@');
+    lhs = p[0];
+    rhs = p[1];
+    document.write("<a class=\"social-link-item\" target=\"_blank\" href=\"mailto");
+    document.write(":" + lhs + "@");
+    document.write(rhs + "?subject=" + subject + "\"><i class=\"fa fa-fw fa-envelope\"></i><\/a>");
+  }
+</script>
+<div class="social-links">
+  <ul>
+    
+    <li><a href="http://twitter.com/samiraabnar#username" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/samiraabnar" class="social-link-item" target="_blank"><i class="fa fa-fw fa-linkedin"></i></a></li>
+    
+    
+    <li><a href="http://instagram.com/samiraabnar" class="social-link-item" target="_blank"><i class="fa fa-fw fa-instagram"></i></a></li>
+    
+    <li><a href="http://github.com/samiraabnar" class="social-link-item" target="_blank"><i class="fa fa-fw fa-github"></i></a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ul>
+</div>
+
+</div>
+
+      </div>
+    </div>
+    <div class="ssk-sticky ssk-right ssk-center ssk-lg">
+      <a href="" class="ssk ssk-facebook"></a>
+      <a href="" class="ssk ssk-twitter"></a>
+      <a href="" class="ssk ssk-google-plus"></a>
+      <a href="" class="ssk ssk-pinterest"></a>
+      <a href="" class="ssk ssk-linkedin"></a>
+    </div>
+    <div class="col s12 m9">
+      <div class="post-listing">
+        <!-- 
+<div class="post-image-feature">
+  <img class="feature-image" src=
+  
+  "https://samiraabnar.github.io/img/repsim_images/repsim_alg.png"
+  
+  alt="Visualizing Model Comparison feature image">
+
+  
+</div>
+ -->
+
+<div id="post">
+  <header class="post-header">
+    <h1 title="Visualizing Model Comparison">Visualizing Model Comparison</h1>
+    <span class="post-meta">
+      <span class="post-date">
+        27 MAY 2020
+      </span>
+      •
+      <span class="read-time" title="Estimated read time">
+  
+  
+    3 mins read
+  
+</span>
+
+    </span>
+
+  </header>
+
+  <article class="post-content">
+    <p>When training deep neural networks, we often strive to compare the models
+and understand the consequences of different design choices beyond the final performance on the models on a given task.
+For example, it is can be very insightful to visualize the internal representations of the models in 2D or 3D
+using dimensionality reduction techniques such as <a href="https://en.wikipedia.org/wiki/Principal_component_analysis">PCA</a> or <a href="https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding">t-SNE</a>.</p>
+
+<p>But when we want to see differences in the representational spaces of different models, it can be tricky to just compare the plots by eyes. To quantify the similarity between the representational spaces of two models, we can apply
+<strong>representational similarity analysis</strong> (RSA) <a class="citation" href="#repsimlaakso2000">(Laakso &amp; Cottrell, 2000)</a>, which in simple terms is to compute the similarity of similarities between two spaces. This is in particular useful when these models do not have the same architecture and their parameter space is not directly comparable. Thus, if we have a set of models and we want to know how they are all compared to each other in terms of representational similarity, we can compute the representational similarity between each model pair. This will give us the similarity matrix of the models and we can
+visualize this in 2d or 3d using a <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">multi dimensional scaling algorithm</a>. I have depicted this process in the figure below.</p>
+
+<!-- _includes/image.html -->
+<div class="image-wrapper" style="">
+    
+        <img src="https://samiraabnar.github.io/img/repsim_images/repsim_alg.png" alt="Representational similarity" style="width: 800px; height:" />
+    
+    
+        <p class="image-caption">Computing representational similarity of multiple models</p>
+    
+</div>
+
+<p>Assume we have $m$ models, and we want to visualize them in 2d based on the similarity of their penultimate layers.</p>
+<ul>
+  <li>First, we feed a sample set of size $n$ from the validation/test set (e.g. 1000 examples) to the forward pass of each model and obtain the representation from a particular layer, e.g., penultimate layer, of the models.</li>
+  <li>Next, for each model, we calculate the similarity of the representations of all pairs from the sample set using some similarity metric, e.g., dot product. This leads to a matrix of size $n\times n$ (part 1 in the figure above).</li>
+  <li>We use the samples similarity matrix associated with each model to compute the similarity between all pairs of models. Thus, we compute the dot product (we can use any other measure of similarity as well) of the corresponding rows of these two matrices after normalization, and average all the similarity of all rows, which leads to a single scalar (part 2 and 3 in the figure above).</li>
+  <li>Given all possible pairs of models, we then have a model similarity matrix of size $m\times m$ and we apply a <a href="https://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html">multi dimensional scaling algorithm</a> to embed all the models in a 2D space based on their similarities.</li>
+</ul>
+
+<p>In the example below we see the similarity between the penultimate layers of the models trained on the MNIST dataset.
+<!-- _includes/image.html --></p>
+<div class="image-wrapper" style="">
+    
+        <img src="https://samiraabnar.github.io/img/repsim_images/mnist_repsim.png" alt="Representational similarity" style="width: 400px; height:" />
+    
+    
+        <p class="image-caption">Representational similarity of different instances of MLPs and CNNs trained on MNIST</p>
+    
+</div>
+
+<p>We can use this technique not only to compare different models but also to compare different components of the same model, e.g., different layers, or to see how the representations of a model change/evolve during training. For example, in figure below, we can see the training trajectories of a CNN and an MLP on the MNIST dataset. To obtain these training trajectories, we compute the pairwise similarity between the representations obtained from the models at different stages of the training process.</p>
+
+<!-- _includes/image.html -->
+<div class="image-wrapper" style="">
+    
+        <img src="https://samiraabnar.github.io/img/repsim_images/training_path.png" alt="Representational similarity" style="width: 800px; height:" />
+    
+    
+        <p class="image-caption">Visualizing training paths of models using RSA</p>
+    
+</div>
+
+
+  </article>
+
+  <h4>References</h4>
+  <ol class="bibliography"><li><span id="repsimlaakso2000">Laakso, A., &amp; Cottrell, G. (2000). Content and cluster analysis: Assessing representational similarity in neural systems. <i>Philosophical Psychology</i>, <i>13</i>(1), 47–76. https://doi.org/10.1080/09515080050002726</span></li></ol>
+  </p>
+</div>
+
+
+
+        <footer>
+  <!-- &copy; 2020 Samira Abnar. -->
+</footer>
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="https://samiraabnar.github.io/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://samiraabnar.github.io/js/main.js"></script>
+<!-- Social Share Kit JS -->
+<script type="text/javascript" src="https://samiraabnar.github.io/js/social-share-kit.js"></script>
+
+
+
+<script type="text/javascript">
+SocialShareKit.init();
+</script>
+
+</body>
+</html>
