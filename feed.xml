@@ -6,7 +6,7 @@
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-06-01</pubDate>
-    <lastBuildDate>Mon, 01 Jun 2020 10:48:31 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2020 12:08:14 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -261,24 +261,30 @@ Our paper is one step toward this direction, with interesting results and findin
     
       <item>
         <title>Visualizing Model Comparison</title>
-        <description>&lt;p&gt;When training deep neural networks, we often strive to compare the models
-and understand the consequences of different design choices beyond the final performance of the models on a given task. For example, it can be very insightful to visualize the internal representations of the models in 2D or 3D using dimensionality reduction techniques such as &lt;a href=&quot;https://en.wikipedia.org/wiki/Principal_component_analysis&quot;&gt;PCA&lt;/a&gt; or &lt;a href=&quot;https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding&quot;&gt;t-SNE&lt;/a&gt;.&lt;/p&gt;
+        <description>&lt;p&gt;When training deep neural networks, we often strive to compare the models and understand the consequences of different design choices beyond the final performance of the models. For example, it can be very insightful to visualize the internal representations of the models in 2D or 3D using dimensionality reduction techniques such as &lt;a href=&quot;https://en.wikipedia.org/wiki/Principal_component_analysis&quot;&gt;PCA&lt;/a&gt; or &lt;a href=&quot;https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding&quot;&gt;t-SNE&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;Now, what if, instead of visualizing how one model represents different examples, we want to visualize different models in the space. To do this, we need to measure the similarity between the models.&lt;/p&gt;
+&lt;p&gt;Now, what if, instead of visualizing how one model represents different examples, we want to visualize a set of different models in a space so that we can directly see how they are compared to one another, i.e., we want to embed different models in a shared space. To do this, we need to measure the similarity between the models in some way.&lt;/p&gt;
 
-&lt;p&gt;Given two instances of the same model architecture, an obvious way to reveal the differences between them would be to compare the value of their parameters. However there are several flaws for this approach:&lt;/p&gt;
+&lt;p&gt;Besides the performance of the models on a set of tasks, we can measure their similarity in terms of their weights or the way they represent different input examples.&lt;/p&gt;
+
+&lt;p&gt;Given two instances of the same model architecture, an obvious way to measure the similarity between them would be to compare the value of their parameters. However there are several flaws for this approach:&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;It is only applicable when the given models have exactly the same architecture, i.e., their parameter spaces are comparable.&lt;/li&gt;
-  &lt;li&gt;The parameter space of the models can be very large, and we will have sever problems with the curse of dimensionality.&lt;/li&gt;
+  &lt;li&gt;The parameter space of the models can be very large, and we need to deal with the curse of dimensionality.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;Another approach for comparing two models is to compare the representations we obtain from them.
-That means given a set of $n$ examples, compute the average similarity between the representations obtained from the models for each example. This is also problematic, because not only it is only applicable if the representations from the given models have the same dimensionality, but also the similarity measure will be sensitive to some trivial differences in the representational spaces of the models, e.g. if the representations obtained from model A are all a linear transformation of the representations obtained from model B, they are in principal 100% similar, but we can not capture this; if we are simply averaging the similarities between the representations obtained for each example.&lt;/p&gt;
+&lt;p&gt;Another approach for comparing a set of models is to directly compare the representations we obtain from them.
+However, this is only applicable if the representations from the given models are directly comparable and consequently have the same dimensionality. Moreover, this way, the similarity between the models will be sensitive to some trivial differences in the representational spaces of the models, e.g. if the representations obtained from model A are all a linear transformation of the representations obtained from model B, they are in principal 100% similar, but we can not capture this; if we are simply taking into account the similarities between the representations obtained for each individual example.&lt;/p&gt;
 
-&lt;p&gt;Fortunately, there is a solution that addresses all of the issues mentioned above, &lt;strong&gt;Representational Similarity Analysis&lt;/strong&gt; (RSA) &lt;a class=&quot;citation&quot; href=&quot;#repsimlaakso2000&quot;&gt;(Laakso &amp;amp; Cottrell, 2000)&lt;/a&gt;.
-In RSA, instead of comparing model parameters, we compare their representational spaces, and instead of computing the similarity between representations, we compute the similarity of similarity of representations (second order similarity) in each space. This methods is in particular useful when these models do not have the same architecture and their parameter space or representational space is not directly comparable. Moreover it is not sensitive to the trivial changes in the representational spaces since it does not take into account the actual representations but the similarities between the representations in each space.&lt;/p&gt;
+&lt;p&gt;Fortunately, there are solutions that address all of the issues mentioned above, &lt;strong&gt;Representational Similarity Analysis&lt;/strong&gt; (RSA) &lt;a class=&quot;citation&quot; href=&quot;#repsimlaakso2000&quot;&gt;(Laakso &amp;amp; Cottrell, 2000)&lt;/a&gt; and &lt;strong&gt;Canocical Correlation Analysis&lt;/strong&gt; (CCA) &lt;a class=&quot;citation&quot; href=&quot;#thompson1984canonical&quot;&gt;(Thompson, 1984)&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;Thus, if we have a set of models and we want to know how they are all compared to each other we can compute the representational similarity between each model pair. This will give us the similarity matrix of the models and we can visualize this in 2d or 3d using a &lt;a href=&quot;https://en.wikipedia.org/wiki/Multidimensional_scaling&quot;&gt;multi dimensional scaling algorithm&lt;/a&gt;. I have depicted this process in the figure below.&lt;/p&gt;
+&lt;p&gt;RSA and CCA are standard tools of multivariate statistical analysis for quantifying the relation between two sets of variables. In our case, the sets of variable are the representations/embeddings of the examples obtained from each model.
+In CCA, to address the issue of having non comparable representational spaces, we first learn to map the representations from both models in a joint (low dimensional) space in a way that their correlation for each example is maximized. In RSA, instead of computing the similarity between representations, we compute the similarity of similarity of representations (second order similarity) in each space, thus, we avoid the need to directly compare the representations from different spaces (obtained from different models).&lt;/p&gt;
+
+&lt;p&gt;Thus, if we have a set of models and we want to know how they are all compared to each other we can compute the representational similarity between each model pair using RSA or CCA (or some other similar technique). This will give us the similarity matrix of the models and we can visualize this in 2d or 3d using a &lt;a href=&quot;https://en.wikipedia.org/wiki/Multidimensional_scaling&quot;&gt;multi dimensional scaling algorithm&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I will now explain how we can get the model embeddings within the RSA framework.
+In the figure below I have depicted the process of computing representational similarities between a sets of models using RSA.&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
@@ -321,6 +327,15 @@ In RSA, instead of comparing model parameters, we compare their representational
     
 &lt;/div&gt;
 
+&lt;p&gt;When applying RSA, there two important factors that can affect the results:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;The similarity metric used to compute the similarity between the representations for each models.&lt;/li&gt;
+  &lt;li&gt;The similarity metric used to compute the similarity between the rows of the similarity matrices of the models.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;We need to carefully choose these metrics based on the nature of the representational spaces we are studying and our definition of similar representational spaces, e.g. do we want our measure to be sensitive to scales or not.&lt;/p&gt;
+
+&lt;p&gt;RSA and CCA are very common techniques especially in the fields of computational psychology and neuroscience. In the recent years, they have also gained back their popularity in the machine learning community as methods of model analysis and interpretation.&lt;/p&gt;
 </description>
         <pubDate>2020-06-01</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-05/vizualization</link>
