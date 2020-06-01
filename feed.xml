@@ -5,8 +5,8 @@
     <description>Samira's Blog</description>
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>2020-05-30</pubDate>
-    <lastBuildDate>Sat, 30 May 2020 20:11:06 +0200</lastBuildDate>
+    <pubDate>2020-06-01</pubDate>
+    <lastBuildDate>Mon, 01 Jun 2020 10:48:31 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -168,13 +168,13 @@ When we have a teacher that performs very well on a given task, using it to trai
     
 &lt;/div&gt;
 
-&lt;h5 id=&quot;distillation-affect-the-trajectories-the-student-models-follow-during-training&quot;&gt;Distillation affect the trajectories the student models follow during training&lt;/h5&gt;
+&lt;h5 id=&quot;distillation-affects-the-trajectories-the-student-models-follow-during-training&quot;&gt;Distillation affects the trajectories the student models follow during training&lt;/h5&gt;
 &lt;p&gt;Now, Let’s take a look at the training paths of the models when they are trained independently and when they are trained through distillation&lt;sup id=&quot;fnref:5614e4c5&quot;&gt;&lt;a href=&quot;#fn:5614e4c5&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. Looking at the training path for an independent MLP, an independent CNN, and an MLP that is distilled form a CNN, we see that while MLP and CNN seem to have very different behaviour during training, the student MLP with a CNN as its teacher behaves differently than an independent MLP and more similarly to its teacher CNN. This is interesting, in particular, since the student model is only exposed to the final solution the teacher has converged to and no information about the intermediate stages of training is provided in the offline KD.&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.13.15.png&quot; alt=&quot;&quot; style=&quot;width: 600px; height:&quot; /&gt;
+        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/training_path_dstl.png&quot; alt=&quot;&quot; style=&quot;width: 600px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Training paths of CNNs and MLPs&lt;/p&gt;
@@ -189,7 +189,7 @@ When we have a teacher that performs very well on a given task, using it to trai
         &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.30.png&quot; alt=&quot;&quot; style=&quot;width: 600px; height:&quot; /&gt;
     
     
-        &lt;p class=&quot;image-caption&quot;&gt;Representational similarity of converged solutions of CNNs and MLPs&lt;/p&gt;
+        &lt;p class=&quot;image-caption&quot;&gt;Representational similarity of converged solutions of LSTMs and Transformers&lt;/p&gt;
     
 &lt;/div&gt;
 
@@ -199,13 +199,22 @@ When we have a teacher that performs very well on a given task, using it to trai
         &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.45.png&quot; alt=&quot;&quot; style=&quot;width: 600px; height:&quot; /&gt;
     
     
-        &lt;p class=&quot;image-caption&quot;&gt;Representational similarity of converged solutions of LSTMs and Transformers&lt;/p&gt;
+        &lt;p class=&quot;image-caption&quot;&gt;Representational similarity of converged solutions of CNNs and MLPs&lt;/p&gt;
     
 &lt;/div&gt;
 
 &lt;p&gt;In this post, I went through the findings of our paper on “Transferring Inductive Biases Through Knowledge Distillation”, where we explore the power of knowledge distillation for transferring the effect of inductive biases from one model to another. In this paper, We consider families of models with different inductive biases, LSTMs vs. Transformers and CNNs vs. MLPs, in the context of tasks and scenarios where having the right inductive biases can be critical. We study how the effect of inductive biases is transferred through knowledge distillation, in terms of not only performance, but also different aspects of converged solutions.&lt;/p&gt;
 
 &lt;p&gt;Codes to replicate the experiments we discussed in this post are available &lt;a href=&quot;https://github.com/samiraabnar/Reflect&quot;&gt;here&lt;/a&gt;!&lt;/p&gt;
+
+&lt;h4 id=&quot;why-is-this-good-news&quot;&gt;Why is this good news?&lt;/h4&gt;
+&lt;p&gt;It is exciting that researchers in the machine learning field, actively work on a diverse set of methods and algorithms for solving different tasks and problems. As stated before, there is no “one size fits all” and often, the set of models that work well on a specific problem are not suitable for another problem or task.
+Given this, we believe it is essential to do research on (meta-)approaches that enable us better understand and combine the benefits and strength of different learning algorithms in one place.
+Our paper is one step toward this direction, with interesting results and findings. More importantly, the tools and methods we introduced and used in this paper are useful in future research.&lt;/p&gt;
+
+&lt;h5 id=&quot;where-else-can-this-be-important&quot;&gt;Where else can this be important?&lt;/h5&gt;
+&lt;p&gt;Besides that, here our focus is on the generalizability of the solutions learning algorithms converged to, but this analysis can be potentially extended to other types of biases, e.g., biases that would trigger ethical issues. Considering the fact that knowledge distillation is a very popular model compression technique, it is important to understand the extent to which different types of biases can be transferred from one learning algorithm to another through knowledge distillation. This paper sets an example for such analyses.
+—&lt;/p&gt;
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:3be40dd2&quot;&gt;
@@ -217,7 +226,7 @@ When we have a teacher that performs very well on a given task, using it to trai
   &lt;/ol&gt;
 &lt;/div&gt;
 </description>
-        <pubDate>2020-05-30</pubDate>
+        <pubDate>2020-06-01</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-05/indist</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/indist</guid>
         
@@ -253,13 +262,23 @@ When we have a teacher that performs very well on a given task, using it to trai
       <item>
         <title>Visualizing Model Comparison</title>
         <description>&lt;p&gt;When training deep neural networks, we often strive to compare the models
-and understand the consequences of different design choices beyond the final performance on the models on a given task.
-For example, it is can be very insightful to visualize the internal representations of the models in 2D or 3D
-using dimensionality reduction techniques such as &lt;a href=&quot;https://en.wikipedia.org/wiki/Principal_component_analysis&quot;&gt;PCA&lt;/a&gt; or &lt;a href=&quot;https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding&quot;&gt;t-SNE&lt;/a&gt;.&lt;/p&gt;
+and understand the consequences of different design choices beyond the final performance of the models on a given task. For example, it can be very insightful to visualize the internal representations of the models in 2D or 3D using dimensionality reduction techniques such as &lt;a href=&quot;https://en.wikipedia.org/wiki/Principal_component_analysis&quot;&gt;PCA&lt;/a&gt; or &lt;a href=&quot;https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding&quot;&gt;t-SNE&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;But when we want to see differences in the representational spaces of different models, it can be tricky to just compare the plots by eyes. To quantify the similarity between the representational spaces of two models, we can apply
-&lt;strong&gt;representational similarity analysis&lt;/strong&gt; (RSA) &lt;a class=&quot;citation&quot; href=&quot;#repsimlaakso2000&quot;&gt;(Laakso &amp;amp; Cottrell, 2000)&lt;/a&gt;, which in simple terms is to compute the similarity of similarities between two spaces. This is in particular useful when these models do not have the same architecture and their parameter space is not directly comparable. Thus, if we have a set of models and we want to know how they are all compared to each other in terms of representational similarity, we can compute the representational similarity between each model pair. This will give us the similarity matrix of the models and we can
-visualize this in 2d or 3d using a &lt;a href=&quot;https://en.wikipedia.org/wiki/Multidimensional_scaling&quot;&gt;multi dimensional scaling algorithm&lt;/a&gt;. I have depicted this process in the figure below.&lt;/p&gt;
+&lt;p&gt;Now, what if, instead of visualizing how one model represents different examples, we want to visualize different models in the space. To do this, we need to measure the similarity between the models.&lt;/p&gt;
+
+&lt;p&gt;Given two instances of the same model architecture, an obvious way to reveal the differences between them would be to compare the value of their parameters. However there are several flaws for this approach:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;It is only applicable when the given models have exactly the same architecture, i.e., their parameter spaces are comparable.&lt;/li&gt;
+  &lt;li&gt;The parameter space of the models can be very large, and we will have sever problems with the curse of dimensionality.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Another approach for comparing two models is to compare the representations we obtain from them.
+That means given a set of $n$ examples, compute the average similarity between the representations obtained from the models for each example. This is also problematic, because not only it is only applicable if the representations from the given models have the same dimensionality, but also the similarity measure will be sensitive to some trivial differences in the representational spaces of the models, e.g. if the representations obtained from model A are all a linear transformation of the representations obtained from model B, they are in principal 100% similar, but we can not capture this; if we are simply averaging the similarities between the representations obtained for each example.&lt;/p&gt;
+
+&lt;p&gt;Fortunately, there is a solution that addresses all of the issues mentioned above, &lt;strong&gt;Representational Similarity Analysis&lt;/strong&gt; (RSA) &lt;a class=&quot;citation&quot; href=&quot;#repsimlaakso2000&quot;&gt;(Laakso &amp;amp; Cottrell, 2000)&lt;/a&gt;.
+In RSA, instead of comparing model parameters, we compare their representational spaces, and instead of computing the similarity between representations, we compute the similarity of similarity of representations (second order similarity) in each space. This methods is in particular useful when these models do not have the same architecture and their parameter space or representational space is not directly comparable. Moreover it is not sensitive to the trivial changes in the representational spaces since it does not take into account the actual representations but the similarities between the representations in each space.&lt;/p&gt;
+
+&lt;p&gt;Thus, if we have a set of models and we want to know how they are all compared to each other we can compute the representational similarity between each model pair. This will give us the similarity matrix of the models and we can visualize this in 2d or 3d using a &lt;a href=&quot;https://en.wikipedia.org/wiki/Multidimensional_scaling&quot;&gt;multi dimensional scaling algorithm&lt;/a&gt;. I have depicted this process in the figure below.&lt;/p&gt;
 
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
@@ -303,7 +322,7 @@ visualize this in 2d or 3d using a &lt;a href=&quot;https://en.wikipedia.org/wik
 &lt;/div&gt;
 
 </description>
-        <pubDate>2020-05-30</pubDate>
+        <pubDate>2020-06-01</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-05/vizualization</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/vizualization</guid>
         
@@ -379,7 +398,7 @@ In the figure below, we plot the Expected Calibration Error (ECE) of the models.
 
 &lt;p&gt;Additionally, as shown in both above figures, we find a decreasing trend in the variance of the models, i.e., adding more inductive biases to the models decreases their variance. This is a piece of empirical evidence that supports the relation between variance of the solutions a model converges to and its inductive biases.&lt;/p&gt;
 </description>
-        <pubDate>2020-05-30</pubDate>
+        <pubDate>2020-06-01</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-05/recurrence</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/recurrence</guid>
         
@@ -523,7 +542,7 @@ In some sense, Attention Rollout is more restrictive compared to Attention Flow,
 &lt;p&gt;To see more examples, you can try out &lt;a href=&quot;https://github.com/samiraabnar/attention_flow/blob/master/bert_example.ipynb&quot;&gt;this notebook&lt;/a&gt;. And for more details, such as how we can handle multiple heads take a look at our paper, “&lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot; title=&quot;Quantifying Attention Flow In Transformers&quot;&gt;Quantifying Attention Flow In Transformers&lt;/a&gt;”.&lt;/p&gt;
 
 </description>
-        <pubDate>2020-05-30</pubDate>
+        <pubDate>2020-06-01</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-04/attention_flow</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-04/attention_flow</guid>
         
@@ -560,7 +579,7 @@ Using ReStA, we study four recent and successful neural language models, and eva
 Our results reveal surprisingly strong differences between language models, and give insights into where the deep linguistic processing, that integrates information over multiple sentences, is happening in these models. The combination of ReStA and RSA on models and brains allows us to start addressing the important question of what kind of linguistic processes we can hope to observe in fMRI brain imaging data. In particular, our results suggest that the data on story reading from Wehbe et al. (2014) contains a signal of shallow linguistic processing, but show no evidence on the more interesting deep linguistic processing.&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
-        <pubDate>2020-05-30</pubDate>
+        <pubDate>2020-06-01</pubDate>
         <link>https://samiraabnar.github.io/articles/2019-04/blackbox</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2019-04/blackbox</guid>
         
@@ -581,7 +600,12 @@ Our results reveal surprisingly strong differences between language models, and 
     
       <item>
         <title>From Attention in Transformers to Dynamic Routing in Capsule Nets</title>
-        <description>&lt;p&gt;In this post, we go through the main building blocks of transformers &lt;a class=&quot;citation&quot; href=&quot;#vaswani2017attention&quot;&gt;(Vaswani et al., 2017)&lt;/a&gt; and capsule networks &lt;a class=&quot;citation&quot; href=&quot;#e2018matrix&quot;&gt;(Hinton et al., 2018)&lt;/a&gt; and try to draw a connection between different components of these two models. Our main goal here is to understand if these models are inherently different, and if not, how they relate.&lt;/p&gt;
+        <description>&lt;blockquote&gt;
+
+  &lt;p&gt;Special thanks to Sara Sabour and Mostafa Dehghani for their valuable feedback on the content of this post!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In this post, we go through the main building blocks of transformers &lt;a class=&quot;citation&quot; href=&quot;#vaswani2017attention&quot;&gt;(Vaswani et al., 2017)&lt;/a&gt; and capsule networks &lt;a class=&quot;citation&quot; href=&quot;#e2018matrix&quot;&gt;(Hinton et al., 2018)&lt;/a&gt; and try to draw a connection between different components of these two models. Our main goal here is to understand if these models are inherently different, and if not, how they relate.&lt;/p&gt;
 
 &lt;p&gt;Transformers, or so-called self-attention networks, are a family of deep neural network architectures, where self-attention layers are stacked on top of each other to learn contextualized representations for input tokens via multiple transformations. These models have been able to achieve SOTA on many vision and NLP tasks. There are many implementation details about the transformer. Still, at a high level, transformer is an encoder-decoder architecture, where each of encoder and decoder blocks consists of a stack of transformer layers. In each layer, we learn to (re-)calculate a representation per input token. This representation is computed by attending to the representations of all tokens from the previous layer. This is illustrated in the figure below.&lt;/p&gt;
 
@@ -694,7 +718,7 @@ Now, what is different between capsule networks and transformers in this regard 
 
 &lt;p&gt;In very loose terms, the pose matrix in capsule nets plays the role of key and query vectors in transformers. The main point here is that there seems to be some advantage in disentangling representations that are encoding different kinds of information. In both these models, this is done based on the roles of the hidden state in the routing or attention process.&lt;/p&gt;
 </description>
-        <pubDate>2020-05-30</pubDate>
+        <pubDate>2020-06-01</pubDate>
         <link>https://samiraabnar.github.io/articles/2019-03/capsule</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2019-03/capsule</guid>
         
@@ -721,7 +745,7 @@ Now, what is different between capsule networks and transformers in this regard 
   &lt;p&gt;Any system which performs goal-directed continual learning must not only learn incrementally but process and absorb information incrementally. Such a system also has to understand when its goals have been achieved. In this paper, we consider these issues in the context of question answering. Current state-of-the-art question answering models reason over an entire passage, not incrementally. As we will show, naive approaches to incremental reading, such as restriction to unidirectional language models in the model, perform poorly. We present extensions to the DocQA model to allow incremental reading without loss of accuracy. The model also jointly learns to provide the best answer given the text that is seen so far and predict whether this best-so-far answer is sufficient.&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
-        <pubDate>2020-05-30</pubDate>
+        <pubDate>2020-06-01</pubDate>
         <link>https://samiraabnar.github.io/articles/2018-12/incremental</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2018-12/incremental</guid>
         
@@ -752,7 +776,7 @@ Now, what is different between capsule networks and transformers in this regard 
 We show that neural word embedding models exhibit superior performance on the tasks we consider, beating experiential word representation model.The syntactically informed model gives the overall best performance when predicting brain activation patterns from word embeddings; whereas the GloVe distributional method gives the overall best performance when predicting in the reverse direction (words vectors from brain images). Interestingly, however, the error patterns of these different models are markedly different. This may support the idea that the brain uses different systems for processing different kinds of words. Moreover, we suggest that taking the relative strengths of different embedding models into account will lead to better models of the brain activity associated with words.&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
-        <pubDate>2020-05-30</pubDate>
+        <pubDate>2020-06-01</pubDate>
         <link>https://samiraabnar.github.io/articles/2018-01/experiential</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2018-01/experiential</guid>
         

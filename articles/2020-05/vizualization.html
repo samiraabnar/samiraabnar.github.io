@@ -182,7 +182,7 @@
       <span class="read-time" title="Estimated read time">
   
   
-    3 mins read
+    4 mins read
   
 </span>
 
@@ -192,13 +192,23 @@
 
   <article class="post-content">
     <p>When training deep neural networks, we often strive to compare the models
-and understand the consequences of different design choices beyond the final performance on the models on a given task.
-For example, it is can be very insightful to visualize the internal representations of the models in 2D or 3D
-using dimensionality reduction techniques such as <a href="https://en.wikipedia.org/wiki/Principal_component_analysis">PCA</a> or <a href="https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding">t-SNE</a>.</p>
+and understand the consequences of different design choices beyond the final performance of the models on a given task. For example, it can be very insightful to visualize the internal representations of the models in 2D or 3D using dimensionality reduction techniques such as <a href="https://en.wikipedia.org/wiki/Principal_component_analysis">PCA</a> or <a href="https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding">t-SNE</a>.</p>
 
-<p>But when we want to see differences in the representational spaces of different models, it can be tricky to just compare the plots by eyes. To quantify the similarity between the representational spaces of two models, we can apply
-<strong>representational similarity analysis</strong> (RSA) <a class="citation" href="#repsimlaakso2000">(Laakso &amp; Cottrell, 2000)</a>, which in simple terms is to compute the similarity of similarities between two spaces. This is in particular useful when these models do not have the same architecture and their parameter space is not directly comparable. Thus, if we have a set of models and we want to know how they are all compared to each other in terms of representational similarity, we can compute the representational similarity between each model pair. This will give us the similarity matrix of the models and we can
-visualize this in 2d or 3d using a <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">multi dimensional scaling algorithm</a>. I have depicted this process in the figure below.</p>
+<p>Now, what if, instead of visualizing how one model represents different examples, we want to visualize different models in the space. To do this, we need to measure the similarity between the models.</p>
+
+<p>Given two instances of the same model architecture, an obvious way to reveal the differences between them would be to compare the value of their parameters. However there are several flaws for this approach:</p>
+<ol>
+  <li>It is only applicable when the given models have exactly the same architecture, i.e., their parameter spaces are comparable.</li>
+  <li>The parameter space of the models can be very large, and we will have sever problems with the curse of dimensionality.</li>
+</ol>
+
+<p>Another approach for comparing two models is to compare the representations we obtain from them.
+That means given a set of $n$ examples, compute the average similarity between the representations obtained from the models for each example. This is also problematic, because not only it is only applicable if the representations from the given models have the same dimensionality, but also the similarity measure will be sensitive to some trivial differences in the representational spaces of the models, e.g. if the representations obtained from model A are all a linear transformation of the representations obtained from model B, they are in principal 100% similar, but we can not capture this; if we are simply averaging the similarities between the representations obtained for each example.</p>
+
+<p>Fortunately, there is a solution that addresses all of the issues mentioned above, <strong>Representational Similarity Analysis</strong> (RSA) <a class="citation" href="#repsimlaakso2000">(Laakso &amp; Cottrell, 2000)</a>.
+In RSA, instead of comparing model parameters, we compare their representational spaces, and instead of computing the similarity between representations, we compute the similarity of similarity of representations (second order similarity) in each space. This methods is in particular useful when these models do not have the same architecture and their parameter space or representational space is not directly comparable. Moreover it is not sensitive to the trivial changes in the representational spaces since it does not take into account the actual representations but the similarities between the representations in each space.</p>
+
+<p>Thus, if we have a set of models and we want to know how they are all compared to each other we can compute the representational similarity between each model pair. This will give us the similarity matrix of the models and we can visualize this in 2d or 3d using a <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">multi dimensional scaling algorithm</a>. I have depicted this process in the figure below.</p>
 
 <!-- _includes/image.html -->
 <div class="image-wrapper" style="">
@@ -243,7 +253,7 @@ visualize this in 2d or 3d using a <a href="https://en.wikipedia.org/wiki/Multid
 
 
   </article>
-
+ <hr/>
   <h4>References</h4>
   <ol class="bibliography"><li><span id="repsimlaakso2000">Laakso, A., &amp; Cottrell, G. (2000). Content and cluster analysis: Assessing representational similarity in neural systems. <i>Philosophical Psychology</i>, <i>13</i>(1), 47–76. https://doi.org/10.1080/09515080050002726</span></li></ol>
   </p>

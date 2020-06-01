@@ -647,6 +647,8 @@ ul.tag-cloud li a.post-tag { border-radius: 0.2em; }
 
 .image-credit { float: right; font-weight: bold; font-style: italic; color: #09ABF6; font-size: 13px; padding-right: 20px; }
 
+.footnote { border-top: 1px; border-top-style: solid; border-top-color: #ccc; }
+
 section.post { margin-bottom: 80px; text-align: left; float: left; /* Custom, iPhone Retina */ /* Extra Small Devices, Phones */ /* Small Devices, Tablets */ /* Medium Devices, Desktops */ /* Large Devices, Wide Screens */ }
 @media only screen and (min-width: 320px) { section.post { text-align: left; margin-right: 1px; } }
 @media only screen and (min-width: 480px) { section.post { text-align: left; margin-right: 1px; } }
@@ -664,6 +666,8 @@ section.post { margin-bottom: 80px; text-align: left; float: left; /* Custom, iP
 .post-meta .post-author { text-transform: uppercase; color: #F5A623; }
 .post-meta .post-cat { text-transform: uppercase; color: #F5A623; }
 .post-meta .read-time { color: #42b983; }
+
+.footnotes { border-top: 1px; border-top-style: solid; border-top-color: #ccc; }
 
 a.read-more { padding: 5px 8px; }
 

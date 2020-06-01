@@ -182,7 +182,7 @@
       <span class="read-time" title="Estimated read time">
   
   
-    13 mins read
+    14 mins read
   
 </span>
 
@@ -348,13 +348,13 @@ When we have a teacher that performs very well on a given task, using it to trai
     
 </div>
 
-<h5 id="distillation-affect-the-trajectories-the-student-models-follow-during-training">Distillation affect the trajectories the student models follow during training</h5>
+<h5 id="distillation-affects-the-trajectories-the-student-models-follow-during-training">Distillation affects the trajectories the student models follow during training</h5>
 <p>Now, Let’s take a look at the training paths of the models when they are trained independently and when they are trained through distillation<sup id="fnref:5614e4c5"><a href="#fn:5614e4c5" class="footnote">2</a></sup>. Looking at the training path for an independent MLP, an independent CNN, and an MLP that is distilled form a CNN, we see that while MLP and CNN seem to have very different behaviour during training, the student MLP with a CNN as its teacher behaves differently than an independent MLP and more similarly to its teacher CNN. This is interesting, in particular, since the student model is only exposed to the final solution the teacher has converged to and no information about the intermediate stages of training is provided in the offline KD.</p>
 
 <!-- _includes/image.html -->
 <div class="image-wrapper" style="">
     
-        <img src="https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.13.15.png" alt="" style="width: 600px; height:" />
+        <img src="https://samiraabnar.github.io/img/indist_images/training_path_dstl.png" alt="" style="width: 600px; height:" />
     
     
         <p class="image-caption">Training paths of CNNs and MLPs</p>
@@ -369,7 +369,7 @@ When we have a teacher that performs very well on a given task, using it to trai
         <img src="https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.30.png" alt="" style="width: 600px; height:" />
     
     
-        <p class="image-caption">Representational similarity of converged solutions of CNNs and MLPs</p>
+        <p class="image-caption">Representational similarity of converged solutions of LSTMs and Transformers</p>
     
 </div>
 
@@ -379,13 +379,22 @@ When we have a teacher that performs very well on a given task, using it to trai
         <img src="https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.45.png" alt="" style="width: 600px; height:" />
     
     
-        <p class="image-caption">Representational similarity of converged solutions of LSTMs and Transformers</p>
+        <p class="image-caption">Representational similarity of converged solutions of CNNs and MLPs</p>
     
 </div>
 
 <p>In this post, I went through the findings of our paper on “Transferring Inductive Biases Through Knowledge Distillation”, where we explore the power of knowledge distillation for transferring the effect of inductive biases from one model to another. In this paper, We consider families of models with different inductive biases, LSTMs vs. Transformers and CNNs vs. MLPs, in the context of tasks and scenarios where having the right inductive biases can be critical. We study how the effect of inductive biases is transferred through knowledge distillation, in terms of not only performance, but also different aspects of converged solutions.</p>
 
 <p>Codes to replicate the experiments we discussed in this post are available <a href="https://github.com/samiraabnar/Reflect">here</a>!</p>
+
+<h4 id="why-is-this-good-news">Why is this good news?</h4>
+<p>It is exciting that researchers in the machine learning field, actively work on a diverse set of methods and algorithms for solving different tasks and problems. As stated before, there is no “one size fits all” and often, the set of models that work well on a specific problem are not suitable for another problem or task.
+Given this, we believe it is essential to do research on (meta-)approaches that enable us better understand and combine the benefits and strength of different learning algorithms in one place.
+Our paper is one step toward this direction, with interesting results and findings. More importantly, the tools and methods we introduced and used in this paper are useful in future research.</p>
+
+<h5 id="where-else-can-this-be-important">Where else can this be important?</h5>
+<p>Besides that, here our focus is on the generalizability of the solutions learning algorithms converged to, but this analysis can be potentially extended to other types of biases, e.g., biases that would trigger ethical issues. Considering the fact that knowledge distillation is a very popular model compression technique, it is important to understand the extent to which different types of biases can be transferred from one learning algorithm to another through knowledge distillation. This paper sets an example for such analyses.
+—</p>
 <div class="footnotes">
   <ol>
     <li id="fn:3be40dd2">
@@ -398,7 +407,7 @@ When we have a teacher that performs very well on a given task, using it to trai
 </div>
 
   </article>
-
+ <hr/>
   <h4>References</h4>
   <ol class="bibliography"><li><span id="wolpert1997no">Wolpert, D. H., &amp; Macready, W. G. (1997). No Free Lunch Theorems for Optimization. <i>IEEE Transactions on Evolutionary Computation</i>, <i>1</i>(1), 67–82. https://doi.org/10.1109/4235.585893</span></li>
 <li><span id="mitchell1980need">Mitchell, T. M. (1980). <i>The Need for Biases in Learning Generalizations</i>. Rutgers University. http://dml.cs.byu.edu/ cgc/docs/mldm_tools/Reading/Need for Bias.pdf</span></li>
