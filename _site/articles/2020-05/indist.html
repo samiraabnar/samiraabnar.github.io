@@ -193,12 +193,12 @@
   <article class="post-content">
     <p><a href="https://en.wikipedia.org/wiki/No_free_lunch_in_search_and_optimization">No free lunch theorem</a> states that for any learning algorithm, any improvement on performance over one class of problems is balanced out by a decrease in the performance over another class <a class="citation" href="#wolpert1997no">(Wolpert &amp; Macready, 1997)</a>. In other words, <strong>there is no “one size fits all” learning algorithm</strong>.</p>
 
-<p>We can see this in practice in the deep learning world. Among the various neural network architectures, each of them are better or worse for solving different tasks based on their inductive biases. For example, consider the image classification problem. CNNs are the de facto choice for processing images, and in general data with grid-like topology. Sparse connectivity and parameter sharing in CNNs make them an effective and statistically efficient architecture.</p>
+<p>We can see this in practice in the deep learning world. Among the various neural network architectures, each of them are better or worse for solving different tasks based on their inductive biases. For example, consider the image classification problem. CNNs are the de facto choice for processing images and in general data with grid-like topology. Sparse connectivity and parameter sharing in CNNs make them an effective and statistically efficient architecture.</p>
 
-<p>The the convolution operation in combination with max pooling makes CNNs approximately invariant to translation.
-When a module is translation invariant, it means that if apply translation transformation on the input image, i.e., change the position of objects in the input, the output of the module won’t change! In mathematical terms if <script type="math/tex">f</script> is translation invariance, then <script type="math/tex">f(T(x))=f(x)</script>, where <script type="math/tex">T</script> is a translation function.
+<p>The convolution operation in combination with max pooling makes CNNs approximately invariant to translation.
+When a module is translation invariant, it means that if we apply translation transformation on the input image, i.e., change the position of the objects in the input, the output of the module won’t change. In mathematical terms if <script type="math/tex">f</script> is translation invariant, then <script type="math/tex">f(T(x))=f(x)</script>, where <script type="math/tex">T</script> is a translation function.
 A module could also be translation equivariant, which means that any translation in the input will be reflected in the output. In mathematical terms, if <script type="math/tex">f</script> is translation equivariant, then <script type="math/tex">f(T(x))=T(f(x))</script>.
-The convolution operation is translation equivariant, and applying max pooling on top of it results in translation invariance!</p>
+The convolution operation is translation equivariant, and applying a pooling operation on top of it results in translation invariance!</p>
 
 <!-- _includes/image.html -->
 <div class="image-wrapper" style="">
@@ -211,7 +211,7 @@ The convolution operation is translation equivariant, and applying max pooling o
 </div>
 
 <p>Translation invariance of CNNs improves their generalization and makes them data efficient compared to fully connected networks. For example, if, during training, a CNN has only seen pictures of cats where the cat is located at the centre of the image, it can correctly classify cats at test time independent of their position in the image.  In the lack of this inductive bias, the model needs to see examples of cats at different positions to be able to correctly classify them at test time.
-On the other hand, this translation invariance can hurt the performance of CNNs in cases where the position of the objects in the image matters. This is known as the Picasso effect, where you have all the pieces of an object but not in the right context (One of the motivations behind Capsule networks is to address this drawback).</p>
+On the other hand, this translation invariance can hurt the performance of CNNs in cases where the position of the objects in the image matters. This is known as the Picasso effect, where you have all the pieces of an object but not in the right context (One of the motivations behind <a href="http://samiraabnar.github.io/articles/2019-03/capsule">CapsNets</a> is to address this drawback).</p>
 
 <!-- _includes/image.html -->
 <div class="image-wrapper" style="">
@@ -229,7 +229,7 @@ Besides, RNNs can be rather slow because they have to process data sequentially,
 <p>It might not be possible to have one model that can single handedly achieve the desired generalization behaviour on a wide range of tasks, but would it be possible to benefit from the inductive biases of different models during training to have one best model at inference?</p>
 
 <p>Fortunately, it seems to be possible to do this to some extent!
-In this post, I discuss our paper, “Transferring Inductive Biases through Knowledge Distillation”, where we show that it is possible to transfer the effect of inductive bias through knowledge distillation and this can be a starting step to achieve the goal of combining the strengths of multiple models in one place!</p>
+In this post, I discuss our paper, <a href="https://arxiv.org/abs/2005.00928">“Transferring Inductive Biases through Knowledge Distillation”</a>, where we show that it is possible to transfer the effect of inductive bias through knowledge distillation and this can be a step toward achieving the goal of combining the strengths of multiple models in one place.</p>
 
 <h4 id="what-is-inductive-bias">What is Inductive bias?</h4>
 <p>Inductive biases are the characteristics of learning algorithms that influence their generalization behaviour, independent of data. They are one of the main driving forces to push learning algorithms toward particular solutions <a class="citation" href="#mitchell1980need">(Mitchell, 1980)</a>.
@@ -240,7 +240,7 @@ In the absence of strong inductive biases, a model can be equally attracted to s
 <!-- _includes/image.html -->
 <div class="image-wrapper" style="">
     
-        <img src="https://samiraabnar.github.io/img/indist_images/inductive_bias_distilation_example_1.png" alt="Oil on canvas. Featuring a cubist portrait." style="width: 360px; height:" />
+        <img src="https://samiraabnar.github.io/img/indist_images/inductive_bias_distilation_example_1.png" alt="Oil on canvas. Featuring a cubist portrait." style="width: 500px; height:" />
     
     
         <p class="image-caption">A drawing of how inductive biases can affect models' preferences to converge to different local minima. The inductive biases are shown by colored regions (green and yellow) which indicates regions that models prefer to explore.</p>
@@ -251,8 +251,8 @@ In the absence of strong inductive biases, a model can be equally attracted to s
 
 <p>From another point of view, as formulated by <a class="citation" href="#seuncurve">(Seung et al., 1991)</a> we can study models from two aspects:</p>
 <ol>
-  <li>whether a solution is realisable for the model, i.e., there is at least a set of weights that leads to the optimal solution.</li>
-  <li>whether a solution is learnable for the model, i.e., it is possible for the model to learn that solution within a reasonable amount of time and computations.</li>
+  <li>Whether a solution is realisable for the model, i.e., there is at least one set of weights that leads to the optimal solution.</li>
+  <li>Whether a solution is learnable for the model, i.e., it is possible for the model to learn that solution within a reasonable amount of time and computations.</li>
 </ol>
 
 <p>In many cases in deep learning, we are dealing with models that have enough expressive power to solve our problems, however, they have different preference biases. Meaning the desired solutions are realisable for all of them, but depending on the task at hand it is more easier for some of them to learn the solutions compared to the others.</p>
@@ -266,7 +266,7 @@ In the absence of strong inductive biases, a model can be equally attracted to s
 When we train these models on language modelling, i.e., predicting the next word in a sequence, they both achieve more or less similar perplexities.
 But how can we know which one is learning a more generlizable solution? One way to check the generalizability of language models is to test how well they have learned the syntactic rules of the language and the hierarchical structures of the sentences.
 The task of subject-verb agreement is designed for this purpose, i.e., to assess the ability of models to caputre hierchical structure in the language.
-In this task, the goal for the model is to predict the number of a masked verb in a given sentence. To do this, the model needs to correctly recognize the subject of the verb in the sentence and the main difficulty is when the verb does not follow the subject immediately and there are one or more agreement attractors between the subject and the verb. In the figure below, we see an example for this task.</p>
+In this task, the goal for the model is to predict the number of a masked verb in a given sentence. To do this, the model needs to correctly recognize the subject of the verb in the sentence and the main difficulty is when the verb does not follow the subject immediately and there are one or more agreement attractors<sup id="fnref:f53f52f4"><a href="#fn:f53f52f4" class="footnote">2</a></sup> between the subject and the verb. In the figure below, we see an example for this task.</p>
 
 <!-- _includes/image.html -->
 <div class="image-wrapper" style="">
@@ -283,7 +283,7 @@ In this task, the goal for the model is to predict the number of a masked verb i
 <!-- _includes/image.html -->
 <div class="image-wrapper" style="">
     
-        <img src="https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.13.43.png" alt="" style="width: 360px; height:" />
+        <img src="https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.13.43.png" alt="" style="width: 500px; height:" />
     
     
         <p class="image-caption">Accuracy on verb number prediction vs perplexity</p>
@@ -293,7 +293,7 @@ In this task, the goal for the model is to predict the number of a masked verb i
 <p>Now, let’s go back to the CNN example and see how the inductive bias of CNNs works in practice.
 We can view CNNs as MLPs with an inﬁnitely strong prior over their weights, which says that the weights for one hidden unit must be identical to the weights of its neighbor but shifted in space, also that the weights must be zero, except for in the small, spatially contiguous receptive ﬁeld assigned to that hidden unit <a class="citation" href="#Goodfellow-et-al-2016">(Goodfellow et al., 2016)</a>.
 Hence, to measure the effectiveness of the CNNs inductive biases we can compare them to MLPs.
-Here you can see the results of training CNNs and MLPs on the MNIST dataset and evaluating them on the <a href="https://github.com/google-research/mnist-c">MNIST-C</a> dataset.</p>
+Here you can see the results of training CNNs and MLPs on the MNIST dataset and evaluating them on the translated and scaled version of MNIST from the <a href="https://github.com/google-research/mnist-c">MNIST-C</a> dataset.</p>
 
 <!-- _includes/image.html -->
 <div class="image-wrapper" style="">
@@ -314,7 +314,7 @@ Here, we exploit the power of Knowledge Distillation (KD) to transfer the effect
 <!-- _includes/image.html -->
 <div class="image-wrapper" style="">
     
-        <img src="https://samiraabnar.github.io/img/indist_images/inductive_bias_distilation_example_2.png" alt="Oil on canvas. Featuring a cubist portrait." style="width: 360px; height:" />
+        <img src="https://samiraabnar.github.io/img/indist_images/inductive_bias_distilation_example_2.png" alt="Oil on canvas. Featuring a cubist portrait." style="width: 500px; height:" />
     
     
         <p class="image-caption">A drawing of how inductive biases can be transferred through distillation. The inductive biases are shown by colored regions (green and yellow) which indicates regions that models prefer to explore.</p>
@@ -322,7 +322,7 @@ Here, we exploit the power of Knowledge Distillation (KD) to transfer the effect
 </div>
 
 <p>KD refers to the process of transferring knowledge from a teacher model to a student model, where the logits from the teacher are used to train the student. It is best known as an effective method for model compression <a class="citation" href="#hinton2015distilling">(Hinton et al., 2015)</a> which allows taking advantage of the huge number of parameters during training, without losing the efficiency of a smaller model during inference.
-When we have a teacher that performs very well on a given task, using it to train another model can lead to an improved performance in the student model. The question is where does this improvement come from. Does knowledge distillation merely act as a regularization technique or are the qualitative aspects of the solution the teachers converges that are rooted in its inductive biases, also reflected in the student model.</p>
+When we have a teacher that performs very well on a given task, using it to train another model can lead to an improved performance in the student model. The question is where does this improvement come from. Does knowledge distillation merely act as a regularization technique or are the qualitative aspects of the solution the teachers converges to that are rooted in its inductive biases, also reflected in the student model.</p>
 
 <p>Interestingly, the improvement we get from KD is not limited to the performance of the model on the trained task. Through distillation, the generalization behaviour of the teacher that is affected by its inductive biases also transfers to the student model.</p>
 
@@ -330,7 +330,7 @@ When we have a teacher that performs very well on a given task, using it to trai
 <!-- _includes/image.html --></p>
 <div class="image-wrapper" style="">
     
-        <img src="https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.14.png" alt="" style="width: 360px; height:" />
+        <img src="https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.14.png" alt="" style="width: 500px; height:" />
     
     
         <p class="image-caption">Changes in accuracy vs perplexity through distillation</p>
@@ -348,13 +348,13 @@ When we have a teacher that performs very well on a given task, using it to trai
     
 </div>
 
-<h5 id="distillation-affect-the-trajectories-the-student-models-follow-during-training">Distillation affect the trajectories the student models follow during training</h5>
-<p>Now, Let’s take a look at the training paths of the models when they are trained independently and when they are trained through distillation<sup id="fnref:5614e4c5"><a href="#fn:5614e4c5" class="footnote">2</a></sup>. Looking at the training path for an independent MLP, an independent CNN, and an MLP that is distilled form a CNN, we see that while MLP and CNN seem to have very different behaviour during training, the student MLP with a CNN as its teacher behaves differently than an independent MLP and more similarly to its teacher CNN. This is interesting, in particular, since the student model is only exposed to the final solution the teacher has converged to and no information about the intermediate stages of training is provided in the offline KD.</p>
+<h4 id="distillation-affects-the-trajectories-the-student-models-follow-during-training">Distillation affects the trajectories the student models follow during training</h4>
+<p>Now, Let’s take a look at the training paths of the models when they are trained independently and when they are trained through distillation. Figure below shows the training path for an independent MLP, an independent CNN, and an MLP that is distilled form a CNN (<a href="http://samiraabnar.github.io/articles/2020-05/vizualization">To learn more about the details of how we made this visualizations see my other blog post</a>). We see that while MLP and CNN seem to have very different behaviour during training, the student MLP with a CNN as its teacher behaves differently than an independent MLP and more similar to its teacher CNN. This is interesting, in particular, since the student model is only exposed to the final solution the teacher has converged to and no information about the intermediate stages of training is provided in the offline KD.</p>
 
 <!-- _includes/image.html -->
 <div class="image-wrapper" style="">
     
-        <img src="https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.13.15.png" alt="" style="width: 600px; height:" />
+        <img src="https://samiraabnar.github.io/img/indist_images/training_path_dstl.png" alt="" style="width: 800px; height:" />
     
     
         <p class="image-caption">Training paths of CNNs and MLPs</p>
@@ -366,39 +366,52 @@ When we have a teacher that performs very well on a given task, using it to trai
 <!-- _includes/image.html -->
 <div class="image-wrapper" style="">
     
-        <img src="https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.30.png" alt="" style="width: 600px; height:" />
-    
-    
-        <p class="image-caption">Representational similarity of converged solutions of CNNs and MLPs</p>
-    
-</div>
-
-<!-- _includes/image.html -->
-<div class="image-wrapper" style="">
-    
-        <img src="https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.45.png" alt="" style="width: 600px; height:" />
+        <img src="https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.30.png" alt="" style="width: 500px; height:" />
     
     
         <p class="image-caption">Representational similarity of converged solutions of LSTMs and Transformers</p>
     
 </div>
 
-<p>In this post, I went through the findings of our paper on “Transferring Inductive Biases Through Knowledge Distillation”, where we explore the power of knowledge distillation for transferring the effect of inductive biases from one model to another. In this paper, We consider families of models with different inductive biases, LSTMs vs. Transformers and CNNs vs. MLPs, in the context of tasks and scenarios where having the right inductive biases can be critical. We study how the effect of inductive biases is transferred through knowledge distillation, in terms of not only performance, but also different aspects of converged solutions.</p>
+<!-- _includes/image.html -->
+<div class="image-wrapper" style="">
+    
+        <img src="https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.45.png" alt="" style="width: 800px; height:" />
+    
+    
+        <p class="image-caption">Representational similarity of converged solutions of CNNs and MLPs</p>
+    
+</div>
 
-<p>Codes to replicate the experiments we discussed in this post are available <a href="https://github.com/samiraabnar/Reflect">here</a>!</p>
+<h5 id="where-else-can-this-be-usefull">Where else can this be usefull?</h5>
+<p>Here our focus is on the generalizability of the solutions learning algorithms converged to, but this analysis can be potentially extended to other types of biases, e.g., biases that would trigger ethical issues. Considering the fact that knowledge distillation is a very popular model compression technique, it is important that we understand the extent to which different types of biases can be transferred from one learning algorithm to another through knowledge distillation.</p>
+
+<p>In this post, I went through the findings of our paper on <a href="https://arxiv.org/abs/2006.00555">“Transferring Inductive Biases Through Knowledge Distillation”</a>, where we explore the power of knowledge distillation for transferring the effect of inductive biases from one model to another.</p>
+
+<p>Codes to replicate the experiments we discussed in this post are available <a href="https://github.com/samiraabnar/Reflect">here</a>.</p>
+
+<p>If you find this post useful and you ended up using our code in your research please consider citing our paper:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@article{abnar2020transferring,
+    title={Transferring Inductive Biases through Knowledge Distillation},
+    author={Samira Abnar and Mostafa Dehghani and Willem Zuidema},
+    year={2020},
+    eprint={2006.00555},
+    archivePrefix={arXiv},
+}
+</code></pre></div></div>
 <div class="footnotes">
   <ol>
     <li id="fn:3be40dd2">
       <p>Note that this is not a precise illustration since in practice different models with different architectures have different fitness landscapes, thus not directly comparable! <a href="#fnref:3be40dd2" class="reversefootnote">&#8617;</a></p>
     </li>
-    <li id="fn:5614e4c5">
-      <p>To plot the training path of a model, we compute the pairwise representational similarity between different stages of training of the model. <a href="#fnref:5614e4c5" class="reversefootnote">&#8617;</a></p>
+    <li id="fn:f53f52f4">
+      <p>Agreement attractors are intervening nouns with a different number than the number of the subject. <a href="#fnref:f53f52f4" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>
 
   </article>
-
+ <hr/>
   <h4>References</h4>
   <ol class="bibliography"><li><span id="wolpert1997no">Wolpert, D. H., &amp; Macready, W. G. (1997). No Free Lunch Theorems for Optimization. <i>IEEE Transactions on Evolutionary Computation</i>, <i>1</i>(1), 67–82. https://doi.org/10.1109/4235.585893</span></li>
 <li><span id="mitchell1980need">Mitchell, T. M. (1980). <i>The Need for Biases in Learning Generalizations</i>. Rutgers University. http://dml.cs.byu.edu/ cgc/docs/mldm_tools/Reading/Need for Bias.pdf</span></li>

@@ -96,6 +96,11 @@
   padding-right: 20px;
 }
 
+.footnote {
+  border-top: 1px;
+  border-top-style: solid;
+  border-top-color: #ccc;
+}
 // Post Section
 section.post {
 	margin-bottom: 80px;
@@ -180,6 +185,12 @@ section.post {
   .read-time {
     color: $primary;
   }
+}
+
+.footnotes {
+  border-top: 1px;
+  border-top-style: solid;
+  border-top-color: #ccc;
 }
 
 // Read more buttons

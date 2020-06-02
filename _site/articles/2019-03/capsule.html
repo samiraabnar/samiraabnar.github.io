@@ -191,7 +191,12 @@
   </header>
 
   <article class="post-content">
-    <p>In this post, we go through the main building blocks of transformers <a class="citation" href="#vaswani2017attention">(Vaswani et al., 2017)</a> and capsule networks <a class="citation" href="#e2018matrix">(Hinton et al., 2018)</a> and try to draw a connection between different components of these two models. Our main goal here is to understand if these models are inherently different, and if not, how they relate.</p>
+    <blockquote>
+
+  <p>Special thanks to <a href="https://research.google/people/105557/">Sara Sabour</a> and <a href="https://mostafadehghani.com/">Mostafa Dehghani</a> for their valuable feedback on the content of this post!</p>
+</blockquote>
+
+<p>In this post, we go through the main building blocks of transformers <a class="citation" href="#vaswani2017attention">(Vaswani et al., 2017)</a> and capsule networks <a class="citation" href="#e2018matrix">(Hinton et al., 2018)</a> and try to draw a connection between different components of these two models. Our main goal here is to understand if these models are inherently different, and if not, how they relate.</p>
 
 <p>Transformers, or so-called self-attention networks, are a family of deep neural network architectures, where self-attention layers are stacked on top of each other to learn contextualized representations for input tokens via multiple transformations. These models have been able to achieve SOTA on many vision and NLP tasks. There are many implementation details about the transformer. Still, at a high level, transformer is an encoder-decoder architecture, where each of encoder and decoder blocks consists of a stack of transformer layers. In each layer, we learn to (re-)calculate a representation per input token. This representation is computed by attending to the representations of all tokens from the previous layer. This is illustrated in the figure below.</p>
 
@@ -305,7 +310,7 @@ Now, what is different between capsule networks and transformers in this regard 
 <p>In very loose terms, the pose matrix in capsule nets plays the role of key and query vectors in transformers. The main point here is that there seems to be some advantage in disentangling representations that are encoding different kinds of information. In both these models, this is done based on the roles of the hidden state in the routing or attention process.</p>
 
   </article>
-
+ <hr/>
   <h4>References</h4>
   <ol class="bibliography"><li><span id="vaswani2017attention">Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., &amp; Polosukhin, I. (2017). Attention is all you need. <i>Advances in Neural Information Processing Systems</i>, 5998–6008.</span></li>
 <li><span id="e2018matrix">Hinton, G. E., Sabour, S., &amp; Frosst, N. (2018). Matrix capsules with EM routing. <i>International Conference on Learning Representations</i>.</span></li>

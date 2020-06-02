@@ -3,7 +3,7 @@ layout: post
 title:  "On the Merits of Recurrent Inductive Bias"
 date:   2020-05-16 23:00
 categories: [blogpost]
-tags: rnn recurrent inductive_bias lstm transformer subject_verb_agreement universal_transformer 
+tags: rnn recurrent inductive_bias lstm transformer subject_verb_agreement universal_transformer
 comments: true
 mathjax: true
 excerpt: In this post, we try to understand the nature of recurrent inductive bias. I will discuss different sources of inductive biases of RNNs and provide empirical results to demonstrate the benefits of each of them by comparing LSTMs to different variants of Transformers in the context of a task that having the recurrent inductive bias is shown to help achieve better generalization.
@@ -71,3 +71,14 @@ In the figure below, we plot the Expected Calibration Error (ECE) of the models.
 ![](img/rnn_images/ece.png){:width="360px"}
 
 Additionally, as shown in both above figures, we find a decreasing trend in the variance of the models, i.e., adding more inductive biases to the models decreases their variance. This is a piece of empirical evidence that supports the relation between variance of the solutions a model converges to and its inductive biases.
+
+Read more about this in our paper:
+```
+@article{abnar2020transferring,
+    title={Transferring Inductive Biases through Knowledge Distillation},
+    author={Samira Abnar and Mostafa Dehghani and Willem Zuidema},
+    year={2020},
+    eprint={2006.00555},
+    archivePrefix={arXiv},
+}
+```
