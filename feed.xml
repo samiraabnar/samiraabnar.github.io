@@ -5,8 +5,8 @@
     <description>Samira's Blog</description>
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>2020-06-01</pubDate>
-    <lastBuildDate>Mon, 01 Jun 2020 12:39:07 +0200</lastBuildDate>
+    <pubDate>2020-06-02</pubDate>
+    <lastBuildDate>Tue, 02 Jun 2020 11:01:47 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -226,7 +226,7 @@ Our paper is one step toward this direction, with interesting results and findin
   &lt;/ol&gt;
 &lt;/div&gt;
 </description>
-        <pubDate>2020-06-01</pubDate>
+        <pubDate>2020-06-02</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-05/indist</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/indist</guid>
         
@@ -261,9 +261,15 @@ Our paper is one step toward this direction, with interesting results and findin
     
       <item>
         <title>Visualizing Model Comparison</title>
-        <description>&lt;p&gt;When training deep neural networks, we often strive to compare the models and understand the consequences of different design choices beyond the final performance of the models. For example, it can be very insightful to visualize the internal representations of the models in 2D or 3D using dimensionality reduction techniques such as &lt;a href=&quot;https://en.wikipedia.org/wiki/Principal_component_analysis&quot;&gt;PCA&lt;/a&gt; or &lt;a href=&quot;https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding&quot;&gt;t-SNE&lt;/a&gt;.&lt;/p&gt;
+        <description>&lt;p&gt;When training deep neural networks, we often strive to compare the models and understand the consequences of different design choices beyond their final performance. We want to be able to explain different qualitative aspects of the solutions our models learn.
+To understand the solution a model converges to, we could either look into its parameter space or its representational space.&lt;/p&gt;
 
-&lt;p&gt;Now, what if, instead of visualizing how one model represents different examples, we want to visualize a set of different models in a space so that we can directly see how they are compared to one another, i.e., we want to embed different models in a shared space. To do this, we need to measure the similarity between the models in some way.&lt;/p&gt;
+&lt;p&gt;For example, it can be very insightful to visualize the internal representations of the models in 2D or 3D using dimensionality reduction techniques such as &lt;a href=&quot;https://en.wikipedia.org/wiki/Principal_component_analysis&quot;&gt;PCA&lt;/a&gt; or &lt;a href=&quot;https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding&quot;&gt;t-SNE&lt;/a&gt;. This way, we are looking at the solutions from the representational aspect.&lt;/p&gt;
+
+&lt;p&gt;Sometimes, we can also gain some insights about how a model works by looking at its parameter values. For example, the weights of a linear classifier indicate which part of input features are important for the models’ decision.&lt;/p&gt;
+
+&lt;p&gt;Now, let’s see how we can compare the solutions learned by a given set of models.
+Instead of visualizing how one model represents different examples, or how the weight of a single model look like, we want to visualize a set of different models in a shared space so that we can directly see how they are compared to one another, i.e., we want to embed different models in a shared space. To do this, we need to measure the similarity between the models in some way.&lt;/p&gt;
 
 &lt;p&gt;Besides the performance of the models on a set of tasks, we can measure their similarity in terms of their weights or the way they represent different input examples.&lt;/p&gt;
 
@@ -281,7 +287,7 @@ However, this is only applicable if the representations from the given models ar
 &lt;p&gt;RSA and CCA are standard tools of multivariate statistical analysis for quantifying the relation between two sets of variables. In our case, the sets of variable are the representations/embeddings of the examples obtained from each model.
 In CCA, to address the issue of having non comparable representational spaces, we first learn to map the representations from both models in a joint (low dimensional) space in a way that their correlation for each example is maximized. In RSA, instead of computing the similarity between representations, we compute the similarity of similarity of representations (second order similarity) in each space, thus, we avoid the need to directly compare the representations from different spaces (obtained from different models).&lt;/p&gt;
 
-&lt;p&gt;Thus, if we have a set of models and we want to know how they are all compared to each other we can compute the representational similarity between each model pair using RSA or CCA (or some other similar technique). This will give us the similarity matrix of the models and we can visualize this in 2d or 3d using a &lt;a href=&quot;https://en.wikipedia.org/wiki/Multidimensional_scaling&quot;&gt;multi dimensional scaling algorithm&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;So, if we have a set of models and we want to know how they are all compared to each other we can compute the representational similarity between each model pair using RSA or CCA (or some other similar technique). This will give us the similarity matrix of the models and we can visualize this in 2d or 3d using a &lt;a href=&quot;https://en.wikipedia.org/wiki/Multidimensional_scaling&quot;&gt;multi dimensional scaling algorithm&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;I will now explain how we can get the model embeddings within the RSA framework.
 In the figure below I have depicted the process of computing representational similarities between a sets of models using RSA.&lt;/p&gt;
@@ -337,7 +343,7 @@ In the figure below I have depicted the process of computing representational si
 
 &lt;p&gt;RSA and CCA are very common techniques especially in the fields of computational psychology and neuroscience. In the recent years, they have also gained back their popularity in the machine learning community as methods of model analysis and interpretation.&lt;/p&gt;
 </description>
-        <pubDate>2020-06-01</pubDate>
+        <pubDate>2020-06-02</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-05/vizualization</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/vizualization</guid>
         
@@ -413,7 +419,7 @@ In the figure below, we plot the Expected Calibration Error (ECE) of the models.
 
 &lt;p&gt;Additionally, as shown in both above figures, we find a decreasing trend in the variance of the models, i.e., adding more inductive biases to the models decreases their variance. This is a piece of empirical evidence that supports the relation between variance of the solutions a model converges to and its inductive biases.&lt;/p&gt;
 </description>
-        <pubDate>2020-06-01</pubDate>
+        <pubDate>2020-06-02</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-05/recurrence</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/recurrence</guid>
         
@@ -557,7 +563,7 @@ In some sense, Attention Rollout is more restrictive compared to Attention Flow,
 &lt;p&gt;To see more examples, you can try out &lt;a href=&quot;https://github.com/samiraabnar/attention_flow/blob/master/bert_example.ipynb&quot;&gt;this notebook&lt;/a&gt;. And for more details, such as how we can handle multiple heads take a look at our paper, “&lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot; title=&quot;Quantifying Attention Flow In Transformers&quot;&gt;Quantifying Attention Flow In Transformers&lt;/a&gt;”.&lt;/p&gt;
 
 </description>
-        <pubDate>2020-06-01</pubDate>
+        <pubDate>2020-06-02</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-04/attention_flow</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-04/attention_flow</guid>
         
@@ -594,7 +600,7 @@ Using ReStA, we study four recent and successful neural language models, and eva
 Our results reveal surprisingly strong differences between language models, and give insights into where the deep linguistic processing, that integrates information over multiple sentences, is happening in these models. The combination of ReStA and RSA on models and brains allows us to start addressing the important question of what kind of linguistic processes we can hope to observe in fMRI brain imaging data. In particular, our results suggest that the data on story reading from Wehbe et al. (2014) contains a signal of shallow linguistic processing, but show no evidence on the more interesting deep linguistic processing.&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
-        <pubDate>2020-06-01</pubDate>
+        <pubDate>2020-06-02</pubDate>
         <link>https://samiraabnar.github.io/articles/2019-04/blackbox</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2019-04/blackbox</guid>
         
@@ -733,7 +739,7 @@ Now, what is different between capsule networks and transformers in this regard 
 
 &lt;p&gt;In very loose terms, the pose matrix in capsule nets plays the role of key and query vectors in transformers. The main point here is that there seems to be some advantage in disentangling representations that are encoding different kinds of information. In both these models, this is done based on the roles of the hidden state in the routing or attention process.&lt;/p&gt;
 </description>
-        <pubDate>2020-06-01</pubDate>
+        <pubDate>2020-06-02</pubDate>
         <link>https://samiraabnar.github.io/articles/2019-03/capsule</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2019-03/capsule</guid>
         
@@ -760,7 +766,7 @@ Now, what is different between capsule networks and transformers in this regard 
   &lt;p&gt;Any system which performs goal-directed continual learning must not only learn incrementally but process and absorb information incrementally. Such a system also has to understand when its goals have been achieved. In this paper, we consider these issues in the context of question answering. Current state-of-the-art question answering models reason over an entire passage, not incrementally. As we will show, naive approaches to incremental reading, such as restriction to unidirectional language models in the model, perform poorly. We present extensions to the DocQA model to allow incremental reading without loss of accuracy. The model also jointly learns to provide the best answer given the text that is seen so far and predict whether this best-so-far answer is sufficient.&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
-        <pubDate>2020-06-01</pubDate>
+        <pubDate>2020-06-02</pubDate>
         <link>https://samiraabnar.github.io/articles/2018-12/incremental</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2018-12/incremental</guid>
         
@@ -791,7 +797,7 @@ Now, what is different between capsule networks and transformers in this regard 
 We show that neural word embedding models exhibit superior performance on the tasks we consider, beating experiential word representation model.The syntactically informed model gives the overall best performance when predicting brain activation patterns from word embeddings; whereas the GloVe distributional method gives the overall best performance when predicting in the reverse direction (words vectors from brain images). Interestingly, however, the error patterns of these different models are markedly different. This may support the idea that the brain uses different systems for processing different kinds of words. Moreover, we suggest that taking the relative strengths of different embedding models into account will lead to better models of the brain activity associated with words.&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
-        <pubDate>2020-06-01</pubDate>
+        <pubDate>2020-06-02</pubDate>
         <link>https://samiraabnar.github.io/articles/2018-01/experiential</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2018-01/experiential</guid>
         

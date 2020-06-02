@@ -191,9 +191,15 @@
   </header>
 
   <article class="post-content">
-    <p>When training deep neural networks, we often strive to compare the models and understand the consequences of different design choices beyond the final performance of the models. For example, it can be very insightful to visualize the internal representations of the models in 2D or 3D using dimensionality reduction techniques such as <a href="https://en.wikipedia.org/wiki/Principal_component_analysis">PCA</a> or <a href="https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding">t-SNE</a>.</p>
+    <p>When training deep neural networks, we often strive to compare the models and understand the consequences of different design choices beyond their final performance. We want to be able to explain different qualitative aspects of the solutions our models learn.
+To understand the solution a model converges to, we could either look into its parameter space or its representational space.</p>
 
-<p>Now, what if, instead of visualizing how one model represents different examples, we want to visualize a set of different models in a space so that we can directly see how they are compared to one another, i.e., we want to embed different models in a shared space. To do this, we need to measure the similarity between the models in some way.</p>
+<p>For example, it can be very insightful to visualize the internal representations of the models in 2D or 3D using dimensionality reduction techniques such as <a href="https://en.wikipedia.org/wiki/Principal_component_analysis">PCA</a> or <a href="https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding">t-SNE</a>. This way, we are looking at the solutions from the representational aspect.</p>
+
+<p>Sometimes, we can also gain some insights about how a model works by looking at its parameter values. For example, the weights of a linear classifier indicate which part of input features are important for the models’ decision.</p>
+
+<p>Now, let’s see how we can compare the solutions learned by a given set of models.
+Instead of visualizing how one model represents different examples, or how the weight of a single model look like, we want to visualize a set of different models in a shared space so that we can directly see how they are compared to one another, i.e., we want to embed different models in a shared space. To do this, we need to measure the similarity between the models in some way.</p>
 
 <p>Besides the performance of the models on a set of tasks, we can measure their similarity in terms of their weights or the way they represent different input examples.</p>
 
@@ -211,7 +217,7 @@ However, this is only applicable if the representations from the given models ar
 <p>RSA and CCA are standard tools of multivariate statistical analysis for quantifying the relation between two sets of variables. In our case, the sets of variable are the representations/embeddings of the examples obtained from each model.
 In CCA, to address the issue of having non comparable representational spaces, we first learn to map the representations from both models in a joint (low dimensional) space in a way that their correlation for each example is maximized. In RSA, instead of computing the similarity between representations, we compute the similarity of similarity of representations (second order similarity) in each space, thus, we avoid the need to directly compare the representations from different spaces (obtained from different models).</p>
 
-<p>Thus, if we have a set of models and we want to know how they are all compared to each other we can compute the representational similarity between each model pair using RSA or CCA (or some other similar technique). This will give us the similarity matrix of the models and we can visualize this in 2d or 3d using a <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">multi dimensional scaling algorithm</a>.</p>
+<p>So, if we have a set of models and we want to know how they are all compared to each other we can compute the representational similarity between each model pair using RSA or CCA (or some other similar technique). This will give us the similarity matrix of the models and we can visualize this in 2d or 3d using a <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">multi dimensional scaling algorithm</a>.</p>
 
 <p>I will now explain how we can get the model embeddings within the RSA framework.
 In the figure below I have depicted the process of computing representational similarities between a sets of models using RSA.</p>
