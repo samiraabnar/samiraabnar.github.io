@@ -3,10 +3,10 @@
   <channel>
     <title>Samira Abnar</title>
     <description>Samira's Blog</description>
-    <link>https://samiraabnar.github.io/</link>
-    <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2020-06-03</pubDate>
-    <lastBuildDate>Wed, 03 Jun 2020 13:34:28 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 03 Jun 2020 13:37:07 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -23,7 +23,7 @@ The convolution operation is translation equivariant, and applying a pooling ope
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/translation_invariance.gif&quot; alt=&quot;Translation Invariance&quot; style=&quot;width: 360px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/indist_images/translation_invariance.gif&quot; alt=&quot;Translation Invariance&quot; style=&quot;width: 360px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Translation invariance&lt;/p&gt;
@@ -36,7 +36,7 @@ On the other hand, this translation invariance can hurt the performance of CNNs 
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Pablo-Picasso-Spanish-Cubist-Oil-Canvas-Portrait.jpg&quot; alt=&quot;Oil on canvas. Featuring a cubist portrait.&quot; style=&quot;width: 360px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/indist_images/Pablo-Picasso-Spanish-Cubist-Oil-Canvas-Portrait.jpg&quot; alt=&quot;Oil on canvas. Featuring a cubist portrait.&quot; style=&quot;width: 360px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Oil on canvas, featuring a cubist portrait, attributed to Pablo Picasso (1881-1973, Spanish)&lt;/p&gt;
@@ -60,7 +60,7 @@ In the absence of strong inductive biases, a model can be equally attracted to s
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/inductive_bias_distilation_example_1.png&quot; alt=&quot;Oil on canvas. Featuring a cubist portrait.&quot; style=&quot;width: 500px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/indist_images/inductive_bias_distilation_example_1.png&quot; alt=&quot;Oil on canvas. Featuring a cubist portrait.&quot; style=&quot;width: 500px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;A drawing of how inductive biases can affect models' preferences to converge to different local minima. The inductive biases are shown by colored regions (green and yellow) which indicates regions that models prefer to explore.&lt;/p&gt;
@@ -91,7 +91,7 @@ In this task, the goal for the model is to predict the number of a masked verb i
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/sv_example.png&quot; alt=&quot;&quot; style=&quot;width: 800px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/indist_images/sv_example.png&quot; alt=&quot;&quot; style=&quot;width: 800px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;An example from the subject-verb agreement task&lt;/p&gt;
@@ -103,7 +103,7 @@ In this task, the goal for the model is to predict the number of a masked verb i
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.13.43.png&quot; alt=&quot;&quot; style=&quot;width: 500px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/indist_images/Screenshot 2020-05-22 at 21.13.43.png&quot; alt=&quot;&quot; style=&quot;width: 500px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Accuracy on verb number prediction vs perplexity&lt;/p&gt;
@@ -118,7 +118,7 @@ Here you can see the results of training CNNs and MLPs on the MNIST dataset and 
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-25 at 12.16.21.png&quot; alt=&quot;&quot; style=&quot;width: 800px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/indist_images/Screenshot 2020-05-25 at 12.16.21.png&quot; alt=&quot;&quot; style=&quot;width: 800px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Accuracy and Expected Calibration Error (mean$\pm$std over multiple trials) of CNNs and MLPs trained on MNIST and evaluated on MNIST, MNIST-Scaled and MNIST-Translated&lt;/p&gt;
@@ -134,7 +134,7 @@ Here, we exploit the power of Knowledge Distillation (KD) to transfer the effect
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/inductive_bias_distilation_example_2.png&quot; alt=&quot;Oil on canvas. Featuring a cubist portrait.&quot; style=&quot;width: 500px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/indist_images/inductive_bias_distilation_example_2.png&quot; alt=&quot;Oil on canvas. Featuring a cubist portrait.&quot; style=&quot;width: 500px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;A drawing of how inductive biases can be transferred through distillation. The inductive biases are shown by colored regions (green and yellow) which indicates regions that models prefer to explore.&lt;/p&gt;
@@ -150,7 +150,7 @@ When we have a teacher that performs very well on a given task, using it to trai
 &lt;!-- _includes/image.html --&gt;&lt;/p&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.14.png&quot; alt=&quot;&quot; style=&quot;width: 500px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/indist_images/Screenshot 2020-05-22 at 21.14.14.png&quot; alt=&quot;&quot; style=&quot;width: 500px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Changes in accuracy vs perplexity through distillation&lt;/p&gt;
@@ -161,7 +161,7 @@ When we have a teacher that performs very well on a given task, using it to trai
 &lt;!-- _includes/image.html --&gt;&lt;/p&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-25 at 12.16.44.png&quot; alt=&quot;&quot; style=&quot;width: 800px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/indist_images/Screenshot 2020-05-25 at 12.16.44.png&quot; alt=&quot;&quot; style=&quot;width: 800px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Performances of CNNs and MLPs trained through distillation&lt;/p&gt;
@@ -174,7 +174,7 @@ When we have a teacher that performs very well on a given task, using it to trai
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/training_path_dstl.png&quot; alt=&quot;&quot; style=&quot;width: 800px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/indist_images/training_path_dstl.png&quot; alt=&quot;&quot; style=&quot;width: 800px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Training paths of CNNs and MLPs&lt;/p&gt;
@@ -186,7 +186,7 @@ When we have a teacher that performs very well on a given task, using it to trai
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.30.png&quot; alt=&quot;&quot; style=&quot;width: 500px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/indist_images/Screenshot 2020-05-22 at 21.14.30.png&quot; alt=&quot;&quot; style=&quot;width: 500px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Representational similarity of converged solutions of LSTMs and Transformers&lt;/p&gt;
@@ -196,7 +196,7 @@ When we have a teacher that performs very well on a given task, using it to trai
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/indist_images/Screenshot 2020-05-22 at 21.14.45.png&quot; alt=&quot;&quot; style=&quot;width: 800px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/indist_images/Screenshot 2020-05-22 at 21.14.45.png&quot; alt=&quot;&quot; style=&quot;width: 800px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Representational similarity of converged solutions of CNNs and MLPs&lt;/p&gt;
@@ -231,8 +231,8 @@ When we have a teacher that performs very well on a given task, using it to trai
 &lt;/div&gt;
 </description>
         <pubDate>2020-06-03</pubDate>
-        <link>https://samiraabnar.github.io/articles/2020-05/indist</link>
-        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/indist</guid>
+        <link>http://localhost:4000/articles/2020-05/indist</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2020-05/indist</guid>
         
         <category>knowledge_distillation</category>
         
@@ -299,7 +299,7 @@ In the figure below I have depicted the process of computing representational si
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/repsim_images/repsim_alg.png&quot; alt=&quot;Representational similarity&quot; style=&quot;width: 800px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/repsim_images/repsim_alg.png&quot; alt=&quot;Representational similarity&quot; style=&quot;width: 800px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Computing representational similarity of multiple models&lt;/p&gt;
@@ -318,7 +318,7 @@ In the figure below I have depicted the process of computing representational si
 &lt;!-- _includes/image.html --&gt;&lt;/p&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/repsim_images/mnist_repsim.png&quot; alt=&quot;Representational similarity&quot; style=&quot;width: 400px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/repsim_images/mnist_repsim.png&quot; alt=&quot;Representational similarity&quot; style=&quot;width: 400px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Representational similarity of different instances of MLPs and CNNs trained on MNIST&lt;/p&gt;
@@ -330,7 +330,7 @@ In the figure below I have depicted the process of computing representational si
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/repsim_images/training_path.png&quot; alt=&quot;Representational similarity&quot; style=&quot;width: 800px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/repsim_images/training_path.png&quot; alt=&quot;Representational similarity&quot; style=&quot;width: 800px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Visualizing training paths of models using RSA&lt;/p&gt;
@@ -368,8 +368,8 @@ In the figure below I have depicted the process of computing representational si
 &lt;/div&gt;
 </description>
         <pubDate>2020-06-03</pubDate>
-        <link>https://samiraabnar.github.io/articles/2020-05/vizualization</link>
-        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/vizualization</guid>
+        <link>http://localhost:4000/articles/2020-05/vizualization</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2020-05/vizualization</guid>
         
         <category>representational_similarity_analysis</category>
         
@@ -454,8 +454,8 @@ In the figure below, we plot the Expected Calibration Error (ECE) of the models.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
         <pubDate>2020-06-03</pubDate>
-        <link>https://samiraabnar.github.io/articles/2020-05/recurrence</link>
-        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/recurrence</guid>
+        <link>http://localhost:4000/articles/2020-05/recurrence</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2020-05/recurrence</guid>
         
         <category>rnn</category>
         
@@ -500,7 +500,7 @@ In this post, I focus on problems arising when we move to the higher layers of a
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 400px; display: block; float:right; padding:0px; margin-bottom:40px; margin-top:0px; margin-right:1px&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/rat_deep_1.png&quot; alt=&quot;&quot; style=&quot;width: ; height:400px&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/flow_images/rat_deep_1.png&quot; alt=&quot;&quot; style=&quot;width: ; height:400px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Raw attention weights&lt;/p&gt;
@@ -519,7 +519,7 @@ In the subject-verb agreement task, given a sentence up to its verb, the goal is
 &lt;!-- _includes/image.html --&gt;&lt;/p&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;height: 300px; display: block; float:left&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_block.png&quot; alt=&quot;&quot; style=&quot;width: ; height:300px&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_block.png&quot; alt=&quot;&quot; style=&quot;width: ; height:300px&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Transformer encoder block&lt;/p&gt;
@@ -545,7 +545,7 @@ In the figure below, we show how Attention Rollout works in a simple attention D
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_rollout.gif&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Attention Rollout&lt;/p&gt;
@@ -562,7 +562,7 @@ In the figure below, we show how Attention Rollout works in a simple attention D
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/flow_images/attention_flow.gif&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Attention Flow&lt;/p&gt;
@@ -578,7 +578,7 @@ What we do here is to feed the model with a sentence, masking a pronoun. Next, w
 &lt;!-- _includes/image.html --&gt;
 &lt;div class=&quot;image-wrapper&quot; style=&quot;&quot;&gt;
     
-        &lt;img src=&quot;https://samiraabnar.github.io/img/flow_images/bert_example.png&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
+        &lt;img src=&quot;http://localhost:4000/img/flow_images/bert_example.png&quot; alt=&quot;&quot; style=&quot;width: 360px; height:&quot; /&gt;
     
     
         &lt;p class=&quot;image-caption&quot;&gt;Visualing attention for a 24-layer BERT&lt;/p&gt;
@@ -598,8 +598,8 @@ In some sense, Attention Rollout is more restrictive compared to Attention Flow,
 
 </description>
         <pubDate>2020-06-03</pubDate>
-        <link>https://samiraabnar.github.io/articles/2020-04/attention_flow</link>
-        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-04/attention_flow</guid>
+        <link>http://localhost:4000/articles/2020-04/attention_flow</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2020-04/attention_flow</guid>
         
         <category>transformer</category>
         
@@ -635,8 +635,8 @@ Our results reveal surprisingly strong differences between language models, and 
 &lt;/blockquote&gt;
 </description>
         <pubDate>2020-06-03</pubDate>
-        <link>https://samiraabnar.github.io/articles/2019-04/blackbox</link>
-        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2019-04/blackbox</guid>
+        <link>http://localhost:4000/articles/2019-04/blackbox</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2019-04/blackbox</guid>
         
         <category>transformer</category>
         
@@ -774,8 +774,8 @@ Now, what is different between capsule networks and transformers in this regard 
 &lt;p&gt;In very loose terms, the pose matrix in capsule nets plays the role of key and query vectors in transformers. The main point here is that there seems to be some advantage in disentangling representations that are encoding different kinds of information. In both these models, this is done based on the roles of the hidden state in the routing or attention process.&lt;/p&gt;
 </description>
         <pubDate>2020-06-03</pubDate>
-        <link>https://samiraabnar.github.io/articles/2019-03/capsule</link>
-        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2019-03/capsule</guid>
+        <link>http://localhost:4000/articles/2019-03/capsule</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2019-03/capsule</guid>
         
         <category>capsule_networks</category>
         
@@ -801,8 +801,8 @@ Now, what is different between capsule networks and transformers in this regard 
 &lt;/blockquote&gt;
 </description>
         <pubDate>2020-06-03</pubDate>
-        <link>https://samiraabnar.github.io/articles/2018-12/incremental</link>
-        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2018-12/incremental</guid>
+        <link>http://localhost:4000/articles/2018-12/incremental</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2018-12/incremental</guid>
         
         <category>lstm</category>
         
@@ -832,8 +832,8 @@ We show that neural word embedding models exhibit superior performance on the ta
 &lt;/blockquote&gt;
 </description>
         <pubDate>2020-06-03</pubDate>
-        <link>https://samiraabnar.github.io/articles/2018-01/experiential</link>
-        <guid isPermaLink="true">https://samiraabnar.github.io/articles/2018-01/experiential</guid>
+        <link>http://localhost:4000/articles/2018-01/experiential</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2018-01/experiential</guid>
         
         <category>brain_decoding</category>
         
