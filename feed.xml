@@ -5,8 +5,8 @@
     <description>Samira's Blog</description>
     <link>https://samiraabnar.github.io/</link>
     <atom:link href="https://samiraabnar.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>2020-06-21</pubDate>
-    <lastBuildDate>Sun, 21 Jun 2020 17:10:12 +0200</lastBuildDate>
+    <pubDate>2020-06-24</pubDate>
+    <lastBuildDate>Wed, 24 Jun 2020 19:41:39 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -49,7 +49,7 @@ Besides, RNNs can be rather slow because they have to process data sequentially,
 &lt;p&gt;It might not be possible to have one model that can single handedly achieve the desired generalization behaviour on a wide range of tasks, but would it be possible to benefit from the inductive biases of different models during training to have one best model at inference?&lt;/p&gt;
 
 &lt;p&gt;Fortunately, it seems to be possible to do this to some extent!
-In this post, I discuss our paper, &lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot;&gt;“Transferring Inductive Biases through Knowledge Distillation”&lt;/a&gt;, where we show that it is possible to transfer the effect of inductive bias through knowledge distillation and this can be a step toward achieving the goal of combining the strengths of multiple models in one place.&lt;/p&gt;
+In this post, I discuss our paper, &lt;a href=&quot;https://arxiv.org/abs/2006.00555&quot;&gt;“Transferring Inductive Biases through Knowledge Distillation”&lt;/a&gt;, where we show that it is possible to transfer the effect of inductive bias through knowledge distillation and this can be a step toward achieving the goal of combining the strengths of multiple models in one place.&lt;/p&gt;
 
 &lt;h4 id=&quot;what-is-inductive-bias&quot;&gt;What is Inductive bias?&lt;/h4&gt;
 &lt;p&gt;Inductive biases are the characteristics of learning algorithms that influence their generalization behaviour, independent of data. They are one of the main driving forces to push learning algorithms toward particular solutions &lt;a class=&quot;citation&quot; href=&quot;#mitchell1980need&quot;&gt;(Mitchell, 1980)&lt;/a&gt;.
@@ -230,7 +230,7 @@ When we have a teacher that performs very well on a given task, using it to trai
   &lt;/ol&gt;
 &lt;/div&gt;
 </description>
-        <pubDate>2020-06-21</pubDate>
+        <pubDate>2020-06-24</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-05/indist</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/indist</guid>
         
@@ -367,7 +367,7 @@ In the figure below I have depicted the process of computing representational si
   &lt;/ol&gt;
 &lt;/div&gt;
 </description>
-        <pubDate>2020-06-21</pubDate>
+        <pubDate>2020-06-24</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-05/vizualization</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/vizualization</guid>
         
@@ -453,7 +453,7 @@ In the figure below, we plot the Expected Calibration Error (ECE) of the models.
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
-        <pubDate>2020-06-21</pubDate>
+        <pubDate>2020-06-24</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-05/recurrence</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-05/recurrence</guid>
         
@@ -597,7 +597,7 @@ In some sense, Attention Rollout is more restrictive compared to Attention Flow,
 &lt;p&gt;To see more examples, you can try out &lt;a href=&quot;https://github.com/samiraabnar/attention_flow/blob/master/bert_example.ipynb&quot;&gt;this notebook&lt;/a&gt;. And for more details, such as how we can handle multiple heads take a look at our paper, “&lt;a href=&quot;https://arxiv.org/abs/2005.00928&quot; title=&quot;Quantifying Attention Flow In Transformers&quot;&gt;Quantifying Attention Flow In Transformers&lt;/a&gt;”.&lt;/p&gt;
 
 </description>
-        <pubDate>2020-06-21</pubDate>
+        <pubDate>2020-06-24</pubDate>
         <link>https://samiraabnar.github.io/articles/2020-04/attention_flow</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2020-04/attention_flow</guid>
         
@@ -634,7 +634,7 @@ Using ReStA, we study four recent and successful neural language models, and eva
 Our results reveal surprisingly strong differences between language models, and give insights into where the deep linguistic processing, that integrates information over multiple sentences, is happening in these models. The combination of ReStA and RSA on models and brains allows us to start addressing the important question of what kind of linguistic processes we can hope to observe in fMRI brain imaging data. In particular, our results suggest that the data on story reading from Wehbe et al. (2014) contains a signal of shallow linguistic processing, but show no evidence on the more interesting deep linguistic processing.&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
-        <pubDate>2020-06-21</pubDate>
+        <pubDate>2020-06-24</pubDate>
         <link>https://samiraabnar.github.io/articles/2019-04/blackbox</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2019-04/blackbox</guid>
         
@@ -773,7 +773,7 @@ Now, what is different between capsule networks and transformers in this regard 
 
 &lt;p&gt;In very loose terms, the pose matrix in capsule nets plays the role of key and query vectors in transformers. The main point here is that there seems to be some advantage in disentangling representations that are encoding different kinds of information. In both these models, this is done based on the roles of the hidden state in the routing or attention process.&lt;/p&gt;
 </description>
-        <pubDate>2020-06-21</pubDate>
+        <pubDate>2020-06-24</pubDate>
         <link>https://samiraabnar.github.io/articles/2019-03/capsule</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2019-03/capsule</guid>
         
@@ -800,7 +800,7 @@ Now, what is different between capsule networks and transformers in this regard 
   &lt;p&gt;Any system which performs goal-directed continual learning must not only learn incrementally but process and absorb information incrementally. Such a system also has to understand when its goals have been achieved. In this paper, we consider these issues in the context of question answering. Current state-of-the-art question answering models reason over an entire passage, not incrementally. As we will show, naive approaches to incremental reading, such as restriction to unidirectional language models in the model, perform poorly. We present extensions to the DocQA model to allow incremental reading without loss of accuracy. The model also jointly learns to provide the best answer given the text that is seen so far and predict whether this best-so-far answer is sufficient.&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
-        <pubDate>2020-06-21</pubDate>
+        <pubDate>2020-06-24</pubDate>
         <link>https://samiraabnar.github.io/articles/2018-12/incremental</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2018-12/incremental</guid>
         
@@ -831,7 +831,7 @@ Now, what is different between capsule networks and transformers in this regard 
 We show that neural word embedding models exhibit superior performance on the tasks we consider, beating experiential word representation model.The syntactically informed model gives the overall best performance when predicting brain activation patterns from word embeddings; whereas the GloVe distributional method gives the overall best performance when predicting in the reverse direction (words vectors from brain images). Interestingly, however, the error patterns of these different models are markedly different. This may support the idea that the brain uses different systems for processing different kinds of words. Moreover, we suggest that taking the relative strengths of different embedding models into account will lead to better models of the brain activity associated with words.&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
-        <pubDate>2020-06-21</pubDate>
+        <pubDate>2020-06-24</pubDate>
         <link>https://samiraabnar.github.io/articles/2018-01/experiential</link>
         <guid isPermaLink="true">https://samiraabnar.github.io/articles/2018-01/experiential</guid>
         
